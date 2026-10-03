@@ -54,5 +54,15 @@
   "swipeReviewAction": "Gözden geçir ({count})",
 
   "reviewTitle": "Gözden geçir",
-  "reviewEmpty": "Silinecek fotoğraf yok"
+  "reviewEmpty": "Silinecek fotoğraf yok",
+  "reviewHint": "Tutmak istediğin fotoğrafa dokun.",
+  "reviewDeleteAction": "{count} fotoğrafı sil",
+  "reviewNothingSelected": "Seçili fotoğraf yok",
+  "reviewDeleteCancelled": "Hiçbir şey silinmedi.",
+  "reviewDeleteFailed": "Fotoğraflar silinemedi. Lütfen tekrar dene.",
+
+  "resultTitle": "Tertemiz!",
+  "resultFreed": "alan boşaltıldı",
+  "resultDeletedCount": "{count} fotoğraf silindi",
+  "resultRestoreHint": "Fikrini mi değiştirdin? Silinen fotoğrafları genellikle 30 gün boyunca galerinin çöp kutusundan geri alabilirsin."
 }

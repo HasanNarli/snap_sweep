@@ -21,6 +21,9 @@ abstract interface class GalleryService {
   Future<List<GalleryPhoto>> randomPhotos(int count);
   Future<Uint8List?> thumbnail(String id, int size);
   Future<int?> fileSize(String id);
+
+  // Shows the system confirmation; returns ids actually removed.
+  Future<List<String>> deletePhotos(List<String> ids);
 }
 
 // Overridden in main() with the real implementation.

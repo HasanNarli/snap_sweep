@@ -7,6 +7,8 @@ import '../../features/home/home_screen.dart';
 import '../../features/onboarding/onboarding_provider.dart';
 import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/permission/permission_screen.dart';
+import '../../features/review/cleanup_result.dart';
+import '../../features/review/result_screen.dart';
 import '../../features/review/review_screen.dart';
 import '../../features/swipe/swipe_screen.dart';
 
@@ -16,6 +18,7 @@ abstract final class AppRoutes {
   static const home = '/';
   static const swipe = '/swipe';
   static const review = '/review';
+  static const result = '/result';
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -61,6 +64,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.review,
         builder: (context, state) => const ReviewScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.result,
+        // Result only exists right after a cleanup; otherwise go home.
+        redirect: (context, state) =>
+            state.extra is CleanupResult ? null : AppRoutes.home,
+        builder: (context, state) =>
+            ResultScreen(result: state.extra! as CleanupResult),
       ),
     ],
   );

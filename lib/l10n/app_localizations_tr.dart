@@ -169,4 +169,37 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reviewEmpty => 'Silinecek fotoğraf yok';
+
+  @override
+  String get reviewHint => 'Tutmak istediğin fotoğrafa dokun.';
+
+  @override
+  String reviewDeleteAction(int count) {
+    return '$count fotoğrafı sil';
+  }
+
+  @override
+  String get reviewNothingSelected => 'Seçili fotoğraf yok';
+
+  @override
+  String get reviewDeleteCancelled => 'Hiçbir şey silinmedi.';
+
+  @override
+  String get reviewDeleteFailed =>
+      'Fotoğraflar silinemedi. Lütfen tekrar dene.';
+
+  @override
+  String get resultTitle => 'Tertemiz!';
+
+  @override
+  String get resultFreed => 'alan boşaltıldı';
+
+  @override
+  String resultDeletedCount(int count) {
+    return '$count fotoğraf silindi';
+  }
+
+  @override
+  String get resultRestoreHint =>
+      'Fikrini mi değiştirdin? Silinen fotoğrafları genellikle 30 gün boyunca galerinin çöp kutusundan geri alabilirsin.';
 }

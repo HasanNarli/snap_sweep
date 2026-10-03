@@ -170,4 +170,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewEmpty => 'Nothing marked for deletion';
+
+  @override
+  String get reviewHint => 'Tap a photo to keep it.';
+
+  @override
+  String reviewDeleteAction(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Delete $count photos',
+      one: 'Delete 1 photo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reviewNothingSelected => 'Nothing selected';
+
+  @override
+  String get reviewDeleteCancelled => 'Nothing was deleted.';
+
+  @override
+  String get reviewDeleteFailed =>
+      'Couldn\'t delete the photos. Please try again.';
+
+  @override
+  String get resultTitle => 'Nice and clean!';
+
+  @override
+  String get resultFreed => 'of space freed';
+
+  @override
+  String resultDeletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count photos deleted',
+      one: '1 photo deleted',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get resultRestoreHint =>
+      'Changed your mind? Deleted photos can usually be restored from your gallery\'s trash for 30 days.';
 }

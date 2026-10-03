@@ -48,7 +48,7 @@ Out of swipes: bottom sheet → [Watch ad +10] / [Premium: unlimited].
 - [x] Phase 0 – Foundation: theme, folder structure, routing, TR/EN
 - [x] Phase 1 – Onboarding + permission (full/limited/denied)
 - [x] Phase 2 – Swipe screen: random 15, swipe, undo, to-delete list
-- [ ] Phase 3 – Review & batch delete, freed space, result screen
+- [x] Phase 3 – Review & batch delete, freed space, result screen
 - [ ] Phase 4 – Home: daily swipes, stats, locked categories
 - [ ] Phase 5 – Polish: icon, splash, real-device testing, large-gallery performance
 - [ ] Phase 6 – Premium (RevenueCat) + paywall + filters + rewarded ads

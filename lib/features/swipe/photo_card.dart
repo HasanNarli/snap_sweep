@@ -5,10 +5,9 @@ import 'package:intl/intl.dart';
 import '../../core/config/app_config.dart';
 import '../../core/extensions/context_x.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/utils/format_bytes.dart';
 import '../../shared/widgets/photo_thumbnail.dart';
 import '../gallery/gallery_photo.dart';
-import '../gallery/gallery_service.dart';
+import '../gallery/photo_size_provider.dart';
 
 class PhotoCard extends StatelessWidget {
   const PhotoCard({super.key, required this.photo, required this.dragPercent});
@@ -96,37 +95,15 @@ class _BottomShade extends StatelessWidget {
   }
 }
 
-class _PhotoInfo extends ConsumerStatefulWidget {
+class _PhotoInfo extends ConsumerWidget {
   const _PhotoInfo({required this.photo});
 
   final GalleryPhoto photo;
 
   @override
-  ConsumerState<_PhotoInfo> createState() => _PhotoInfoState();
-}
-
-class _PhotoInfoState extends ConsumerState<_PhotoInfo> {
-  late Future<int?> _size;
-
-  @override
-  void initState() {
-    super.initState();
-    _size = _load();
-  }
-
-  @override
-  void didUpdateWidget(_PhotoInfo oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.photo != widget.photo) _size = _load();
-  }
-
-  Future<int?> _load() =>
-      ref.read(galleryServiceProvider).fileSize(widget.photo.id);
-
-  @override
-  Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context).toLanguageTag();
-    final date = DateFormat.yMMMMd(locale).format(widget.photo.createdAt);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final date = DateFormat.yMMMMd(context.localeTag).format(photo.createdAt);
+    final bytes = ref.watch(photoSizeProvider(photo.id)).value;
     const style = TextStyle(
       color: Colors.white,
       fontSize: 16,
@@ -138,14 +115,7 @@ class _PhotoInfoState extends ConsumerState<_PhotoInfo> {
         const Icon(Icons.calendar_today_rounded, color: Colors.white, size: 16),
         const SizedBox(width: AppSpacing.xs),
         Expanded(child: Text(date, style: style)),
-        FutureBuilder(
-          future: _size,
-          builder: (context, snapshot) {
-            final bytes = snapshot.data;
-            if (bytes == null) return const SizedBox.shrink();
-            return Text(formatBytes(bytes), style: style);
-          },
-        ),
+        if (bytes != null) Text(context.formatSize(bytes), style: style),
       ],
     );
   }

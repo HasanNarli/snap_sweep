@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/extensions/context_x.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/utils/format_bytes.dart';
 import '../settings/settings_sheet.dart';
+import '../stats/cleanup_stats.dart';
 import 'limited_access_banner.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  // TODO(phase-4): read from daily quota + stats providers.
+  // TODO(phase-4): read from the daily quota provider.
   static const _remaining = 15;
   static const _total = 15;
-  static const _freedBytes = 0;
-  static const _cleanedCount = 0;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stats = ref.watch(cleanupStatsProvider);
     final l10n = context.l10n;
     final categories = [
       (Icons.screenshot_outlined, l10n.categoryScreenshots),
@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                 child: _StatTile(
                   icon: Icons.sd_storage_outlined,
                   label: l10n.homeSpaceFreed,
-                  value: formatBytes(_freedBytes),
+                  value: context.formatSize(stats.bytesFreed),
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                 child: _StatTile(
                   icon: Icons.photo_library_outlined,
                   label: l10n.homePhotosCleaned,
-                  value: '$_cleanedCount',
+                  value: '${stats.photosDeleted}',
                 ),
               ),
             ],

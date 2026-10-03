@@ -1,5 +1,7 @@
-// 1536 -> "1.5 KB", 340000000 -> "324 MB"
-String formatBytes(int bytes) {
+import 'package:intl/intl.dart';
+
+// 1536 -> "1.5 KB" (en) / "1,5 KB" (tr)
+String formatBytes(int bytes, [String? locale]) {
   const units = ['B', 'KB', 'MB', 'GB', 'TB'];
   var size = bytes.toDouble();
   var unit = 0;
@@ -8,5 +10,9 @@ String formatBytes(int bytes) {
     unit++;
   }
   final digits = unit == 0 || size >= 100 ? 0 : 1;
-  return '${size.toStringAsFixed(digits)} ${units[unit]}';
+  final number = NumberFormat.decimalPatternDigits(
+    locale: locale ?? 'en',
+    decimalDigits: digits,
+  ).format(size);
+  return '$number ${units[unit]}';
 }
