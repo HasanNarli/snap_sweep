@@ -1,0 +1,45 @@
+{
+  "@@locale": "tr",
+  "appTitle": "SnapSweep",
+  "next": "İleri",
+  "skip": "Atla",
+  "comingSoon": "Çok yakında",
+  "backToHome": "Ana sayfaya dön",
+
+  "onboardingSwipeTitle": "Kaydır, temizle",
+  "onboardingSwipeBody": "Silmek için sola, tutmak için sağa kaydır. Galerini dakikalar içinde temizle.",
+  "onboardingReviewTitle": "Yanlışlıkla hiçbir şey silinmez",
+  "onboardingReviewBody": "Silmeden önce seçimlerini gözden geçir. İstediğin kaydırmayı geri al.",
+  "onboardingPrivacyTitle": "Gizliliğin önce gelir",
+  "onboardingPrivacyBody": "Fotoğrafların telefonundan asla çıkmaz. Yükleme yok, sunucu yok.",
+  "onboardingAllowAccess": "Galeriye erişim ver",
+
+  "homeTodaySwipes": "Bugünkü hakların",
+  "homeSwipesLeft": "{total} hakkın {remaining} tanesi kaldı",
+  "homeStartSwiping": "Kaydırmaya başla",
+  "homeSpaceFreed": "Boşaltılan alan",
+  "homePhotosCleaned": "Silinen fotoğraf",
+  "homeSmartCleanup": "Akıllı temizlik",
+
+  "categoryScreenshots": "Ekran görüntüleri",
+  "categoryVideos": "Videolar",
+  "categoryScreenRecordings": "Ekran kayıtları",
+  "categoryDateRange": "Tarih aralığı",
+  "pro": "PRO",
+
+  "settingsTitle": "Ayarlar",
+  "settingsRestore": "Satın alımları geri yükle",
+  "settingsPrivacy": "Gizlilik politikası",
+  "settingsRate": "SnapSweep'i puanla",
+  "settingsContact": "Bize ulaş",
+
+  "swipeTitle": "Bugünün fotoğrafları",
+  "swipeFinish": "Bitir",
+  "swipePlaceholder": "Fotoğrafların burada görünecek",
+  "swipeDelete": "Sil",
+  "swipeKeep": "Tut",
+  "swipeUndo": "Geri al",
+
+  "reviewTitle": "Gözden geçir",
+  "reviewEmpty": "Silinecek fotoğraf yok"
+}

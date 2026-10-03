@@ -1,0 +1,51 @@
+{
+  "@@locale": "en",
+  "appTitle": "SnapSweep",
+  "next": "Next",
+  "skip": "Skip",
+  "comingSoon": "Coming soon",
+  "backToHome": "Back to home",
+
+  "onboardingSwipeTitle": "Swipe to clean",
+  "onboardingSwipeBody": "Swipe left to delete, right to keep. Clean up your gallery in minutes.",
+  "onboardingReviewTitle": "Nothing gets lost by mistake",
+  "onboardingReviewBody": "Review your picks before anything is deleted. Undo any swipe, anytime.",
+  "onboardingPrivacyTitle": "Private by design",
+  "onboardingPrivacyBody": "Your photos never leave your phone. No uploads, no servers.",
+  "onboardingAllowAccess": "Allow gallery access",
+
+  "homeTodaySwipes": "Today's swipes",
+  "homeSwipesLeft": "{remaining} of {total} left",
+  "@homeSwipesLeft": {
+    "placeholders": {
+      "remaining": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "homeStartSwiping": "Start swiping",
+  "homeSpaceFreed": "Space freed",
+  "homePhotosCleaned": "Photos cleaned",
+  "homeSmartCleanup": "Smart cleanup",
+
+  "categoryScreenshots": "Screenshots",
+  "categoryVideos": "Videos",
+  "categoryScreenRecordings": "Screen recordings",
+  "categoryDateRange": "Date range",
+  "pro": "PRO",
+
+  "settingsTitle": "Settings",
+  "settingsRestore": "Restore purchases",
+  "settingsPrivacy": "Privacy policy",
+  "settingsRate": "Rate SnapSweep",
+  "settingsContact": "Contact us",
+
+  "swipeTitle": "Today's photos",
+  "swipeFinish": "Finish",
+  "swipePlaceholder": "Your photos will appear here",
+  "swipeDelete": "Delete",
+  "swipeKeep": "Keep",
+  "swipeUndo": "Undo",
+
+  "reviewTitle": "Review",
+  "reviewEmpty": "Nothing marked for deletion"
+}
