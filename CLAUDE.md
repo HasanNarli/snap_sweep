@@ -21,9 +21,18 @@ Repo: https://github.com/HasanNarli/snap_sweep (private)
 - **Positioning:** "Your photos never leave your phone" (no server), show freed space (MB/GB), clean experience (only user-initiated rewarded ads, no banners/interstitials).
 - **Permissions:** Request full gallery access; handle limited (iOS "selected photos", Android 14 partial) and denied states properly.
 
+## Design language
+
+- **Direction:** calm, premium, Apple-inspired. Follows system light/dark mode.
+- **Font:** Inter (bundled in `assets/fonts`, OFL). Tight letter-spacing on large titles; text styles live in `AppTheme._textTheme`.
+- **Colors:** semantic tokens in `AppPalette` (background, surface, fill, label, secondaryLabel, separator, accent, delete, keep, premium). One accent (blue); red/green only for delete/keep decisions. Never hard-code colors in widgets.
+- **Components:** soft shadows instead of borders, stadium buttons, iOS-style grouped lists (`GroupedSection`/`GroupedRow`/`IconTile`), `ActivityRing`, `SegmentedProgress`, `Frosted` pills, `RoundIconButton`.
+- **Motion & feel:** Cupertino page transitions and bouncing scroll on both platforms, haptics on decisions, respect "reduce motion".
+- Photos are the hero: full-bleed cards, blurred current photo as swipe backdrop.
+
 ## Screens (keep the count minimal)
 
-1. **Onboarding + permission** – 2-3 intro pages, permission request on the last; "Open Settings" on denied/limited.
+1. **Welcome + permission** – single welcome page (animated swipe demo + feature list), "Continue" requests permission; "Open Settings" on denied/limited.
 2. **Home** – remaining daily swipes, total freed space, "Start swiping", locked premium category cards.
 3. **Swipe** – card stack, undo, counter (7/15), date + file size, "Finish".
 4. **Review & delete** – grid of marked photos, deselect, "Delete 12 photos (340 MB)", result/celebration.

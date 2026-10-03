@@ -17,9 +17,19 @@ class SnapSweepApp extends ConsumerWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
+      scrollBehavior: const _BouncingScrollBehavior(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: ref.watch(routerProvider),
     );
   }
+}
+
+// iOS rubber-band scrolling everywhere.
+class _BouncingScrollBehavior extends MaterialScrollBehavior {
+  const _BouncingScrollBehavior();
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) =>
+      const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());
 }
