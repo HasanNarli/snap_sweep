@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../core/config/app_config.dart';
 import '../../core/extensions/context_x.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../shared/widgets/frosted.dart';
 import '../../shared/widgets/photo_thumbnail.dart';
 import '../gallery/gallery_photo.dart';
 import '../gallery/photo_size_provider.dart';
@@ -21,20 +22,22 @@ class PhotoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.palette;
     final progress = (dragPercent.abs() / 100).clamp(0.0, 1.0);
+    final deleting = dragPercent < 0;
+    final tint = deleting ? palette.delete : palette.keep;
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black26,
-            blurRadius: 16,
-            offset: Offset(0, 6),
+            color: Color(0x33000000),
+            blurRadius: 30,
+            offset: Offset(0, 12),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -42,35 +45,29 @@ class PhotoCard extends StatelessWidget {
               photoId: photo.id,
               size: AppConfig.cardThumbnailSize,
             ),
-            const _BottomShade(),
+            // Decision wash + badge while dragging.
+            if (dragPercent != 0) ...[
+              ColoredBox(color: tint.withValues(alpha: progress * 0.3)),
+              Center(
+                child: Opacity(
+                  opacity: progress,
+                  child: Transform.scale(
+                    scale: 0.6 + 0.4 * progress,
+                    child: _DecisionBadge(
+                      icon: deleting
+                          ? Icons.delete_rounded
+                          : Icons.favorite_rounded,
+                      color: tint,
+                    ),
+                  ),
+                ),
+              ),
+            ],
             Positioned(
-              left: AppSpacing.lg,
-              right: AppSpacing.lg,
-              bottom: AppSpacing.lg,
+              left: AppSpacing.md,
+              bottom: AppSpacing.md,
               child: _PhotoInfo(photo: photo),
             ),
-            if (dragPercent < 0)
-              Positioned(
-                top: AppSpacing.xl,
-                right: AppSpacing.lg,
-                child: _Stamp(
-                  label: context.l10n.swipeDeleteStamp,
-                  color: palette.delete,
-                  opacity: progress,
-                  angle: 0.25,
-                ),
-              ),
-            if (dragPercent > 0)
-              Positioned(
-                top: AppSpacing.xl,
-                left: AppSpacing.lg,
-                child: _Stamp(
-                  label: context.l10n.swipeKeepStamp,
-                  color: palette.keep,
-                  opacity: progress,
-                  angle: -0.25,
-                ),
-              ),
           ],
         ),
       ),
@@ -78,19 +75,23 @@ class PhotoCard extends StatelessWidget {
   }
 }
 
-class _BottomShade extends StatelessWidget {
-  const _BottomShade();
+class _DecisionBadge extends StatelessWidget {
+  const _DecisionBadge({required this.icon, required this.color});
+
+  final IconData icon;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return const DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.center,
-          end: Alignment.bottomCenter,
-          colors: [Colors.transparent, Colors.black54],
-        ),
+    return Container(
+      width: 104,
+      height: 104,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        boxShadow: [BoxShadow(color: Color(0x40000000), blurRadius: 24)],
       ),
+      child: Icon(icon, color: color, size: 52),
     );
   }
 }
@@ -102,62 +103,23 @@ class _PhotoInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final date = DateFormat.yMMMMd(context.localeTag).format(photo.createdAt);
+    final date = DateFormat.yMMMd(context.localeTag).format(photo.createdAt);
     final bytes = ref.watch(photoSizeProvider(photo.id)).value;
-    const style = TextStyle(
-      color: Colors.white,
-      fontSize: 16,
-      fontWeight: FontWeight.w700,
-    );
+    final text = [
+      date,
+      if (bytes != null) context.formatSize(bytes),
+    ].join('  ·  ');
 
-    return Row(
-      children: [
-        const Icon(Icons.calendar_today_rounded, color: Colors.white, size: 16),
-        const SizedBox(width: AppSpacing.xs),
-        Expanded(child: Text(date, style: style)),
-        if (bytes != null) Text(context.formatSize(bytes), style: style),
-      ],
-    );
-  }
-}
-
-class _Stamp extends StatelessWidget {
-  const _Stamp({
-    required this.label,
-    required this.color,
-    required this.opacity,
-    required this.angle,
-  });
-
-  final String label;
-  final Color color;
-  final double opacity;
-  final double angle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Opacity(
-      opacity: opacity,
-      child: Transform.rotate(
-        angle: angle,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.xs,
-          ),
-          decoration: BoxDecoration(
-            border: Border.all(color: color, width: 4),
-            borderRadius: BorderRadius.circular(AppRadius.sm),
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: color,
-              fontSize: 32,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 2,
-            ),
-          ),
+    return Frosted(
+      tint: const Color(0x40000000),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      child: Text(
+        text,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          letterSpacing: -0.2,
         ),
       ),
     );

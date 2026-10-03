@@ -18,24 +18,24 @@ void main() {
       await tester.tap(find.byTooltip(tooltip));
       await tester.pumpAndSettle();
     }
-    await tester.tap(find.text('Review (2)'));
+    await tester.tap(find.text('Review 2'));
     await tester.pumpAndSettle();
     return gallery;
   }
 
   testWidgets('deletes selected photos and shows the result', (tester) async {
     final gallery = await openReview(tester);
-    expect(find.text('Delete 2 photos (4.0 MB)'), findsOneWidget);
+    expect(find.text('Delete 2 photos  ·  4.0 MB'), findsOneWidget);
 
     // Tap the first tile to keep it.
     await tester.tap(find.byType(PhotoThumbnail).first);
     await tester.pumpAndSettle();
-    expect(find.text('Delete 1 photo (2.0 MB)'), findsOneWidget);
+    expect(find.text('Delete 1 photo  ·  2.0 MB'), findsOneWidget);
 
-    await tester.tap(find.text('Delete 1 photo (2.0 MB)'));
+    await tester.tap(find.text('Delete 1 photo  ·  2.0 MB'));
     await tester.pumpAndSettle();
     expect(gallery.deletedIds, ['photo-2']);
-    expect(find.text('Nice and clean!'), findsOneWidget);
+    expect(find.text('Nice and clean'), findsOneWidget);
     expect(find.text('2.0 MB'), findsOneWidget);
     expect(find.text('1 photo deleted'), findsOneWidget);
 
@@ -52,9 +52,9 @@ void main() {
     final gallery = await openReview(tester);
     gallery.cancelDelete = true;
 
-    await tester.tap(find.text('Delete 2 photos (4.0 MB)'));
+    await tester.tap(find.text('Delete 2 photos  ·  4.0 MB'));
     await tester.pumpAndSettle();
     expect(find.text('Nothing was deleted.'), findsOneWidget);
-    expect(find.text('Delete 2 photos (4.0 MB)'), findsOneWidget);
+    expect(find.text('Delete 2 photos  ·  4.0 MB'), findsOneWidget);
   });
 }

@@ -1,11 +1,19 @@
 {
   "@@locale": "en",
   "appTitle": "SnapSweep",
-  "next": "Next",
-  "skip": "Skip",
   "comingSoon": "Coming soon",
   "backToHome": "Back to home",
   "retry": "Try again",
+  "close": "Close",
+  "continueAction": "Continue",
+
+  "welcomeTitle": "Welcome to SnapSweep",
+  "onboardingSwipeTitle": "Swipe to clean",
+  "onboardingSwipeBody": "Left to delete, right to keep. Your gallery, sorted in minutes.",
+  "onboardingReviewTitle": "Nothing lost by mistake",
+  "onboardingReviewBody": "Review your picks before anything is deleted, and undo any swipe.",
+  "onboardingPrivacyTitle": "Private by design",
+  "onboardingPrivacyBody": "Your photos never leave your phone. No uploads, no servers.",
 
   "permissionTitle": "Allow access to your photos",
   "permissionBody": "SnapSweep needs gallery access to show your photos. They never leave your phone.",
@@ -13,22 +21,7 @@
   "limitedAccessBody": "SnapSweep can only see the photos you selected.",
   "limitedAccessAction": "Allow all",
 
-  "onboardingSwipeTitle": "Swipe to clean",
-  "onboardingSwipeBody": "Swipe left to delete, right to keep. Clean up your gallery in minutes.",
-  "onboardingReviewTitle": "Nothing gets lost by mistake",
-  "onboardingReviewBody": "Review your picks before anything is deleted. Undo any swipe, anytime.",
-  "onboardingPrivacyTitle": "Private by design",
-  "onboardingPrivacyBody": "Your photos never leave your phone. No uploads, no servers.",
-  "onboardingAllowAccess": "Allow gallery access",
-
-  "homeTodaySwipes": "Today's swipes",
-  "homeSwipesLeft": "{remaining} of {total} left",
-  "@homeSwipesLeft": {
-    "placeholders": {
-      "remaining": { "type": "int" },
-      "total": { "type": "int" }
-    }
-  },
+  "homeSwipesLeftToday": "left today",
   "homeStartSwiping": "Start swiping",
   "homeSpaceFreed": "Space freed",
   "homePhotosCleaned": "Photos cleaned",
@@ -46,23 +39,20 @@
   "settingsRate": "Rate SnapSweep",
   "settingsContact": "Contact us",
 
-  "swipeTitle": "Today's photos",
   "swipeFinish": "Finish",
   "swipeDelete": "Delete",
   "swipeKeep": "Keep",
   "swipeUndo": "Undo",
-  "swipeDeleteStamp": "DELETE",
-  "swipeKeepStamp": "KEEP",
   "swipeNoPhotos": "No photos found in your gallery",
   "swipeLoadError": "Couldn't load your photos",
-  "swipeDoneTitle": "All done!",
+  "swipeDoneTitle": "All done",
   "swipeMarkedCount": "{count, plural, =0{You kept every photo.} =1{1 photo marked for deletion.} other{{count} photos marked for deletion.}}",
   "@swipeMarkedCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "swipeReviewAction": "Review ({count})",
+  "swipeReviewAction": "Review {count}",
   "@swipeReviewAction": {
     "placeholders": {
       "count": { "type": "int" }
@@ -71,6 +61,12 @@
 
   "reviewTitle": "Review",
   "reviewEmpty": "Nothing marked for deletion",
+  "reviewSelectedCount": "{count} selected",
+  "@reviewSelectedCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "reviewHint": "Tap a photo to keep it.",
   "reviewDeleteAction": "{count, plural, =1{Delete 1 photo} other{Delete {count} photos}}",
   "@reviewDeleteAction": {
@@ -82,7 +78,7 @@
   "reviewDeleteCancelled": "Nothing was deleted.",
   "reviewDeleteFailed": "Couldn't delete the photos. Please try again.",
 
-  "resultTitle": "Nice and clean!",
+  "resultTitle": "Nice and clean",
   "resultFreed": "of space freed",
   "resultDeletedCount": "{count, plural, =1{1 photo deleted} other{{count} photos deleted}}",
   "@resultDeletedCount": {

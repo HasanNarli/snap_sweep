@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -26,9 +27,12 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   final _kept = <String>{};
   bool _deleting = false;
 
-  void _toggle(String id) => setState(() {
-    if (!_kept.remove(id)) _kept.add(id);
-  });
+  void _toggle(String id) {
+    HapticFeedback.selectionClick();
+    setState(() {
+      if (!_kept.remove(id)) _kept.add(id);
+    });
+  }
 
   Future<void> _delete(List<GalleryPhoto> selected) async {
     final l10n = context.l10n;
@@ -74,6 +78,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final palette = context.palette;
+    final textTheme = context.theme.textTheme;
     final marked =
         ref.watch(swipeSessionProvider).value?.toDelete ??
         const <GalleryPhoto>[];
@@ -88,78 +94,93 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final totalBytes = sizes.every((size) => size != null)
         ? sizes.fold<int>(0, (sum, size) => sum + size!)
         : null;
+    final sizeSuffix = totalBytes == null
+        ? ''
+        : '  ·  ${context.formatSize(totalBytes)}';
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.reviewTitle)),
-      body: SafeArea(
-        child: marked.isEmpty
-            ? Center(child: Text(l10n.reviewEmpty))
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                    ),
-                    child: Text(
-                      l10n.reviewHint,
-                      style: TextStyle(color: context.palette.muted),
-                    ),
+      appBar: AppBar(),
+      body: marked.isEmpty
+          ? Center(child: Text(l10n.reviewEmpty, style: textTheme.bodyLarge))
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Large title + live summary.
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
                   ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Expanded(
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(AppSpacing.md),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            mainAxisSpacing: AppSpacing.sm,
-                            crossAxisSpacing: AppSpacing.sm,
-                          ),
-                      itemCount: marked.length,
-                      itemBuilder: (context, index) {
-                        final photo = marked[index];
-                        return _ReviewTile(
-                          photo: photo,
-                          selected: !_kept.contains(photo.id),
-                          onTap: _deleting ? null : () => _toggle(photo.id),
-                        );
-                      },
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(l10n.reviewTitle, style: textTheme.headlineLarge),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        l10n.reviewSelectedCount(selected.length) + sizeSuffix,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: palette.secondaryLabel,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(l10n.reviewHint, style: textTheme.bodySmall),
+                    ],
                   ),
-                  Padding(
+                ),
+                Expanded(
+                  child: GridView.builder(
                     padding: const EdgeInsets.all(AppSpacing.md),
-                    child: FilledButton.icon(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 4,
+                        ),
+                    itemCount: marked.length,
+                    itemBuilder: (context, index) {
+                      final photo = marked[index];
+                      return _ReviewTile(
+                        photo: photo,
+                        selected: !_kept.contains(photo.id),
+                        onTap: _deleting ? null : () => _toggle(photo.id),
+                      );
+                    },
+                  ),
+                ),
+                SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.md,
+                      0,
+                      AppSpacing.md,
+                      AppSpacing.md,
+                    ),
+                    child: FilledButton(
                       style: FilledButton.styleFrom(
-                        backgroundColor: context.palette.delete,
-                        foregroundColor: Colors.white,
+                        backgroundColor: palette.delete,
                       ),
                       onPressed: selected.isEmpty || _deleting
                           ? null
                           : () => _delete(selected),
-                      icon: _deleting
+                      child: _deleting
                           ? const SizedBox.square(
-                              dimension: 20,
+                              dimension: 22,
                               child: CircularProgressIndicator(
-                                strokeWidth: 2,
+                                strokeWidth: 2.5,
                                 color: Colors.white,
                               ),
                             )
-                          : const Icon(Icons.delete_rounded),
-                      label: Text(
-                        selected.isEmpty
-                            ? l10n.reviewNothingSelected
-                            : [
-                                l10n.reviewDeleteAction(selected.length),
-                                if (totalBytes != null)
-                                  '(${context.formatSize(totalBytes)})',
-                              ].join(' '),
-                      ),
+                          : Text(
+                              selected.isEmpty
+                                  ? l10n.reviewNothingSelected
+                                  : l10n.reviewDeleteAction(selected.length) +
+                                        sizeSuffix,
+                            ),
                     ),
                   ),
-                ],
-              ),
-      ),
+                ),
+              ],
+            ),
     );
   }
 }
@@ -181,7 +202,7 @@ class _ReviewTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppRadius.sm),
+        borderRadius: BorderRadius.circular(6),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -189,19 +210,34 @@ class _ReviewTile extends StatelessWidget {
               photoId: photo.id,
               size: AppConfig.gridThumbnailSize,
             ),
-            // Dim photos the user decided to keep.
+            // Kept photos fade back, Photos-app style.
             AnimatedOpacity(
-              opacity: selected ? 0 : 0.6,
+              opacity: selected ? 0 : 0.55,
               duration: const Duration(milliseconds: 150),
-              child: const ColoredBox(color: Colors.black),
+              child: ColoredBox(color: palette.background),
             ),
             Positioned(
-              top: AppSpacing.xs,
-              right: AppSpacing.xs,
-              child: Icon(
-                selected ? Icons.delete_rounded : Icons.favorite_rounded,
-                color: selected ? palette.delete : palette.keep,
-                shadows: const [Shadow(blurRadius: 6)],
+              right: 6,
+              bottom: 6,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: selected ? palette.delete : Colors.transparent,
+                  border: Border.all(color: Colors.white, width: 1.5),
+                  boxShadow: const [
+                    BoxShadow(color: Color(0x40000000), blurRadius: 4),
+                  ],
+                ),
+                child: selected
+                    ? const Icon(
+                        Icons.check_rounded,
+                        size: 16,
+                        color: Colors.white,
+                      )
+                    : null,
               ),
             ),
           ],

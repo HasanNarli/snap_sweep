@@ -13,12 +13,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'SnapSweep';
 
   @override
-  String get next => 'Next';
-
-  @override
-  String get skip => 'Skip';
-
-  @override
   String get comingSoon => 'Coming soon';
 
   @override
@@ -26,6 +20,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retry => 'Try again';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get continueAction => 'Continue';
+
+  @override
+  String get welcomeTitle => 'Welcome to SnapSweep';
+
+  @override
+  String get onboardingSwipeTitle => 'Swipe to clean';
+
+  @override
+  String get onboardingSwipeBody =>
+      'Left to delete, right to keep. Your gallery, sorted in minutes.';
+
+  @override
+  String get onboardingReviewTitle => 'Nothing lost by mistake';
+
+  @override
+  String get onboardingReviewBody =>
+      'Review your picks before anything is deleted, and undo any swipe.';
+
+  @override
+  String get onboardingPrivacyTitle => 'Private by design';
+
+  @override
+  String get onboardingPrivacyBody =>
+      'Your photos never leave your phone. No uploads, no servers.';
 
   @override
   String get permissionTitle => 'Allow access to your photos';
@@ -45,36 +69,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get limitedAccessAction => 'Allow all';
 
   @override
-  String get onboardingSwipeTitle => 'Swipe to clean';
-
-  @override
-  String get onboardingSwipeBody =>
-      'Swipe left to delete, right to keep. Clean up your gallery in minutes.';
-
-  @override
-  String get onboardingReviewTitle => 'Nothing gets lost by mistake';
-
-  @override
-  String get onboardingReviewBody =>
-      'Review your picks before anything is deleted. Undo any swipe, anytime.';
-
-  @override
-  String get onboardingPrivacyTitle => 'Private by design';
-
-  @override
-  String get onboardingPrivacyBody =>
-      'Your photos never leave your phone. No uploads, no servers.';
-
-  @override
-  String get onboardingAllowAccess => 'Allow gallery access';
-
-  @override
-  String get homeTodaySwipes => 'Today\'s swipes';
-
-  @override
-  String homeSwipesLeft(int remaining, int total) {
-    return '$remaining of $total left';
-  }
+  String get homeSwipesLeftToday => 'left today';
 
   @override
   String get homeStartSwiping => 'Start swiping';
@@ -119,9 +114,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsContact => 'Contact us';
 
   @override
-  String get swipeTitle => 'Today\'s photos';
-
-  @override
   String get swipeFinish => 'Finish';
 
   @override
@@ -134,19 +126,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get swipeUndo => 'Undo';
 
   @override
-  String get swipeDeleteStamp => 'DELETE';
-
-  @override
-  String get swipeKeepStamp => 'KEEP';
-
-  @override
   String get swipeNoPhotos => 'No photos found in your gallery';
 
   @override
   String get swipeLoadError => 'Couldn\'t load your photos';
 
   @override
-  String get swipeDoneTitle => 'All done!';
+  String get swipeDoneTitle => 'All done';
 
   @override
   String swipeMarkedCount(int count) {
@@ -162,7 +148,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String swipeReviewAction(int count) {
-    return 'Review ($count)';
+    return 'Review $count';
   }
 
   @override
@@ -170,6 +156,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewEmpty => 'Nothing marked for deletion';
+
+  @override
+  String reviewSelectedCount(int count) {
+    return '$count selected';
+  }
 
   @override
   String get reviewHint => 'Tap a photo to keep it.';
@@ -196,7 +187,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t delete the photos. Please try again.';
 
   @override
-  String get resultTitle => 'Nice and clean!';
+  String get resultTitle => 'Nice and clean';
 
   @override
   String get resultFreed => 'of space freed';

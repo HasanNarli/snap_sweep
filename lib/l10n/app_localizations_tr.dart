@@ -13,12 +13,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appTitle => 'SnapSweep';
 
   @override
-  String get next => 'İleri';
-
-  @override
-  String get skip => 'Atla';
-
-  @override
   String get comingSoon => 'Çok yakında';
 
   @override
@@ -26,6 +20,36 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get retry => 'Tekrar dene';
+
+  @override
+  String get close => 'Kapat';
+
+  @override
+  String get continueAction => 'Devam et';
+
+  @override
+  String get welcomeTitle => 'SnapSweep\'e hoş geldin';
+
+  @override
+  String get onboardingSwipeTitle => 'Kaydır, temizle';
+
+  @override
+  String get onboardingSwipeBody =>
+      'Silmek için sola, tutmak için sağa. Galerin dakikalar içinde düzenlenir.';
+
+  @override
+  String get onboardingReviewTitle => 'Yanlışlıkla hiçbir şey silinmez';
+
+  @override
+  String get onboardingReviewBody =>
+      'Silmeden önce seçimlerini gözden geçir, istediğin kaydırmayı geri al.';
+
+  @override
+  String get onboardingPrivacyTitle => 'Gizliliğin önce gelir';
+
+  @override
+  String get onboardingPrivacyBody =>
+      'Fotoğrafların telefonundan asla çıkmaz. Yükleme yok, sunucu yok.';
 
   @override
   String get permissionTitle => 'Fotoğraflarına erişim izni ver';
@@ -45,36 +69,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get limitedAccessAction => 'Tümüne izin ver';
 
   @override
-  String get onboardingSwipeTitle => 'Kaydır, temizle';
-
-  @override
-  String get onboardingSwipeBody =>
-      'Silmek için sola, tutmak için sağa kaydır. Galerini dakikalar içinde temizle.';
-
-  @override
-  String get onboardingReviewTitle => 'Yanlışlıkla hiçbir şey silinmez';
-
-  @override
-  String get onboardingReviewBody =>
-      'Silmeden önce seçimlerini gözden geçir. İstediğin kaydırmayı geri al.';
-
-  @override
-  String get onboardingPrivacyTitle => 'Gizliliğin önce gelir';
-
-  @override
-  String get onboardingPrivacyBody =>
-      'Fotoğrafların telefonundan asla çıkmaz. Yükleme yok, sunucu yok.';
-
-  @override
-  String get onboardingAllowAccess => 'Galeriye erişim ver';
-
-  @override
-  String get homeTodaySwipes => 'Bugünkü hakların';
-
-  @override
-  String homeSwipesLeft(int remaining, int total) {
-    return '$total hakkın $remaining tanesi kaldı';
-  }
+  String get homeSwipesLeftToday => 'bugün kaldı';
 
   @override
   String get homeStartSwiping => 'Kaydırmaya başla';
@@ -119,9 +114,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsContact => 'Bize ulaş';
 
   @override
-  String get swipeTitle => 'Bugünün fotoğrafları';
-
-  @override
   String get swipeFinish => 'Bitir';
 
   @override
@@ -134,19 +126,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get swipeUndo => 'Geri al';
 
   @override
-  String get swipeDeleteStamp => 'SİL';
-
-  @override
-  String get swipeKeepStamp => 'TUT';
-
-  @override
   String get swipeNoPhotos => 'Galerinde fotoğraf bulunamadı';
 
   @override
   String get swipeLoadError => 'Fotoğraflar yüklenemedi';
 
   @override
-  String get swipeDoneTitle => 'Hepsi bu kadar!';
+  String get swipeDoneTitle => 'Hepsi bu kadar';
 
   @override
   String swipeMarkedCount(int count) {
@@ -161,7 +147,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String swipeReviewAction(int count) {
-    return 'Gözden geçir ($count)';
+    return '$count fotoğrafı gözden geçir';
   }
 
   @override
@@ -169,6 +155,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reviewEmpty => 'Silinecek fotoğraf yok';
+
+  @override
+  String reviewSelectedCount(int count) {
+    return '$count seçili';
+  }
 
   @override
   String get reviewHint => 'Tutmak istediğin fotoğrafa dokun.';
@@ -189,7 +180,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Fotoğraflar silinemedi. Lütfen tekrar dene.';
 
   @override
-  String get resultTitle => 'Tertemiz!';
+  String get resultTitle => 'Tertemiz';
 
   @override
   String get resultFreed => 'alan boşaltıldı';

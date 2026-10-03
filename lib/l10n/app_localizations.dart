@@ -104,18 +104,6 @@ abstract class AppLocalizations {
   /// **'SnapSweep'**
   String get appTitle;
 
-  /// No description provided for @next.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get next;
-
-  /// No description provided for @skip.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip'**
-  String get skip;
-
   /// No description provided for @comingSoon.
   ///
   /// In en, this message translates to:
@@ -133,6 +121,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try again'**
   String get retry;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @continueAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueAction;
+
+  /// No description provided for @welcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to SnapSweep'**
+  String get welcomeTitle;
+
+  /// No description provided for @onboardingSwipeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe to clean'**
+  String get onboardingSwipeTitle;
+
+  /// No description provided for @onboardingSwipeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Left to delete, right to keep. Your gallery, sorted in minutes.'**
+  String get onboardingSwipeBody;
+
+  /// No description provided for @onboardingReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing lost by mistake'**
+  String get onboardingReviewTitle;
+
+  /// No description provided for @onboardingReviewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Review your picks before anything is deleted, and undo any swipe.'**
+  String get onboardingReviewBody;
+
+  /// No description provided for @onboardingPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Private by design'**
+  String get onboardingPrivacyTitle;
+
+  /// No description provided for @onboardingPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your photos never leave your phone. No uploads, no servers.'**
+  String get onboardingPrivacyBody;
 
   /// No description provided for @permissionTitle.
   ///
@@ -164,59 +206,11 @@ abstract class AppLocalizations {
   /// **'Allow all'**
   String get limitedAccessAction;
 
-  /// No description provided for @onboardingSwipeTitle.
+  /// No description provided for @homeSwipesLeftToday.
   ///
   /// In en, this message translates to:
-  /// **'Swipe to clean'**
-  String get onboardingSwipeTitle;
-
-  /// No description provided for @onboardingSwipeBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Swipe left to delete, right to keep. Clean up your gallery in minutes.'**
-  String get onboardingSwipeBody;
-
-  /// No description provided for @onboardingReviewTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Nothing gets lost by mistake'**
-  String get onboardingReviewTitle;
-
-  /// No description provided for @onboardingReviewBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Review your picks before anything is deleted. Undo any swipe, anytime.'**
-  String get onboardingReviewBody;
-
-  /// No description provided for @onboardingPrivacyTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Private by design'**
-  String get onboardingPrivacyTitle;
-
-  /// No description provided for @onboardingPrivacyBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Your photos never leave your phone. No uploads, no servers.'**
-  String get onboardingPrivacyBody;
-
-  /// No description provided for @onboardingAllowAccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Allow gallery access'**
-  String get onboardingAllowAccess;
-
-  /// No description provided for @homeTodaySwipes.
-  ///
-  /// In en, this message translates to:
-  /// **'Today\'s swipes'**
-  String get homeTodaySwipes;
-
-  /// No description provided for @homeSwipesLeft.
-  ///
-  /// In en, this message translates to:
-  /// **'{remaining} of {total} left'**
-  String homeSwipesLeft(int remaining, int total);
+  /// **'left today'**
+  String get homeSwipesLeftToday;
 
   /// No description provided for @homeStartSwiping.
   ///
@@ -302,12 +296,6 @@ abstract class AppLocalizations {
   /// **'Contact us'**
   String get settingsContact;
 
-  /// No description provided for @swipeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Today\'s photos'**
-  String get swipeTitle;
-
   /// No description provided for @swipeFinish.
   ///
   /// In en, this message translates to:
@@ -332,18 +320,6 @@ abstract class AppLocalizations {
   /// **'Undo'**
   String get swipeUndo;
 
-  /// No description provided for @swipeDeleteStamp.
-  ///
-  /// In en, this message translates to:
-  /// **'DELETE'**
-  String get swipeDeleteStamp;
-
-  /// No description provided for @swipeKeepStamp.
-  ///
-  /// In en, this message translates to:
-  /// **'KEEP'**
-  String get swipeKeepStamp;
-
   /// No description provided for @swipeNoPhotos.
   ///
   /// In en, this message translates to:
@@ -359,7 +335,7 @@ abstract class AppLocalizations {
   /// No description provided for @swipeDoneTitle.
   ///
   /// In en, this message translates to:
-  /// **'All done!'**
+  /// **'All done'**
   String get swipeDoneTitle;
 
   /// No description provided for @swipeMarkedCount.
@@ -371,7 +347,7 @@ abstract class AppLocalizations {
   /// No description provided for @swipeReviewAction.
   ///
   /// In en, this message translates to:
-  /// **'Review ({count})'**
+  /// **'Review {count}'**
   String swipeReviewAction(int count);
 
   /// No description provided for @reviewTitle.
@@ -385,6 +361,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing marked for deletion'**
   String get reviewEmpty;
+
+  /// No description provided for @reviewSelectedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String reviewSelectedCount(int count);
 
   /// No description provided for @reviewHint.
   ///
@@ -419,7 +401,7 @@ abstract class AppLocalizations {
   /// No description provided for @resultTitle.
   ///
   /// In en, this message translates to:
-  /// **'Nice and clean!'**
+  /// **'Nice and clean'**
   String get resultTitle;
 
   /// No description provided for @resultFreed.

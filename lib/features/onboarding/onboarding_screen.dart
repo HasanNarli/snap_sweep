@@ -1,12 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/extensions/context_x.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../shared/widgets/grouped_section.dart';
 import '../gallery/gallery_access_provider.dart';
 import 'onboarding_provider.dart';
 
+// Single "Welcome" page, Apple first-launch style.
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -15,108 +18,85 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 }
 
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
-  static const _pageDuration = Duration(milliseconds: 300);
-
-  final _controller = PageController();
-  int _page = 0;
   bool _busy = false;
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   // Router redirects to home or the permission screen afterwards.
-  Future<void> _finish() async {
+  Future<void> _continue() async {
     setState(() => _busy = true);
     await ref.read(galleryAccessProvider.notifier).request();
     await ref.read(onboardingDoneProvider.notifier).complete();
-  }
-
-  // Skip jumps to the last page; permission is still asked there.
-  void _skip(int pageCount) => _controller.animateToPage(
-    pageCount - 1,
-    duration: _pageDuration,
-    curve: Curves.easeOutCubic,
-  );
-
-  void _next(int pageCount) {
-    if (_page == pageCount - 1) {
-      _finish();
-      return;
-    }
-    _controller.nextPage(duration: _pageDuration, curve: Curves.easeOutCubic);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final palette = context.palette;
-    final pages = [
-      _OnboardingPage(
-        icon: Icons.swipe_rounded,
-        color: AppColors.primary,
-        title: l10n.onboardingSwipeTitle,
-        body: l10n.onboardingSwipeBody,
+    final features = [
+      (
+        Icons.swipe_rounded,
+        palette.accent,
+        l10n.onboardingSwipeTitle,
+        l10n.onboardingSwipeBody,
       ),
-      _OnboardingPage(
-        icon: Icons.undo_rounded,
-        color: palette.delete,
-        title: l10n.onboardingReviewTitle,
-        body: l10n.onboardingReviewBody,
+      (
+        Icons.undo_rounded,
+        palette.premium,
+        l10n.onboardingReviewTitle,
+        l10n.onboardingReviewBody,
       ),
-      _OnboardingPage(
-        icon: Icons.lock_rounded,
-        color: palette.keep,
-        title: l10n.onboardingPrivacyTitle,
-        body: l10n.onboardingPrivacyBody,
+      (
+        Icons.lock_rounded,
+        palette.keep,
+        l10n.onboardingPrivacyTitle,
+        l10n.onboardingPrivacyBody,
       ),
     ];
-    final isLast = _page == pages.length - 1;
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                child: AnimatedOpacity(
-                  opacity: isLast ? 0 : 1,
-                  duration: const Duration(milliseconds: 200),
-                  child: TextButton(
-                    onPressed: isLast ? null : () => _skip(pages.length),
-                    child: Text(l10n.skip),
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.only(top: AppSpacing.xl),
+                  children: [
+                    const Center(child: _SwipeDemo()),
+                    const SizedBox(height: AppSpacing.xl),
+                    Text(
+                      l10n.welcomeTitle,
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.headlineLarge,
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+                    for (final (icon, color, title, body) in features)
+                      _FeatureRow(
+                        icon: icon,
+                        color: color,
+                        title: title,
+                        body: body,
+                      ),
+                  ],
                 ),
               ),
-            ),
-            Expanded(
-              child: PageView(
-                controller: _controller,
-                onPageChanged: (page) => setState(() => _page = page),
-                children: pages,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                child: FilledButton(
+                  onPressed: _busy ? null : _continue,
+                  child: Text(l10n.continueAction),
+                ),
               ),
-            ),
-            _PageDots(count: pages.length, current: _page),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              child: FilledButton(
-                onPressed: _busy ? null : () => _next(pages.length),
-                child: Text(isLast ? l10n.onboardingAllowAccess : l10n.next),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _OnboardingPage extends StatelessWidget {
-  const _OnboardingPage({
+class _FeatureRow extends StatelessWidget {
+  const _FeatureRow({
     required this.icon,
     required this.color,
     required this.title,
@@ -132,32 +112,26 @@ class _OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = context.theme.textTheme;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 180,
-            height: 180,
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.12),
-              shape: BoxShape.circle,
+          IconTile(icon: icon, color: color, size: 44),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: textTheme.titleMedium),
+                const SizedBox(height: 2),
+                Text(
+                  body,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: context.palette.secondaryLabel,
+                  ),
+                ),
+              ],
             ),
-            child: Icon(icon, size: 84, color: color),
-          ),
-          const SizedBox(height: AppSpacing.xl),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            body,
-            textAlign: TextAlign.center,
-            style: textTheme.bodyLarge?.copyWith(color: context.palette.muted),
           ),
         ],
       ),
@@ -165,29 +139,121 @@ class _OnboardingPage extends StatelessWidget {
   }
 }
 
-class _PageDots extends StatelessWidget {
-  const _PageDots({required this.count, required this.current});
+// Looping hint: a card tilting left and right over a second card.
+class _SwipeDemo extends StatefulWidget {
+  const _SwipeDemo();
 
-  final int count;
-  final int current;
+  @override
+  State<_SwipeDemo> createState() => _SwipeDemoState();
+}
+
+class _SwipeDemoState extends State<_SwipeDemo>
+    with SingleTickerProviderStateMixin {
+  late final _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 3200),
+  );
+
+  // Respect the system "reduce motion" setting.
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _controller.value = 0.25;
+    } else if (!_controller.isAnimating) {
+      _controller.repeat();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        for (var i = 0; i < count; i++)
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-            width: i == current ? 24 : 8,
-            height: 8,
-            decoration: BoxDecoration(
-              color: i == current ? AppColors.primary : context.palette.border,
-              borderRadius: BorderRadius.circular(4),
+    final palette = context.palette;
+    return SizedBox(
+      width: 220,
+      height: 250,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          final swing = sin(_controller.value * 2 * pi);
+          final hint = swing.abs();
+          final color = swing < 0 ? palette.delete : palette.keep;
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Transform.translate(
+                offset: const Offset(0, 14),
+                child: Transform.scale(
+                  scale: 0.92,
+                  child: const _DemoCard(
+                    colors: [Color(0xFFFFB199), Color(0xFFFF7EB3)],
+                  ),
+                ),
+              ),
+              Transform.translate(
+                offset: Offset(swing * 36, 0),
+                child: Transform.rotate(
+                  angle: swing * 0.14,
+                  child: _DemoCard(
+                    colors: const [Color(0xFF7DD3FC), Color(0xFF6366F1)],
+                    overlay: color.withValues(alpha: hint * 0.35),
+                    icon: swing < 0
+                        ? Icons.delete_rounded
+                        : Icons.favorite_rounded,
+                    iconOpacity: hint,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _DemoCard extends StatelessWidget {
+  const _DemoCard({
+    required this.colors,
+    this.overlay,
+    this.icon,
+    this.iconOpacity = 0,
+  });
+
+  final List<Color> colors;
+  final Color? overlay;
+  final IconData? icon;
+  final double iconOpacity;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 170,
+      height: 220,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        gradient: LinearGradient(
+          colors: colors,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: context.palette.softShadow,
+      ),
+      foregroundDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        color: overlay,
+      ),
+      child: icon == null
+          ? null
+          : Opacity(
+              opacity: iconOpacity,
+              child: Icon(icon, color: Colors.white, size: 56),
             ),
-          ),
-      ],
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/extensions/context_x.dart';
 
-// Circular action button used under the swipe card stack.
+// Floating circular action, iOS control style.
 class RoundIconButton extends StatelessWidget {
   const RoundIconButton({
     super.key,
@@ -11,6 +11,7 @@ class RoundIconButton extends StatelessWidget {
     required this.tooltip,
     required this.onPressed,
     this.size = 64,
+    this.background,
   });
 
   final IconData icon;
@@ -18,20 +19,34 @@ class RoundIconButton extends StatelessWidget {
   final String tooltip;
   final VoidCallback? onPressed;
   final double size;
+  final Color? background;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
+    final enabled = onPressed != null;
+
     return Tooltip(
       message: tooltip,
-      child: Material(
-        color: context.theme.colorScheme.surface,
-        shape: CircleBorder(side: BorderSide(color: context.palette.border)),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onPressed,
-          child: SizedBox.square(
-            dimension: size,
-            child: Icon(icon, color: color, size: size * 0.45),
+      child: AnimatedOpacity(
+        opacity: enabled ? 1 : 0.4,
+        duration: const Duration(milliseconds: 150),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: palette.softShadow,
+          ),
+          child: Material(
+            color: background ?? palette.surface,
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: onPressed,
+              child: SizedBox.square(
+                dimension: size,
+                child: Icon(icon, color: color, size: size * 0.42),
+              ),
+            ),
           ),
         ),
       ),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/extensions/context_x.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../shared/widgets/grouped_section.dart';
 import '../gallery/gallery_access_provider.dart';
 import '../gallery/gallery_service.dart';
 
@@ -31,33 +31,23 @@ class PermissionScreen extends ConsumerWidget {
           child: Column(
             children: [
               const Spacer(),
-              Container(
-                width: 160,
-                height: 160,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.photo_library_rounded,
-                  size: 72,
-                  color: AppColors.primary,
-                ),
+              IconTile(
+                icon: Icons.photo_library_rounded,
+                color: context.palette.accent,
+                size: 96,
               ),
               const SizedBox(height: AppSpacing.xl),
               Text(
                 l10n.permissionTitle,
                 textAlign: TextAlign.center,
-                style: textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
+                style: textTheme.headlineMedium,
               ),
               const SizedBox(height: AppSpacing.md),
               Text(
                 l10n.permissionBody,
                 textAlign: TextAlign.center,
                 style: textTheme.bodyLarge?.copyWith(
-                  color: context.palette.muted,
+                  color: context.palette.secondaryLabel,
                 ),
               ),
               const Spacer(),

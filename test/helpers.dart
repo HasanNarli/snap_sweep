@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snap_sweep/app.dart';
 import 'package:snap_sweep/core/storage/preferences.dart';
@@ -67,6 +68,13 @@ Future<List<Override>> testOverrides({
     galleryServiceProvider.overrideWithValue(gallery),
     initialGalleryAccessProvider.overrideWithValue(gallery.access),
   ];
+}
+
+// Stops looping animations so pumpAndSettle can finish.
+void reduceMotion(WidgetTester tester) {
+  tester.platformDispatcher.accessibilityFeaturesTestValue =
+      const FakeAccessibilityFeatures(disableAnimations: true);
+  addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
 }
 
 Widget testApp(List<Override> overrides) =>
