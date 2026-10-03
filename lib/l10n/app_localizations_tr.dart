@@ -25,6 +25,26 @@ class AppLocalizationsTr extends AppLocalizations {
   String get backToHome => 'Ana sayfaya dön';
 
   @override
+  String get retry => 'Tekrar dene';
+
+  @override
+  String get permissionTitle => 'Fotoğraflarına erişim izni ver';
+
+  @override
+  String get permissionBody =>
+      'SnapSweep\'in fotoğraflarını gösterebilmesi için galeri erişimi gerekiyor. Fotoğrafların telefonundan asla çıkmaz.';
+
+  @override
+  String get permissionAllow => 'Erişim ver';
+
+  @override
+  String get limitedAccessBody =>
+      'SnapSweep yalnızca seçtiğin fotoğrafları görebiliyor.';
+
+  @override
+  String get limitedAccessAction => 'Tümüne izin ver';
+
+  @override
   String get onboardingSwipeTitle => 'Kaydır, temizle';
 
   @override
@@ -105,9 +125,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get swipeFinish => 'Bitir';
 
   @override
-  String get swipePlaceholder => 'Fotoğrafların burada görünecek';
-
-  @override
   String get swipeDelete => 'Sil';
 
   @override
@@ -115,6 +132,37 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get swipeUndo => 'Geri al';
+
+  @override
+  String get swipeDeleteStamp => 'SİL';
+
+  @override
+  String get swipeKeepStamp => 'TUT';
+
+  @override
+  String get swipeNoPhotos => 'Galerinde fotoğraf bulunamadı';
+
+  @override
+  String get swipeLoadError => 'Fotoğraflar yüklenemedi';
+
+  @override
+  String get swipeDoneTitle => 'Hepsi bu kadar!';
+
+  @override
+  String swipeMarkedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fotoğraf silinmek üzere işaretlendi.',
+      zero: 'Tüm fotoğrafları tuttun.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String swipeReviewAction(int count) {
+    return 'Gözden geçir ($count)';
+  }
 
   @override
   String get reviewTitle => 'Gözden geçir';

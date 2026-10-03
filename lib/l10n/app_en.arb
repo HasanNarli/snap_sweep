@@ -5,6 +5,13 @@
   "skip": "Skip",
   "comingSoon": "Coming soon",
   "backToHome": "Back to home",
+  "retry": "Try again",
+
+  "permissionTitle": "Allow access to your photos",
+  "permissionBody": "SnapSweep needs gallery access to show your photos. They never leave your phone.",
+  "permissionAllow": "Allow access",
+  "limitedAccessBody": "SnapSweep can only see the photos you selected.",
+  "limitedAccessAction": "Allow all",
 
   "onboardingSwipeTitle": "Swipe to clean",
   "onboardingSwipeBody": "Swipe left to delete, right to keep. Clean up your gallery in minutes.",
@@ -41,10 +48,26 @@
 
   "swipeTitle": "Today's photos",
   "swipeFinish": "Finish",
-  "swipePlaceholder": "Your photos will appear here",
   "swipeDelete": "Delete",
   "swipeKeep": "Keep",
   "swipeUndo": "Undo",
+  "swipeDeleteStamp": "DELETE",
+  "swipeKeepStamp": "KEEP",
+  "swipeNoPhotos": "No photos found in your gallery",
+  "swipeLoadError": "Couldn't load your photos",
+  "swipeDoneTitle": "All done!",
+  "swipeMarkedCount": "{count, plural, =0{You kept every photo.} =1{1 photo marked for deletion.} other{{count} photos marked for deletion.}}",
+  "@swipeMarkedCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "swipeReviewAction": "Review ({count})",
+  "@swipeReviewAction": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
 
   "reviewTitle": "Review",
   "reviewEmpty": "Nothing marked for deletion"

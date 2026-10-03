@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/extensions/context_x.dart';
-import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
+import '../gallery/gallery_access_provider.dart';
+import 'onboarding_provider.dart';
 
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
+  static const _pageDuration = Duration(milliseconds: 300);
+
   final _controller = PageController();
   int _page = 0;
+  bool _busy = false;
 
   @override
   void dispose() {
@@ -23,18 +27,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
   }
 
-  // TODO(phase-1): request gallery permission here.
-  void _finish() => context.go(AppRoutes.home);
+  // Router redirects to home or the permission screen afterwards.
+  Future<void> _finish() async {
+    setState(() => _busy = true);
+    await ref.read(galleryAccessProvider.notifier).request();
+    await ref.read(onboardingDoneProvider.notifier).complete();
+  }
+
+  // Skip jumps to the last page; permission is still asked there.
+  void _skip(int pageCount) => _controller.animateToPage(
+    pageCount - 1,
+    duration: _pageDuration,
+    curve: Curves.easeOutCubic,
+  );
 
   void _next(int pageCount) {
     if (_page == pageCount - 1) {
       _finish();
       return;
     }
-    _controller.nextPage(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOutCubic,
-    );
+    _controller.nextPage(duration: _pageDuration, curve: Curves.easeOutCubic);
   }
 
   @override
@@ -75,7 +87,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   opacity: isLast ? 0 : 1,
                   duration: const Duration(milliseconds: 200),
                   child: TextButton(
-                    onPressed: isLast ? null : _finish,
+                    onPressed: isLast ? null : () => _skip(pages.length),
                     child: Text(l10n.skip),
                   ),
                 ),
@@ -92,7 +104,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Padding(
               padding: const EdgeInsets.all(AppSpacing.lg),
               child: FilledButton(
-                onPressed: () => _next(pages.length),
+                onPressed: _busy ? null : () => _next(pages.length),
                 child: Text(isLast ? l10n.onboardingAllowAccess : l10n.next),
               ),
             ),
