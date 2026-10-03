@@ -43,6 +43,17 @@ class FakeGalleryService implements GalleryService {
 
   @override
   Future<int?> fileSize(String id) async => 2 * 1024 * 1024;
+
+  // Simulates the user cancelling the system dialog.
+  bool cancelDelete = false;
+  final deletedIds = <String>[];
+
+  @override
+  Future<List<String>> deletePhotos(List<String> ids) async {
+    if (cancelDelete) return const [];
+    deletedIds.addAll(ids);
+    return ids;
+  }
 }
 
 Future<List<Override>> testOverrides({

@@ -385,6 +385,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing marked for deletion'**
   String get reviewEmpty;
+
+  /// No description provided for @reviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a photo to keep it.'**
+  String get reviewHint;
+
+  /// No description provided for @reviewDeleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Delete 1 photo} other{Delete {count} photos}}'**
+  String reviewDeleteAction(int count);
+
+  /// No description provided for @reviewNothingSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing selected'**
+  String get reviewNothingSelected;
+
+  /// No description provided for @reviewDeleteCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing was deleted.'**
+  String get reviewDeleteCancelled;
+
+  /// No description provided for @reviewDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete the photos. Please try again.'**
+  String get reviewDeleteFailed;
+
+  /// No description provided for @resultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nice and clean!'**
+  String get resultTitle;
+
+  /// No description provided for @resultFreed.
+  ///
+  /// In en, this message translates to:
+  /// **'of space freed'**
+  String get resultFreed;
+
+  /// No description provided for @resultDeletedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 photo deleted} other{{count} photos deleted}}'**
+  String resultDeletedCount(int count);
+
+  /// No description provided for @resultRestoreHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed your mind? Deleted photos can usually be restored from your gallery\'s trash for 30 days.'**
+  String get resultRestoreHint;
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,6 @@
-import 'dart:typed_data';
+import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 import '../../core/utils/random_indexes.dart';
@@ -71,6 +72,23 @@ class PhotoManagerGalleryService implements GalleryService {
     } on Exception {
       return null;
     }
+  }
+
+  @override
+  Future<List<String>> deletePhotos(List<String> ids) async {
+    if (Platform.isAndroid) {
+      // Android 11+: system trash keeps photos restorable for 30 days.
+      try {
+        final assets = [for (final id in ids) ?await _asset(id)];
+        return await PhotoManager.editor.android.moveToTrash(assets);
+      } on PlatformException {
+        // Android 10 and below have no trash; fall through to delete.
+      }
+    }
+    // iOS moves deleted photos to "Recently Deleted".
+    final deleted = await PhotoManager.editor.deleteWithIds(ids);
+    deleted.forEach(_assets.remove);
+    return deleted;
   }
 
   Future<AssetEntity?> _asset(String id) async {

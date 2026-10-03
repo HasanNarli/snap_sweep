@@ -70,5 +70,25 @@
   },
 
   "reviewTitle": "Review",
-  "reviewEmpty": "Nothing marked for deletion"
+  "reviewEmpty": "Nothing marked for deletion",
+  "reviewHint": "Tap a photo to keep it.",
+  "reviewDeleteAction": "{count, plural, =1{Delete 1 photo} other{Delete {count} photos}}",
+  "@reviewDeleteAction": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "reviewNothingSelected": "Nothing selected",
+  "reviewDeleteCancelled": "Nothing was deleted.",
+  "reviewDeleteFailed": "Couldn't delete the photos. Please try again.",
+
+  "resultTitle": "Nice and clean!",
+  "resultFreed": "of space freed",
+  "resultDeletedCount": "{count, plural, =1{1 photo deleted} other{{count} photos deleted}}",
+  "@resultDeletedCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "resultRestoreHint": "Changed your mind? Deleted photos can usually be restored from your gallery's trash for 30 days."
 }

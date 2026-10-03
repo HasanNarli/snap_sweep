@@ -47,7 +47,7 @@ void main() {
 
     await tester.tap(find.text('Review (2)'));
     await tester.pumpAndSettle();
-    expect(find.text('2 photos marked for deletion.'), findsOneWidget);
+    expect(find.text('Delete 2 photos (4.0 MB)'), findsOneWidget);
   });
 
   testWidgets('empty gallery shows a message', (tester) async {

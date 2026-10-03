@@ -8,4 +8,8 @@ void main() {
     expect(formatBytes(340 * 1024 * 1024), '340 MB');
     expect(formatBytes(1288490189), '1.2 GB');
   });
+
+  test('formatBytes uses the locale decimal separator', () {
+    expect(formatBytes(1536, 'tr'), '1,5 KB');
+  });
 }
