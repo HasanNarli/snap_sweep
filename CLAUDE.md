@@ -23,43 +23,43 @@ Repo: https://github.com/HasanNarli/snap_sweep (private)
 
 ## Screens (keep the count minimal)
 
-1. **Onboarding + permission** â€“ 2-3 intro pages, permission request on the last; "Open Settings" on denied/limited.
-2. **Home** â€“ remaining daily swipes, total freed space, "Start swiping", locked premium category cards.
-3. **Swipe** â€“ card stack, undo, counter (7/15), date + file size, "Finish".
-4. **Review & delete** â€“ grid of marked photos, deselect, "Delete 12 photos (340 MB)", result/celebration.
-5. **Paywall** â€“ Phase 6.
-- **Settings** â€“ bottom sheet: restore purchases, privacy policy, rate app, contact.
+1. **Onboarding + permission** – 2-3 intro pages, permission request on the last; "Open Settings" on denied/limited.
+2. **Home** – remaining daily swipes, total freed space, "Start swiping", locked premium category cards.
+3. **Swipe** – card stack, undo, counter (7/15), date + file size, "Finish".
+4. **Review & delete** – grid of marked photos, deselect, "Delete 12 photos (340 MB)", result/celebration.
+5. **Paywall** – Phase 6.
+- **Settings** – bottom sheet: restore purchases, privacy policy, rate app, contact.
 
-Out of swipes: bottom sheet â†’ [Watch ad +10] / [Premium: unlimited].
+Out of swipes: bottom sheet → [Watch ad +10] / [Premium: unlimited].
 
 ## Tech stack
 
-- `photo_manager` â€“ permissions, asset listing, thumbnails, deletion
-- `flutter_card_swiper` â€“ card stack
-- `flutter_riverpod` â€“ state management
-- `shared_preferences` â€“ daily swipe counter, stats
-- `purchases_flutter` (RevenueCat) â€“ subscriptions (Phase 6)
-- `google_mobile_ads` â€“ rewarded ads (Phase 6; needs iOS ATT + KVKK/GDPR consent)
+- `photo_manager` – permissions, asset listing, thumbnails, deletion
+- `flutter_card_swiper` – card stack
+- `flutter_riverpod` – state management
+- `shared_preferences` – daily swipe counter, stats
+- `purchases_flutter` (RevenueCat) – subscriptions (Phase 6)
+- `google_mobile_ads` – rewarded ads (Phase 6; needs iOS ATT + KVKK/GDPR consent)
 - Localization: TR + EN from the start (`flutter_localizations` + ARB)
 - Random pick: never load the whole gallery into memory; get the total count, fetch assets at random indexes.
 
 ## Roadmap
 
-- [x] Phase 0 â€“ Foundation: theme, folder structure, routing, TR/EN
-- [ ] Phase 1 â€“ Onboarding + permission (full/limited/denied)
-- [ ] Phase 2 â€“ Swipe screen: random 15, swipe, undo, to-delete list
-- [ ] Phase 3 â€“ Review & batch delete, freed space, result screen
-- [ ] Phase 4 â€“ Home: daily swipes, stats, locked categories
-- [ ] Phase 5 â€“ Polish: icon, splash, real-device testing, large-gallery performance
-- [ ] Phase 6 â€“ Premium (RevenueCat) + paywall + filters + rewarded ads
-- [ ] Phase 7 â€“ Release: privacy policy, store assets, Android first then iOS
-- [ ] v1.1 â€“ Similar/duplicate photo detection
+- [x] Phase 0 – Foundation: theme, folder structure, routing, TR/EN
+- [ ] Phase 1 – Onboarding + permission (full/limited/denied)
+- [ ] Phase 2 – Swipe screen: random 15, swipe, undo, to-delete list
+- [ ] Phase 3 – Review & batch delete, freed space, result screen
+- [ ] Phase 4 – Home: daily swipes, stats, locked categories
+- [ ] Phase 5 – Polish: icon, splash, real-device testing, large-gallery performance
+- [ ] Phase 6 – Premium (RevenueCat) + paywall + filters + rewarded ads
+- [ ] Phase 7 – Release: privacy policy, store assets, Android first then iOS
+- [ ] v1.1 – Similar/duplicate photo detection
 
 Tick the box when a phase is done.
 
 ## Dev environment
 
 - Windows (Android) + Mac (iOS build/test).
-- Design: Google Stitch â†’ Figma; if a Figma link is given, read it via Figma MCP and implement in Flutter.
+- Design: Google Stitch → Figma; if a Figma link is given, read it via Figma MCP and implement in Flutter.
 - Bundle ID: `com.snapsweep.snap_sweep`
 - Claude Code permissions are pre-approved in `.claude/settings.json` (destructive git commands denied).
