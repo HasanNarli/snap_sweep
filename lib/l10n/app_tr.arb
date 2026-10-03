@@ -5,6 +5,13 @@
   "skip": "Atla",
   "comingSoon": "Çok yakında",
   "backToHome": "Ana sayfaya dön",
+  "retry": "Tekrar dene",
+
+  "permissionTitle": "Fotoğraflarına erişim izni ver",
+  "permissionBody": "SnapSweep'in fotoğraflarını gösterebilmesi için galeri erişimi gerekiyor. Fotoğrafların telefonundan asla çıkmaz.",
+  "permissionAllow": "Erişim ver",
+  "limitedAccessBody": "SnapSweep yalnızca seçtiğin fotoğrafları görebiliyor.",
+  "limitedAccessAction": "Tümüne izin ver",
 
   "onboardingSwipeTitle": "Kaydır, temizle",
   "onboardingSwipeBody": "Silmek için sola, tutmak için sağa kaydır. Galerini dakikalar içinde temizle.",
@@ -35,10 +42,16 @@
 
   "swipeTitle": "Bugünün fotoğrafları",
   "swipeFinish": "Bitir",
-  "swipePlaceholder": "Fotoğrafların burada görünecek",
   "swipeDelete": "Sil",
   "swipeKeep": "Tut",
   "swipeUndo": "Geri al",
+  "swipeDeleteStamp": "SİL",
+  "swipeKeepStamp": "TUT",
+  "swipeNoPhotos": "Galerinde fotoğraf bulunamadı",
+  "swipeLoadError": "Fotoğraflar yüklenemedi",
+  "swipeDoneTitle": "Hepsi bu kadar!",
+  "swipeMarkedCount": "{count, plural, =0{Tüm fotoğrafları tuttun.} other{{count} fotoğraf silinmek üzere işaretlendi.}}",
+  "swipeReviewAction": "Gözden geçir ({count})",
 
   "reviewTitle": "Gözden geçir",
   "reviewEmpty": "Silinecek fotoğraf yok"

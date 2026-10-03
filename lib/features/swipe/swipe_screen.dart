@@ -43,7 +43,7 @@ class SwipeScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: AppSpacing.md),
                         Text(
-                          l10n.swipePlaceholder,
+                          l10n.comingSoon,
                           style: TextStyle(color: palette.muted),
                         ),
                       ],

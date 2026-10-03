@@ -128,6 +128,42 @@ abstract class AppLocalizations {
   /// **'Back to home'**
   String get backToHome;
 
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get retry;
+
+  /// No description provided for @permissionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow access to your photos'**
+  String get permissionTitle;
+
+  /// No description provided for @permissionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'SnapSweep needs gallery access to show your photos. They never leave your phone.'**
+  String get permissionBody;
+
+  /// No description provided for @permissionAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow access'**
+  String get permissionAllow;
+
+  /// No description provided for @limitedAccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'SnapSweep can only see the photos you selected.'**
+  String get limitedAccessBody;
+
+  /// No description provided for @limitedAccessAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow all'**
+  String get limitedAccessAction;
+
   /// No description provided for @onboardingSwipeTitle.
   ///
   /// In en, this message translates to:
@@ -278,12 +314,6 @@ abstract class AppLocalizations {
   /// **'Finish'**
   String get swipeFinish;
 
-  /// No description provided for @swipePlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Your photos will appear here'**
-  String get swipePlaceholder;
-
   /// No description provided for @swipeDelete.
   ///
   /// In en, this message translates to:
@@ -301,6 +331,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Undo'**
   String get swipeUndo;
+
+  /// No description provided for @swipeDeleteStamp.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get swipeDeleteStamp;
+
+  /// No description provided for @swipeKeepStamp.
+  ///
+  /// In en, this message translates to:
+  /// **'KEEP'**
+  String get swipeKeepStamp;
+
+  /// No description provided for @swipeNoPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'No photos found in your gallery'**
+  String get swipeNoPhotos;
+
+  /// No description provided for @swipeLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your photos'**
+  String get swipeLoadError;
+
+  /// No description provided for @swipeDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All done!'**
+  String get swipeDoneTitle;
+
+  /// No description provided for @swipeMarkedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{You kept every photo.} =1{1 photo marked for deletion.} other{{count} photos marked for deletion.}}'**
+  String swipeMarkedCount(int count);
+
+  /// No description provided for @swipeReviewAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Review ({count})'**
+  String swipeReviewAction(int count);
 
   /// No description provided for @reviewTitle.
   ///

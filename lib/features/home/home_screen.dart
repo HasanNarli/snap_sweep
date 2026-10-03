@@ -7,6 +7,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/utils/format_bytes.dart';
 import '../settings/settings_sheet.dart';
+import 'limited_access_banner.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -41,6 +42,7 @@ class HomeScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.md),
         children: [
+          const LimitedAccessBanner(),
           const _DailyCard(remaining: _remaining, total: _total),
           const SizedBox(height: AppSpacing.md),
           Row(

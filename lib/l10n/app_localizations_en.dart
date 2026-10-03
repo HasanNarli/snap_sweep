@@ -25,6 +25,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backToHome => 'Back to home';
 
   @override
+  String get retry => 'Try again';
+
+  @override
+  String get permissionTitle => 'Allow access to your photos';
+
+  @override
+  String get permissionBody =>
+      'SnapSweep needs gallery access to show your photos. They never leave your phone.';
+
+  @override
+  String get permissionAllow => 'Allow access';
+
+  @override
+  String get limitedAccessBody =>
+      'SnapSweep can only see the photos you selected.';
+
+  @override
+  String get limitedAccessAction => 'Allow all';
+
+  @override
   String get onboardingSwipeTitle => 'Swipe to clean';
 
   @override
@@ -105,9 +125,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get swipeFinish => 'Finish';
 
   @override
-  String get swipePlaceholder => 'Your photos will appear here';
-
-  @override
   String get swipeDelete => 'Delete';
 
   @override
@@ -115,6 +132,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get swipeUndo => 'Undo';
+
+  @override
+  String get swipeDeleteStamp => 'DELETE';
+
+  @override
+  String get swipeKeepStamp => 'KEEP';
+
+  @override
+  String get swipeNoPhotos => 'No photos found in your gallery';
+
+  @override
+  String get swipeLoadError => 'Couldn\'t load your photos';
+
+  @override
+  String get swipeDoneTitle => 'All done!';
+
+  @override
+  String swipeMarkedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count photos marked for deletion.',
+      one: '1 photo marked for deletion.',
+      zero: 'You kept every photo.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String swipeReviewAction(int count) {
+    return 'Review ($count)';
+  }
 
   @override
   String get reviewTitle => 'Review';
