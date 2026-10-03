@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/extensions/context_x.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../shared/widgets/grouped_section.dart';
 import '../gallery/gallery_access_provider.dart';
 import '../gallery/gallery_service.dart';
 
@@ -23,28 +22,33 @@ class LimitedAccessBanner extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.fromLTRB(
           AppSpacing.md,
-          AppSpacing.sm,
           AppSpacing.xs,
-          AppSpacing.sm,
+          AppSpacing.xs,
+          AppSpacing.xs,
         ),
         decoration: BoxDecoration(
-          color: palette.surface,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          boxShadow: palette.softShadow,
+          color: palette.accentSoft,
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          border: Border.all(color: palette.border.withValues(alpha: 0.6)),
         ),
         child: Row(
           children: [
-            IconTile(icon: Icons.photo_library_rounded, color: palette.premium),
-            const SizedBox(width: AppSpacing.md),
+            Icon(Icons.info_outline_rounded, size: 18, color: palette.accent),
+            const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Text(
                 context.l10n.limitedAccessBody,
-                style: context.theme.textTheme.bodyMedium,
+                style: context.theme.textTheme.labelMedium?.copyWith(
+                  color: palette.accent,
+                ),
               ),
             ),
             TextButton(
               onPressed: ref.read(galleryServiceProvider).openSettings,
-              child: Text(context.l10n.limitedAccessAction),
+              child: Text(
+                context.l10n.limitedAccessAction,
+                style: TextStyle(color: palette.label),
+              ),
             ),
           ],
         ),

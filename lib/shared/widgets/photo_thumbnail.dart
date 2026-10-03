@@ -47,9 +47,12 @@ class _PhotoThumbnailState extends ConsumerState<PhotoThumbnail> {
           return Image.memory(bytes, fit: BoxFit.cover, gaplessPlayback: true);
         }
         return ColoredBox(
-          color: context.palette.border,
+          color: context.palette.fill,
           child: snapshot.connectionState == ConnectionState.done
-              ? Icon(Icons.broken_image_outlined, color: context.palette.muted)
+              ? Icon(
+                  Icons.broken_image_outlined,
+                  color: context.palette.tertiaryLabel,
+                )
               : null,
         );
       },

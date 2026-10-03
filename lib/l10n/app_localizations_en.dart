@@ -25,31 +25,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
-  String get continueAction => 'Continue';
+  String get notNow => 'Not Now';
 
   @override
-  String get welcomeTitle => 'Welcome to SnapSweep';
+  String get privacyFootnote => 'Photos never leave your device';
 
   @override
-  String get onboardingSwipeTitle => 'Swipe to clean';
+  String get onboardingTitle => 'Clear space.\nKeep memories.';
 
   @override
-  String get onboardingSwipeBody =>
-      'Left to delete, right to keep. Your gallery, sorted in minutes.';
+  String get onboardingSubtitle =>
+      'Review forgotten photos with a quick swipe.';
 
   @override
-  String get onboardingReviewTitle => 'Nothing lost by mistake';
+  String get onboardingTriageTitle => 'Effortless triage';
 
   @override
-  String get onboardingReviewBody =>
-      'Review your picks before anything is deleted, and undo any swipe.';
+  String get onboardingTriageBody => 'Swipe right to keep, left to clear';
 
   @override
-  String get onboardingPrivacyTitle => 'Private by design';
+  String get onboardingUndoTitle => 'Nothing lost by mistake';
 
   @override
-  String get onboardingPrivacyBody =>
-      'Your photos never leave your phone. No uploads, no servers.';
+  String get onboardingUndoBody => 'Review your picks and undo any swipe';
+
+  @override
+  String get onboardingStorageTitle => 'Instant storage recovery';
+
+  @override
+  String get onboardingStorageBody =>
+      'Watch reclaimed space tally up as you go';
+
+  @override
+  String get onboardingAllow => 'Allow Photo Access';
 
   @override
   String get permissionTitle => 'Allow access to your photos';
@@ -69,34 +77,136 @@ class AppLocalizationsEn extends AppLocalizations {
   String get limitedAccessAction => 'Allow all';
 
   @override
-  String get homeSwipesLeftToday => 'left today';
+  String get greetingMorning => 'Good morning';
 
   @override
-  String get homeStartSwiping => 'Start swiping';
+  String get greetingAfternoon => 'Good afternoon';
 
   @override
-  String get homeSpaceFreed => 'Space freed';
+  String get greetingEvening => 'Good evening';
 
   @override
-  String get homePhotosCleaned => 'Photos cleaned';
+  String get homeStorageReclaimed => 'Storage reclaimed';
 
   @override
-  String get homeSmartCleanup => 'Smart cleanup';
+  String homeThisWeek(String size) {
+    return '+$size this week';
+  }
+
+  @override
+  String get homeCleaned => 'Cleaned';
+
+  @override
+  String homeCleanedValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count photos',
+      one: '1 photo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get homeSessions => 'Sessions';
+
+  @override
+  String get homeAverageSize => 'Avg. size';
+
+  @override
+  String get homeDailySession => 'Daily session';
+
+  @override
+  String homeResetsIn(int hours, int minutes) {
+    return 'Resets in ${hours}h ${minutes}m';
+  }
+
+  @override
+  String homeReviewsAvailable(int count) {
+    return '$count reviews available today';
+  }
+
+  @override
+  String get homeStartCleaning => 'Start cleaning';
+
+  @override
+  String homeBatchOf(int count) {
+    return 'Batch of $count';
+  }
+
+  @override
+  String get homeGetMore => 'Get more';
+
+  @override
+  String get homeSmartCategories => 'Smart categories';
+
+  @override
+  String get outOfSwipesTitle => 'That\'s it for today';
+
+  @override
+  String outOfSwipesBody(int hours, int minutes) {
+    return 'Your free reviews reset in ${hours}h ${minutes}m. Want to keep going?';
+  }
+
+  @override
+  String outOfSwipesWatchAd(int count) {
+    return 'Watch an ad for +$count';
+  }
+
+  @override
+  String get outOfSwipesGoPro => 'Go unlimited with Pro';
+
+  @override
+  String get pro => 'Pro';
+
+  @override
+  String get soon => 'Soon';
+
+  @override
+  String get proCardTitle => 'Unlimited cleaning';
+
+  @override
+  String get proCardBody =>
+      'Remove the daily limit and unlock smart categories.';
+
+  @override
+  String get upgrade => 'Upgrade';
 
   @override
   String get categoryScreenshots => 'Screenshots';
 
   @override
-  String get categoryVideos => 'Videos';
+  String get categoryScreenshotsHint => 'Receipts, memes and old chats';
+
+  @override
+  String get categoryVideos => 'Large videos';
+
+  @override
+  String get categoryVideosHint => 'The biggest space hogs';
 
   @override
   String get categoryScreenRecordings => 'Screen recordings';
 
   @override
+  String get categoryScreenRecordingsHint => 'Forgotten recordings';
+
+  @override
   String get categoryDateRange => 'Date range';
 
   @override
-  String get pro => 'PRO';
+  String get categoryDateRangeHint => 'Clean up a month or a trip';
+
+  @override
+  String get categoryDuplicates => 'Duplicates & similar';
+
+  @override
+  String get categoryDuplicatesHint => 'Twin shots and bursts';
+
+  @override
+  String get categoryBlurry => 'Blurry photos';
+
+  @override
+  String get categoryBlurryHint => 'Out of focus and motion blur';
 
   @override
   String get settingsTitle => 'Settings';
@@ -114,6 +224,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsContact => 'Contact us';
 
   @override
+  String swipeCounter(int current, int total) {
+    return '$current of $total';
+  }
+
+  @override
+  String get swipeSubtitle => 'Today\'s photos';
+
+  @override
   String get swipeFinish => 'Finish';
 
   @override
@@ -124,6 +242,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get swipeUndo => 'Undo';
+
+  @override
+  String swipeMarkedToast(String size) {
+    return 'Marked • $size';
+  }
 
   @override
   String get swipeNoPhotos => 'No photos found in your gallery';
@@ -152,18 +275,53 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reviewTitle => 'Review';
+  String get reviewTitle => 'Review deletions';
 
   @override
   String get reviewEmpty => 'Nothing marked for deletion';
 
   @override
-  String reviewSelectedCount(int count) {
-    return '$count selected';
+  String reviewSelectedOf(int selected, int total) {
+    return '$selected of $total selected';
   }
 
   @override
-  String get reviewHint => 'Tap a photo to keep it.';
+  String reviewPhotosSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count photos selected',
+      one: '1 photo selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reviewMarkedSize(String size) {
+    return '$size marked to purge';
+  }
+
+  @override
+  String get reviewSelectAll => 'Select all';
+
+  @override
+  String get reviewDeselectAll => 'Deselect all';
+
+  @override
+  String get reviewKept => 'Kept';
+
+  @override
+  String get reviewTrashNotePrefix => 'Photos go to your gallery\'s ';
+
+  @override
+  String get reviewTrashNoteBold => 'Recently Deleted';
+
+  @override
+  String get reviewTrashNoteSuffix =>
+      '. You usually have 30 days to recover them.';
+
+  @override
+  String get reviewHint => 'Tap any photo to deselect or protect it';
 
   @override
   String reviewDeleteAction(int count) {
@@ -175,6 +333,9 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get reviewKeepAll => 'Keep all';
 
   @override
   String get reviewNothingSelected => 'Nothing selected';

@@ -9,7 +9,8 @@ Repo: https://github.com/HasanNarli/snap_sweep (private)
 - **Comments:** short, one-line comments where they help. No long comment blocks.
 - **User-facing text** is the only exception: it is localized (TR + EN) via ARB files, never hard-coded in widgets.
 - **Chat with the user in Turkish.**
-- **Work autonomously:** the user may leave mid-task. Don't stop to ask for routine permissions or confirmations; finish the task, verify it (`flutter analyze`, build/tests), commit and push, then report. Ask only for real product decisions.
+- **Work autonomously:** the user may leave mid-task. Don't stop to ask for routine permissions or confirmations; finish the task, verify it (`flutter analyze`, build/tests), then report. Ask only for real product decisions.
+- **Never commit or push on your own.** Leave changes uncommitted so the user can review them; commit/push only when the user explicitly asks.
 
 ## Product decisions
 
@@ -23,19 +24,21 @@ Repo: https://github.com/HasanNarli/snap_sweep (private)
 
 ## Design language
 
-- **Direction:** calm, premium, Apple-inspired. Follows system light/dark mode.
-- **Font:** Inter (bundled in `assets/fonts`, OFL). Tight letter-spacing on large titles; text styles live in `AppTheme._textTheme`.
-- **Colors:** semantic tokens in `AppPalette` (background, surface, fill, label, secondaryLabel, separator, accent, delete, keep, premium). One accent (blue); red/green only for delete/keep decisions. Never hard-code colors in widgets.
-- **Components:** soft shadows instead of borders, stadium buttons, iOS-style grouped lists (`GroupedSection`/`GroupedRow`/`IconTile`), `ActivityRing`, `SegmentedProgress`, `Frosted` pills, `RoundIconButton`.
-- **Motion & feel:** Cupertino page transitions and bouncing scroll on both platforms, haptics on decisions, respect "reduce motion".
-- Photos are the hero: full-bleed cards, blurred current photo as swipe backdrop.
+- **Source of truth:** the user's Stitch design in Figma: https://www.figma.com/design/2ww8YFJYfyUuVyIfxpNyh2 (frames: Onboarding 1:2, Home 1:69, Swipe 1:248, Review 1:328). Read it via Figma MCP before changing a screen.
+- **Direction:** warm, editorial, calm premium. Light from the design; dark is a derived warm twin. Follows system mode.
+- **Font:** Inter 300–700 (bundled in `assets/fonts`, OFL). Big light numerals (e.g. "1.2 GB"); text styles live in `AppTheme._textTheme`.
+- **Colors:** semantic tokens in `AppPalette` (background #F9F8F5, surface, border #EBE6DF, fill #F4F1EB, track, label #1A1A1A, secondary #7A756D, tertiary, accent brown #8A5A36, accentSoft, delete #E03838, keep #10B981). Primary buttons are ink (`cta`), inverted in dark. Never hard-code colors in widgets.
+- **Components:** white cards with hairline borders (`palette.card()`), grouped lists (`GroupedSection`/`GroupedRow`/`IconTile`/`TagLabel`), `Frosted` pills, `RoundIconButton`.
+- **No bottom tab bar** (keeps the screen count low and the swipe screen immersive).
+- **Not in v1:** duplicate/blurry detection is shown as "Soon" rows only; never claim it in copy.
+- **Motion & feel:** Cupertino page transitions and bouncing scroll on both platforms, haptics on decisions.
 
 ## Screens (keep the count minimal)
 
-1. **Welcome + permission** – single welcome page (animated swipe demo + feature list), "Continue" requests permission; "Open Settings" on denied/limited.
-2. **Home** – remaining daily swipes, total freed space, "Start swiping", locked premium category cards.
-3. **Swipe** – card stack, undo, counter (7/15), date + file size, "Finish".
-4. **Review & delete** – grid of marked photos, deselect, "Delete 12 photos (340 MB)", result/celebration.
+1. **Onboarding + permission** – photo stack hero, "Clear space. Keep memories.", 3 feature rows, "Allow Photo Access" / "Not Now"; permission screen when denied.
+2. **Home** – greeting, storage reclaimed card (+this week chip, cleaned/sessions/avg size), daily session card (resets countdown, progress, "Start cleaning"), smart categories (Pro locked; duplicates/blurry "Soon"), upgrade card.
+3. **Swipe** – "7 of 15" header, 4:5 card with frosted date • size pill, delete/undo/keep controls, "Marked • 4.2 MB" toast, "Finish".
+4. **Review & delete** – grid with per-photo size labels and Kept state, select/deselect all, trash note, "Delete 10 photos (216.7 MB)" + "Keep all", then result screen.
 5. **Paywall** – Phase 6.
 - **Settings** – bottom sheet: restore purchases, privacy policy, rate app, contact.
 
@@ -58,7 +61,7 @@ Out of swipes: bottom sheet → [Watch ad +10] / [Premium: unlimited].
 - [x] Phase 1 – Onboarding + permission (full/limited/denied)
 - [x] Phase 2 – Swipe screen: random 15, swipe, undo, to-delete list
 - [x] Phase 3 – Review & batch delete, freed space, result screen
-- [ ] Phase 4 – Home: daily swipes, stats, locked categories
+- [x] Phase 4 – Home: daily swipes, stats, locked categories
 - [ ] Phase 5 – Polish: icon, splash, real-device testing, large-gallery performance
 - [ ] Phase 6 – Premium (RevenueCat) + paywall + filters + rewarded ads
 - [ ] Phase 7 – Release: privacy policy, store assets, Android first then iOS

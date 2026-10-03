@@ -2,97 +2,138 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
-// Semantic colors (iOS naming) resolved per brightness.
+// Semantic colors resolved per brightness. Never hard-code colors in widgets.
 @immutable
 class AppPalette extends ThemeExtension<AppPalette> {
   const AppPalette({
     required this.background,
     required this.surface,
+    required this.border,
     required this.fill,
+    required this.track,
     required this.label,
     required this.secondaryLabel,
-    required this.separator,
+    required this.tertiaryLabel,
     required this.accent,
+    required this.accentSoft,
     required this.delete,
     required this.keep,
-    required this.premium,
-    required this.shadow,
+    required this.isDark,
   });
 
   final Color background;
   final Color surface;
+  final Color border;
   final Color fill;
+  final Color track;
   final Color label;
   final Color secondaryLabel;
-  final Color separator;
+  final Color tertiaryLabel;
   final Color accent;
+  final Color accentSoft;
   final Color delete;
   final Color keep;
-  final Color premium;
-  final Color shadow;
+  final bool isDark;
 
-  // Kept for older call sites.
-  Color get muted => secondaryLabel;
-  Color get border => separator;
+  // Primary buttons are ink on light, inverted on dark.
+  Color get cta => label;
+  Color get onCta => background;
 
   static const light = AppPalette(
     background: AppColors.lightBackground,
     surface: AppColors.lightSurface,
+    border: AppColors.lightBorder,
     fill: AppColors.lightFill,
+    track: AppColors.lightTrack,
     label: AppColors.lightLabel,
     secondaryLabel: AppColors.lightSecondaryLabel,
-    separator: AppColors.lightSeparator,
-    accent: AppColors.accentLight,
-    delete: AppColors.deleteLight,
-    keep: AppColors.keepLight,
-    premium: AppColors.premiumLight,
-    shadow: Color(0x14000000),
+    tertiaryLabel: AppColors.lightTertiaryLabel,
+    accent: AppColors.lightAccent,
+    accentSoft: AppColors.lightAccentSoft,
+    delete: AppColors.delete,
+    keep: AppColors.keep,
+    isDark: false,
   );
 
   static const dark = AppPalette(
     background: AppColors.darkBackground,
     surface: AppColors.darkSurface,
+    border: AppColors.darkBorder,
     fill: AppColors.darkFill,
+    track: AppColors.darkTrack,
     label: AppColors.darkLabel,
     secondaryLabel: AppColors.darkSecondaryLabel,
-    separator: AppColors.darkSeparator,
-    accent: AppColors.accentDark,
-    delete: AppColors.deleteDark,
-    keep: AppColors.keepDark,
-    premium: AppColors.premiumDark,
-    shadow: Color(0x00000000),
+    tertiaryLabel: AppColors.darkTertiaryLabel,
+    accent: AppColors.darkAccent,
+    accentSoft: AppColors.darkAccentSoft,
+    delete: AppColors.delete,
+    keep: AppColors.keep,
+    isDark: true,
   );
 
-  List<BoxShadow> get softShadow => [
-    BoxShadow(color: shadow, blurRadius: 24, offset: const Offset(0, 8)),
-  ];
+  // Barely-there card shadow; borders do the separation.
+  List<BoxShadow> get cardShadow => isDark
+      ? const []
+      : const [
+          BoxShadow(
+            color: Color(0x08000000),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ];
+
+  List<BoxShadow> get buttonShadow => isDark
+      ? const []
+      : const [
+          BoxShadow(
+            color: Color(0x0A000000),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+          BoxShadow(
+            color: Color(0x05000000),
+            blurRadius: 1,
+            offset: Offset(0, 1),
+          ),
+        ];
+
+  BoxDecoration card({double radius = 16}) => BoxDecoration(
+    color: surface,
+    borderRadius: BorderRadius.circular(radius),
+    border: Border.all(color: border),
+    boxShadow: cardShadow,
+  );
 
   @override
   AppPalette copyWith({
     Color? background,
     Color? surface,
+    Color? border,
     Color? fill,
+    Color? track,
     Color? label,
     Color? secondaryLabel,
-    Color? separator,
+    Color? tertiaryLabel,
     Color? accent,
+    Color? accentSoft,
     Color? delete,
     Color? keep,
-    Color? premium,
-    Color? shadow,
+    bool? isDark,
   }) {
     return AppPalette(
       background: background ?? this.background,
       surface: surface ?? this.surface,
+      border: border ?? this.border,
       fill: fill ?? this.fill,
+      track: track ?? this.track,
       label: label ?? this.label,
       secondaryLabel: secondaryLabel ?? this.secondaryLabel,
-      separator: separator ?? this.separator,
+      tertiaryLabel: tertiaryLabel ?? this.tertiaryLabel,
       accent: accent ?? this.accent,
+      accentSoft: accentSoft ?? this.accentSoft,
       delete: delete ?? this.delete,
       keep: keep ?? this.keep,
-      premium: premium ?? this.premium,
-      shadow: shadow ?? this.shadow,
+      isDark: isDark ?? this.isDark,
     );
   }
 
@@ -103,15 +144,17 @@ class AppPalette extends ThemeExtension<AppPalette> {
     return AppPalette(
       background: mix(background, other.background),
       surface: mix(surface, other.surface),
+      border: mix(border, other.border),
       fill: mix(fill, other.fill),
+      track: mix(track, other.track),
       label: mix(label, other.label),
       secondaryLabel: mix(secondaryLabel, other.secondaryLabel),
-      separator: mix(separator, other.separator),
+      tertiaryLabel: mix(tertiaryLabel, other.tertiaryLabel),
       accent: mix(accent, other.accent),
+      accentSoft: mix(accentSoft, other.accentSoft),
       delete: mix(delete, other.delete),
       keep: mix(keep, other.keep),
-      premium: mix(premium, other.premium),
-      shadow: mix(shadow, other.shadow),
+      isDark: t < 0.5 ? isDark : other.isDark,
     );
   }
 }

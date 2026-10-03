@@ -25,51 +25,70 @@ class PhotoCard extends StatelessWidget {
     final deleting = dragPercent < 0;
     final tint = deleting ? palette.delete : palette.keep;
 
-    return DecoratedBox(
+    return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
+        color: palette.fill,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        border: Border.all(color: const Color(0x0F000000)),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x33000000),
-            blurRadius: 30,
-            offset: Offset(0, 12),
+            color: Color(0x14000000),
+            blurRadius: 40,
+            spreadRadius: -10,
+            offset: Offset(0, 14),
+          ),
+          BoxShadow(
+            color: Color(0x0A000000),
+            blurRadius: 8,
+            spreadRadius: -2,
+            offset: Offset(0, 2),
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            PhotoThumbnail(
-              photoId: photo.id,
-              size: AppConfig.cardThumbnailSize,
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          PhotoThumbnail(photoId: photo.id, size: AppConfig.cardThumbnailSize),
+          // Soft top/bottom scrim so the pill stays readable.
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0x40000000),
+                  Color(0x00000000),
+                  Color(0x66000000),
+                ],
+              ),
             ),
-            // Decision wash + badge while dragging.
-            if (dragPercent != 0) ...[
-              ColoredBox(color: tint.withValues(alpha: progress * 0.3)),
-              Center(
-                child: Opacity(
-                  opacity: progress,
-                  child: Transform.scale(
-                    scale: 0.6 + 0.4 * progress,
-                    child: _DecisionBadge(
-                      icon: deleting
-                          ? Icons.delete_rounded
-                          : Icons.favorite_rounded,
-                      color: tint,
-                    ),
+          ),
+          // Decision wash + badge while dragging.
+          if (dragPercent != 0) ...[
+            ColoredBox(color: tint.withValues(alpha: progress * 0.25)),
+            Center(
+              child: Opacity(
+                opacity: progress,
+                child: Transform.scale(
+                  scale: 0.6 + 0.4 * progress,
+                  child: _DecisionBadge(
+                    icon: deleting
+                        ? Icons.delete_outline_rounded
+                        : Icons.check_rounded,
+                    color: tint,
                   ),
                 ),
               ),
-            ],
-            Positioned(
-              left: AppSpacing.md,
-              bottom: AppSpacing.md,
-              child: _PhotoInfo(photo: photo),
             ),
           ],
-        ),
+          Positioned(
+            left: AppSpacing.md,
+            right: AppSpacing.md,
+            bottom: AppSpacing.md,
+            child: Center(child: _MetadataPill(photo: photo)),
+          ),
+        ],
       ),
     );
   }
@@ -84,20 +103,21 @@ class _DecisionBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 104,
-      height: 104,
+      width: 96,
+      height: 96,
       decoration: const BoxDecoration(
         color: Colors.white,
         shape: BoxShape.circle,
-        boxShadow: [BoxShadow(color: Color(0x40000000), blurRadius: 24)],
+        boxShadow: [BoxShadow(color: Color(0x33000000), blurRadius: 24)],
       ),
-      child: Icon(icon, color: color, size: 52),
+      child: Icon(icon, color: color, size: 44),
     );
   }
 }
 
-class _PhotoInfo extends ConsumerWidget {
-  const _PhotoInfo({required this.photo});
+// Frosted "date • size" pill, Stitch metadata style.
+class _MetadataPill extends ConsumerWidget {
+  const _MetadataPill({required this.photo});
 
   final GalleryPhoto photo;
 
@@ -105,22 +125,50 @@ class _PhotoInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final date = DateFormat.yMMMd(context.localeTag).format(photo.createdAt);
     final bytes = ref.watch(photoSizeProvider(photo.id)).value;
-    final text = [
-      date,
-      if (bytes != null) context.formatSize(bytes),
-    ].join('  ·  ');
+    const style = TextStyle(
+      color: Color(0xF2FFFFFF),
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+      letterSpacing: -0.3,
+      height: 1.5,
+    );
 
     return Frosted(
-      tint: const Color(0x40000000),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          letterSpacing: -0.2,
-        ),
+      tint: const Color(0x66000000),
+      borderColor: const Color(0x26FFFFFF),
+      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 9),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(date, style: style),
+          if (bytes != null) ...[
+            const _Dot(),
+            Text(
+              context.formatSize(bytes),
+              style: style.copyWith(
+                color: const Color(0xCCFFFFFF),
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _Dot extends StatelessWidget {
+  const _Dot();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 4,
+      height: 4,
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+      decoration: const BoxDecoration(
+        color: Color(0x66FFFFFF),
+        shape: BoxShape.circle,
       ),
     );
   }

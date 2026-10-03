@@ -12,6 +12,13 @@ extension ContextX on BuildContext {
 
   String formatSize(int bytes) => formatBytes(bytes, localeTag);
 
+  // "1.2 GB" -> ("1.2", "GB") for number/unit styling.
+  (String, String) formatSizeParts(int bytes) {
+    final text = formatSize(bytes);
+    final split = text.lastIndexOf(' ');
+    return (text.substring(0, split), text.substring(split + 1));
+  }
+
   void showComingSoon() {
     ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
