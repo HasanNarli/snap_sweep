@@ -16,15 +16,21 @@ abstract final class AppTheme {
           seedColor: p.accent,
           brightness: brightness,
         ).copyWith(
-          primary: p.accent,
-          onPrimary: Colors.white,
+          primary: p.cta,
+          onPrimary: p.onCta,
           error: p.delete,
           surface: p.surface,
           onSurface: p.label,
           onSurfaceVariant: p.secondaryLabel,
-          outline: p.separator,
-          outlineVariant: p.separator,
+          outline: p.border,
+          outlineVariant: p.border,
         );
+    const buttonText = TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 15,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.15,
+    );
 
     return ThemeData(
       useMaterial3: true,
@@ -34,8 +40,9 @@ abstract final class AppTheme {
       textTheme: _textTheme(p),
       scaffoldBackgroundColor: p.background,
       splashFactory: NoSplash.splashFactory,
-      highlightColor: p.fill.withValues(alpha: 0.5),
-      dividerColor: p.separator,
+      highlightColor: p.fill,
+      dividerColor: p.border,
+      dividerTheme: DividerThemeData(color: p.border, thickness: 1, space: 1),
       extensions: [p],
       // iOS-style navigation on both platforms.
       pageTransitionsTheme: const PageTransitionsTheme(
@@ -49,50 +56,37 @@ abstract final class AppTheme {
         foregroundColor: p.label,
         elevation: 0,
         scrolledUnderElevation: 0,
-        centerTitle: true,
-        titleTextStyle: TextStyle(
-          fontFamily: fontFamily,
-          fontSize: 17,
-          fontWeight: FontWeight.w600,
-          color: p.label,
-          letterSpacing: -0.4,
-        ),
+        centerTitle: false,
       ),
+      iconTheme: IconThemeData(color: p.label),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: p.accent,
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: p.fill,
-          disabledForegroundColor: p.secondaryLabel,
-          minimumSize: const Size.fromHeight(56),
+          backgroundColor: p.cta,
+          foregroundColor: p.onCta,
+          disabledBackgroundColor: p.track,
+          disabledForegroundColor: p.tertiaryLabel,
+          minimumSize: const Size.fromHeight(52),
           elevation: 0,
           shape: const StadiumBorder(),
-          textStyle: const TextStyle(
-            fontFamily: fontFamily,
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.4,
-          ),
+          textStyle: buttonText,
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: p.accent,
-          textStyle: const TextStyle(
-            fontFamily: fontFamily,
-            fontSize: 17,
+          foregroundColor: p.secondaryLabel,
+          textStyle: buttonText.copyWith(
+            fontSize: 14,
             fontWeight: FontWeight.w500,
-            letterSpacing: -0.4,
           ),
         ),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: p.background,
         showDragHandle: true,
-        dragHandleColor: p.separator,
+        dragHandleColor: p.border,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppRadius.xl),
+            top: Radius.circular(AppRadius.lg),
           ),
         ),
       ),
@@ -102,51 +96,68 @@ abstract final class AppTheme {
         contentTextStyle: TextStyle(
           fontFamily: fontFamily,
           color: p.background,
-          fontSize: 15,
+          fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
         shape: const StadiumBorder(),
       ),
-      progressIndicatorTheme: ProgressIndicatorThemeData(color: p.accent),
-      cupertinoOverrideTheme: CupertinoThemeData(primaryColor: p.accent),
+      progressIndicatorTheme: ProgressIndicatorThemeData(color: p.label),
+      cupertinoOverrideTheme: CupertinoThemeData(primaryColor: p.label),
     );
   }
 
-  // Apple-like scale: tight tracking on large sizes, relaxed on body.
+  // Scale taken from the Stitch design.
   static TextTheme _textTheme(AppPalette p) {
-    TextStyle style(double size, FontWeight weight, double tracking) =>
-        TextStyle(
-          fontFamily: fontFamily,
-          fontSize: size,
-          fontWeight: weight,
-          letterSpacing: tracking,
-          color: p.label,
-          height: 1.2,
-        );
+    TextStyle style(
+      double size,
+      FontWeight weight,
+      double tracking, {
+      double? height,
+      Color? color,
+    }) => TextStyle(
+      fontFamily: fontFamily,
+      fontSize: size,
+      fontWeight: weight,
+      letterSpacing: tracking,
+      height: height,
+      color: color ?? p.label,
+    );
 
     return TextTheme(
-      displayLarge: style(56, FontWeight.w700, -1.6),
-      displayMedium: style(44, FontWeight.w700, -1.2),
-      headlineLarge: style(34, FontWeight.w700, -0.8),
-      headlineMedium: style(28, FontWeight.w700, -0.6),
-      headlineSmall: style(24, FontWeight.w600, -0.5),
-      titleLarge: style(20, FontWeight.w600, -0.4),
-      titleMedium: style(17, FontWeight.w600, -0.4),
-      titleSmall: style(15, FontWeight.w600, -0.2),
-      bodyLarge: style(17, FontWeight.w400, -0.4),
-      bodyMedium: style(15, FontWeight.w400, -0.2),
+      // Big light numerals, e.g. "1.2 GB".
+      displayLarge: style(48, FontWeight.w300, -1.2, height: 1),
+      displayMedium: style(40, FontWeight.w300, -1, height: 1.1),
+      headlineLarge: style(24, FontWeight.w700, -0.6, height: 1.33),
+      headlineMedium: style(26, FontWeight.w600, -0.65, height: 1.23),
+      headlineSmall: style(22, FontWeight.w600, -0.5, height: 1.27),
+      titleLarge: style(20, FontWeight.w600, -0.4, height: 1.3),
+      titleMedium: style(17, FontWeight.w600, -0.26, height: 1.25),
+      titleSmall: style(14, FontWeight.w600, -0.2, height: 1.5),
+      bodyLarge: style(15, FontWeight.w400, -0.15, height: 1.45),
+      bodyMedium: style(14, FontWeight.w500, -0.1, height: 1.43),
       bodySmall: style(
-        13,
+        12,
         FontWeight.w400,
-        -0.1,
-      ).copyWith(color: p.secondaryLabel),
-      labelLarge: style(17, FontWeight.w600, -0.4),
-      labelMedium: style(13, FontWeight.w600, 0),
+        0,
+        height: 1.33,
+        color: p.secondaryLabel,
+      ),
+      labelLarge: style(15, FontWeight.w600, -0.15),
+      labelMedium: style(
+        12,
+        FontWeight.w500,
+        0,
+        height: 1.33,
+        color: p.secondaryLabel,
+      ),
+      // Section headers: uppercase, tracked.
       labelSmall: style(
-        11,
+        12,
         FontWeight.w600,
         0.6,
-      ).copyWith(color: p.secondaryLabel),
+        height: 1.33,
+        color: p.secondaryLabel,
+      ),
     );
   }
 }

@@ -1,19 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:snap_sweep/features/gallery/gallery_service.dart';
 import 'package:snap_sweep/features/swipe/swipe_session.dart';
 
 import 'helpers.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late ProviderContainer container;
 
-  setUp(() {
-    container = ProviderContainer(
-      overrides: [
-        galleryServiceProvider.overrideWithValue(FakeGalleryService()),
-      ],
-    );
+  setUp(() async {
+    container = ProviderContainer(overrides: await testOverrides());
     // Keep the auto-disposed session alive during the test.
     container.listen(swipeSessionProvider, (_, _) {});
   });

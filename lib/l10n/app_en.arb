@@ -5,15 +5,18 @@
   "backToHome": "Back to home",
   "retry": "Try again",
   "close": "Close",
-  "continueAction": "Continue",
+  "notNow": "Not Now",
+  "privacyFootnote": "Photos never leave your device",
 
-  "welcomeTitle": "Welcome to SnapSweep",
-  "onboardingSwipeTitle": "Swipe to clean",
-  "onboardingSwipeBody": "Left to delete, right to keep. Your gallery, sorted in minutes.",
-  "onboardingReviewTitle": "Nothing lost by mistake",
-  "onboardingReviewBody": "Review your picks before anything is deleted, and undo any swipe.",
-  "onboardingPrivacyTitle": "Private by design",
-  "onboardingPrivacyBody": "Your photos never leave your phone. No uploads, no servers.",
+  "onboardingTitle": "Clear space.\nKeep memories.",
+  "onboardingSubtitle": "Review forgotten photos with a quick swipe.",
+  "onboardingTriageTitle": "Effortless triage",
+  "onboardingTriageBody": "Swipe right to keep, left to clear",
+  "onboardingUndoTitle": "Nothing lost by mistake",
+  "onboardingUndoBody": "Review your picks and undo any swipe",
+  "onboardingStorageTitle": "Instant storage recovery",
+  "onboardingStorageBody": "Watch reclaimed space tally up as you go",
+  "onboardingAllow": "Allow Photo Access",
 
   "permissionTitle": "Allow access to your photos",
   "permissionBody": "SnapSweep needs gallery access to show your photos. They never leave your phone.",
@@ -21,17 +24,82 @@
   "limitedAccessBody": "SnapSweep can only see the photos you selected.",
   "limitedAccessAction": "Allow all",
 
-  "homeSwipesLeftToday": "left today",
-  "homeStartSwiping": "Start swiping",
-  "homeSpaceFreed": "Space freed",
-  "homePhotosCleaned": "Photos cleaned",
-  "homeSmartCleanup": "Smart cleanup",
+  "greetingMorning": "Good morning",
+  "greetingAfternoon": "Good afternoon",
+  "greetingEvening": "Good evening",
+  "homeStorageReclaimed": "Storage reclaimed",
+  "homeThisWeek": "+{size} this week",
+  "@homeThisWeek": {
+    "placeholders": {
+      "size": { "type": "String" }
+    }
+  },
+  "homeCleaned": "Cleaned",
+  "homeCleanedValue": "{count, plural, =1{1 photo} other{{count} photos}}",
+  "@homeCleanedValue": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "homeSessions": "Sessions",
+  "homeAverageSize": "Avg. size",
+  "homeDailySession": "Daily session",
+  "homeResetsIn": "Resets in {hours}h {minutes}m",
+  "@homeResetsIn": {
+    "placeholders": {
+      "hours": { "type": "int" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "homeReviewsAvailable": "{count} reviews available today",
+  "@homeReviewsAvailable": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "homeStartCleaning": "Start cleaning",
+  "homeBatchOf": "Batch of {count}",
+  "@homeBatchOf": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "homeGetMore": "Get more",
+  "homeSmartCategories": "Smart categories",
+
+  "outOfSwipesTitle": "That's it for today",
+  "outOfSwipesBody": "Your free reviews reset in {hours}h {minutes}m. Want to keep going?",
+  "@outOfSwipesBody": {
+    "placeholders": {
+      "hours": { "type": "int" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "outOfSwipesWatchAd": "Watch an ad for +{count}",
+  "@outOfSwipesWatchAd": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "outOfSwipesGoPro": "Go unlimited with Pro",
+  "pro": "Pro",
+  "soon": "Soon",
+  "proCardTitle": "Unlimited cleaning",
+  "proCardBody": "Remove the daily limit and unlock smart categories.",
+  "upgrade": "Upgrade",
 
   "categoryScreenshots": "Screenshots",
-  "categoryVideos": "Videos",
+  "categoryScreenshotsHint": "Receipts, memes and old chats",
+  "categoryVideos": "Large videos",
+  "categoryVideosHint": "The biggest space hogs",
   "categoryScreenRecordings": "Screen recordings",
+  "categoryScreenRecordingsHint": "Forgotten recordings",
   "categoryDateRange": "Date range",
-  "pro": "PRO",
+  "categoryDateRangeHint": "Clean up a month or a trip",
+  "categoryDuplicates": "Duplicates & similar",
+  "categoryDuplicatesHint": "Twin shots and bursts",
+  "categoryBlurry": "Blurry photos",
+  "categoryBlurryHint": "Out of focus and motion blur",
 
   "settingsTitle": "Settings",
   "settingsRestore": "Restore purchases",
@@ -39,10 +107,24 @@
   "settingsRate": "Rate SnapSweep",
   "settingsContact": "Contact us",
 
+  "swipeCounter": "{current} of {total}",
+  "@swipeCounter": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "swipeSubtitle": "Today's photos",
   "swipeFinish": "Finish",
   "swipeDelete": "Delete",
   "swipeKeep": "Keep",
   "swipeUndo": "Undo",
+  "swipeMarkedToast": "Marked • {size}",
+  "@swipeMarkedToast": {
+    "placeholders": {
+      "size": { "type": "String" }
+    }
+  },
   "swipeNoPhotos": "No photos found in your gallery",
   "swipeLoadError": "Couldn't load your photos",
   "swipeDoneTitle": "All done",
@@ -59,21 +141,41 @@
     }
   },
 
-  "reviewTitle": "Review",
+  "reviewTitle": "Review deletions",
   "reviewEmpty": "Nothing marked for deletion",
-  "reviewSelectedCount": "{count} selected",
-  "@reviewSelectedCount": {
+  "reviewSelectedOf": "{selected} of {total} selected",
+  "@reviewSelectedOf": {
+    "placeholders": {
+      "selected": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "reviewPhotosSelected": "{count, plural, =1{1 photo selected} other{{count} photos selected}}",
+  "@reviewPhotosSelected": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "reviewHint": "Tap a photo to keep it.",
+  "reviewMarkedSize": "{size} marked to purge",
+  "@reviewMarkedSize": {
+    "placeholders": {
+      "size": { "type": "String" }
+    }
+  },
+  "reviewSelectAll": "Select all",
+  "reviewDeselectAll": "Deselect all",
+  "reviewKept": "Kept",
+  "reviewTrashNotePrefix": "Photos go to your gallery's ",
+  "reviewTrashNoteBold": "Recently Deleted",
+  "reviewTrashNoteSuffix": ". You usually have 30 days to recover them.",
+  "reviewHint": "Tap any photo to deselect or protect it",
   "reviewDeleteAction": "{count, plural, =1{Delete 1 photo} other{Delete {count} photos}}",
   "@reviewDeleteAction": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
+  "reviewKeepAll": "Keep all",
   "reviewNothingSelected": "Nothing selected",
   "reviewDeleteCancelled": "Nothing was deleted.",
   "reviewDeleteFailed": "Couldn't delete the photos. Please try again.",

@@ -25,31 +25,40 @@ class AppLocalizationsTr extends AppLocalizations {
   String get close => 'Kapat';
 
   @override
-  String get continueAction => 'Devam et';
+  String get notNow => 'Şimdi değil';
 
   @override
-  String get welcomeTitle => 'SnapSweep\'e hoş geldin';
+  String get privacyFootnote => 'Fotoğrafların cihazından asla çıkmaz';
 
   @override
-  String get onboardingSwipeTitle => 'Kaydır, temizle';
+  String get onboardingTitle => 'Yer aç.\nAnılarını koru.';
 
   @override
-  String get onboardingSwipeBody =>
-      'Silmek için sola, tutmak için sağa. Galerin dakikalar içinde düzenlenir.';
+  String get onboardingSubtitle =>
+      'Unutulmuş fotoğraflarını hızlıca kaydırarak gözden geçir.';
 
   @override
-  String get onboardingReviewTitle => 'Yanlışlıkla hiçbir şey silinmez';
+  String get onboardingTriageTitle => 'Zahmetsiz ayıklama';
 
   @override
-  String get onboardingReviewBody =>
-      'Silmeden önce seçimlerini gözden geçir, istediğin kaydırmayı geri al.';
+  String get onboardingTriageBody =>
+      'Tutmak için sağa, silmek için sola kaydır';
 
   @override
-  String get onboardingPrivacyTitle => 'Gizliliğin önce gelir';
+  String get onboardingUndoTitle => 'Yanlışlıkla hiçbir şey silinmez';
 
   @override
-  String get onboardingPrivacyBody =>
-      'Fotoğrafların telefonundan asla çıkmaz. Yükleme yok, sunucu yok.';
+  String get onboardingUndoBody =>
+      'Seçimlerini gözden geçir, istediğini geri al';
+
+  @override
+  String get onboardingStorageTitle => 'Anında yer kazan';
+
+  @override
+  String get onboardingStorageBody => 'Boşalttığın alanı anbean takip et';
+
+  @override
+  String get onboardingAllow => 'Fotoğraflara erişim ver';
 
   @override
   String get permissionTitle => 'Fotoğraflarına erişim izni ver';
@@ -69,34 +78,130 @@ class AppLocalizationsTr extends AppLocalizations {
   String get limitedAccessAction => 'Tümüne izin ver';
 
   @override
-  String get homeSwipesLeftToday => 'bugün kaldı';
+  String get greetingMorning => 'Günaydın';
 
   @override
-  String get homeStartSwiping => 'Kaydırmaya başla';
+  String get greetingAfternoon => 'İyi günler';
 
   @override
-  String get homeSpaceFreed => 'Boşaltılan alan';
+  String get greetingEvening => 'İyi akşamlar';
 
   @override
-  String get homePhotosCleaned => 'Silinen fotoğraf';
+  String get homeStorageReclaimed => 'Kazanılan alan';
 
   @override
-  String get homeSmartCleanup => 'Akıllı temizlik';
+  String homeThisWeek(String size) {
+    return 'Bu hafta +$size';
+  }
+
+  @override
+  String get homeCleaned => 'Silinen';
+
+  @override
+  String homeCleanedValue(int count) {
+    return '$count fotoğraf';
+  }
+
+  @override
+  String get homeSessions => 'Oturum';
+
+  @override
+  String get homeAverageSize => 'Ort. boyut';
+
+  @override
+  String get homeDailySession => 'Günlük oturum';
+
+  @override
+  String homeResetsIn(int hours, int minutes) {
+    return '$hours sa $minutes dk sonra yenilenir';
+  }
+
+  @override
+  String homeReviewsAvailable(int count) {
+    return 'Bugün $count fotoğraf hakkın var';
+  }
+
+  @override
+  String get homeStartCleaning => 'Temizliğe başla';
+
+  @override
+  String homeBatchOf(int count) {
+    return '$count fotoğraf';
+  }
+
+  @override
+  String get homeGetMore => 'Daha fazla al';
+
+  @override
+  String get homeSmartCategories => 'Akıllı kategoriler';
+
+  @override
+  String get outOfSwipesTitle => 'Bugünlük bu kadar';
+
+  @override
+  String outOfSwipesBody(int hours, int minutes) {
+    return 'Ücretsiz hakların $hours sa $minutes dk sonra yenilenir. Devam etmek ister misin?';
+  }
+
+  @override
+  String outOfSwipesWatchAd(int count) {
+    return 'Reklam izle, +$count hak kazan';
+  }
+
+  @override
+  String get outOfSwipesGoPro => 'Pro ile sınırsız temizle';
+
+  @override
+  String get pro => 'Pro';
+
+  @override
+  String get soon => 'Yakında';
+
+  @override
+  String get proCardTitle => 'Sınırsız temizlik';
+
+  @override
+  String get proCardBody =>
+      'Günlük sınırı kaldır, akıllı kategorilerin kilidini aç.';
+
+  @override
+  String get upgrade => 'Yükselt';
 
   @override
   String get categoryScreenshots => 'Ekran görüntüleri';
 
   @override
-  String get categoryVideos => 'Videolar';
+  String get categoryScreenshotsHint => 'Fişler, capsler, eski yazışmalar';
+
+  @override
+  String get categoryVideos => 'Büyük videolar';
+
+  @override
+  String get categoryVideosHint => 'En çok yer kaplayanlar';
 
   @override
   String get categoryScreenRecordings => 'Ekran kayıtları';
 
   @override
+  String get categoryScreenRecordingsHint => 'Unutulmuş kayıtlar';
+
+  @override
   String get categoryDateRange => 'Tarih aralığı';
 
   @override
-  String get pro => 'PRO';
+  String get categoryDateRangeHint => 'Bir ayı ya da tatili temizle';
+
+  @override
+  String get categoryDuplicates => 'Kopya ve benzerler';
+
+  @override
+  String get categoryDuplicatesHint => 'İkiz kareler ve seri çekimler';
+
+  @override
+  String get categoryBlurry => 'Bulanık fotoğraflar';
+
+  @override
+  String get categoryBlurryHint => 'Odak dışı ve titrek kareler';
 
   @override
   String get settingsTitle => 'Ayarlar';
@@ -114,6 +219,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsContact => 'Bize ulaş';
 
   @override
+  String swipeCounter(int current, int total) {
+    return '$current / $total';
+  }
+
+  @override
+  String get swipeSubtitle => 'Bugünün fotoğrafları';
+
+  @override
   String get swipeFinish => 'Bitir';
 
   @override
@@ -124,6 +237,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get swipeUndo => 'Geri al';
+
+  @override
+  String swipeMarkedToast(String size) {
+    return 'İşaretlendi • $size';
+  }
 
   @override
   String get swipeNoPhotos => 'Galerinde fotoğraf bulunamadı';
@@ -151,23 +269,55 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get reviewTitle => 'Gözden geçir';
+  String get reviewTitle => 'Silinecekler';
 
   @override
   String get reviewEmpty => 'Silinecek fotoğraf yok';
 
   @override
-  String reviewSelectedCount(int count) {
-    return '$count seçili';
+  String reviewSelectedOf(int selected, int total) {
+    return '$total fotoğraftan $selected seçili';
   }
 
   @override
-  String get reviewHint => 'Tutmak istediğin fotoğrafa dokun.';
+  String reviewPhotosSelected(int count) {
+    return '$count fotoğraf seçili';
+  }
+
+  @override
+  String reviewMarkedSize(String size) {
+    return '$size silinecek';
+  }
+
+  @override
+  String get reviewSelectAll => 'Tümünü seç';
+
+  @override
+  String get reviewDeselectAll => 'Seçimi kaldır';
+
+  @override
+  String get reviewKept => 'Tutuldu';
+
+  @override
+  String get reviewTrashNotePrefix => 'Fotoğraflar galerinin ';
+
+  @override
+  String get reviewTrashNoteBold => 'Son Silinenler';
+
+  @override
+  String get reviewTrashNoteSuffix =>
+      ' klasörüne gider. Genellikle 30 gün içinde geri alabilirsin.';
+
+  @override
+  String get reviewHint => 'Korumak istediğin fotoğrafa dokun';
 
   @override
   String reviewDeleteAction(int count) {
     return '$count fotoğrafı sil';
   }
+
+  @override
+  String get reviewKeepAll => 'Hepsini tut';
 
   @override
   String get reviewNothingSelected => 'Seçili fotoğraf yok';

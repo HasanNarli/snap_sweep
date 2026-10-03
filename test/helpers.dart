@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snap_sweep/app.dart';
+import 'package:snap_sweep/core/clock.dart';
 import 'package:snap_sweep/core/storage/preferences.dart';
 import 'package:snap_sweep/features/gallery/gallery_access_provider.dart';
 import 'package:snap_sweep/features/gallery/gallery_photo.dart';
@@ -57,24 +57,34 @@ class FakeGalleryService implements GalleryService {
   }
 }
 
-Future<List<Override>> testOverrides({
-  required FakeGalleryService gallery,
-  bool onboarded = false,
-}) async {
-  SharedPreferences.setMockInitialValues({'onboarding_done': onboarded});
-  final prefs = await SharedPreferences.getInstance();
-  return [
-    sharedPreferencesProvider.overrideWithValue(prefs),
-    galleryServiceProvider.overrideWithValue(gallery),
-    initialGalleryAccessProvider.overrideWithValue(gallery.access),
-  ];
+// Fixed "now" for tests: a Sunday morning.
+final testNow = DateTime(2026, 10, 4, 10);
+
+// Settable clock for day-rollover tests.
+class TestClock {
+  DateTime now = testNow;
+  DateTime call() => now;
 }
 
-// Stops looping animations so pumpAndSettle can finish.
-void reduceMotion(WidgetTester tester) {
-  tester.platformDispatcher.accessibilityFeaturesTestValue =
-      const FakeAccessibilityFeatures(disableAnimations: true);
-  addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+Future<List<Override>> testOverrides({
+  FakeGalleryService? gallery,
+  bool onboarded = false,
+  Map<String, Object> prefs = const {},
+  TestClock? clock,
+}) async {
+  final fake = gallery ?? FakeGalleryService(access: GalleryAccess.granted);
+  final time = clock ?? TestClock();
+  SharedPreferences.setMockInitialValues({
+    'onboarding_done': onboarded,
+    ...prefs,
+  });
+  final instance = await SharedPreferences.getInstance();
+  return [
+    sharedPreferencesProvider.overrideWithValue(instance),
+    galleryServiceProvider.overrideWithValue(fake),
+    initialGalleryAccessProvider.overrideWithValue(fake.access),
+    clockProvider.overrideWithValue(time.call),
+  ];
 }
 
 Widget testApp(List<Override> overrides) =>

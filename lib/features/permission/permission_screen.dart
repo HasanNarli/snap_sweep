@@ -31,10 +31,10 @@ class PermissionScreen extends ConsumerWidget {
           child: Column(
             children: [
               const Spacer(),
-              IconTile(
-                icon: Icons.photo_library_rounded,
-                color: context.palette.accent,
-                size: 96,
+              const IconTile(
+                icon: Icons.photo_library_outlined,
+                size: 88,
+                round: true,
               ),
               const SizedBox(height: AppSpacing.xl),
               Text(
@@ -46,7 +46,8 @@ class PermissionScreen extends ConsumerWidget {
               Text(
                 l10n.permissionBody,
                 textAlign: TextAlign.center,
-                style: textTheme.bodyLarge?.copyWith(
+                style: textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w400,
                   color: context.palette.secondaryLabel,
                 ),
               ),

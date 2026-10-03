@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/extensions/context_x.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../shared/widgets/activity_ring.dart';
+import '../../shared/widgets/grouped_section.dart';
 import 'cleanup_result.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -38,45 +38,52 @@ class _ResultScreenState extends State<ResultScreen> {
           child: Column(
             children: [
               const Spacer(),
-              ActivityRing(
-                progress: 1,
-                color: palette.keep,
-                trackColor: palette.keep.withValues(alpha: 0.12),
-                size: 180,
-                stroke: 18,
-                child: Icon(Icons.check_rounded, size: 72, color: palette.keep),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              Text(l10n.resultTitle, style: textTheme.headlineMedium),
+              const IconTile(icon: Icons.check_rounded, size: 88, round: true),
               const SizedBox(height: AppSpacing.lg),
+              Text(l10n.resultTitle, style: textTheme.headlineMedium),
+              const SizedBox(height: AppSpacing.xl),
               // Counts up to the freed amount.
               TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0, end: result.bytesFreed.toDouble()),
                 duration: const Duration(milliseconds: 1200),
                 curve: Curves.easeOutCubic,
-                builder: (context, value, _) => Text(
-                  context.formatSize(value.round()),
-                  style: textTheme.displayMedium,
-                ),
+                builder: (context, value, _) {
+                  final (number, unit) = context.formatSizeParts(value.round());
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        number,
+                        style: textTheme.displayLarge?.copyWith(fontSize: 64),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        unit,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                          color: palette.secondaryLabel,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
-              Text(
-                l10n.resultFreed,
-                style: textTheme.bodyLarge?.copyWith(
-                  color: palette.secondaryLabel,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xs),
+              const SizedBox(height: AppSpacing.sm),
+              Text(l10n.resultFreed, style: textTheme.labelMedium),
               Text(
                 l10n.resultDeletedCount(result.photosDeleted),
-                style: textTheme.bodyLarge?.copyWith(
-                  color: palette.secondaryLabel,
-                ),
+                style: textTheme.labelMedium,
               ),
               const Spacer(),
               Text(
                 l10n.resultRestoreHint,
                 textAlign: TextAlign.center,
-                style: textTheme.bodySmall,
+                style: textTheme.bodySmall?.copyWith(
+                  color: palette.tertiaryLabel,
+                ),
               ),
               const SizedBox(height: AppSpacing.md),
               FilledButton(

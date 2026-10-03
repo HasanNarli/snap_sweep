@@ -5,25 +5,23 @@ import 'helpers.dart';
 
 void main() {
   testWidgets('onboarding asks for access and lands on home', (tester) async {
-    reduceMotion(tester);
     final gallery = FakeGalleryService();
     await tester.pumpWidget(testApp(await testOverrides(gallery: gallery)));
     await tester.pumpAndSettle();
-    expect(find.text('Swipe to clean'), findsOneWidget);
+    expect(find.text('Allow Photo Access'), findsOneWidget);
 
-    await tester.tap(find.text('Continue'));
+    await tester.tap(find.text('Allow Photo Access'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Start swiping'), findsOneWidget);
+    expect(find.text('Start cleaning'), findsOneWidget);
   });
 
   testWidgets('denied access shows the permission screen', (tester) async {
-    reduceMotion(tester);
     final gallery = FakeGalleryService(accessOnRequest: GalleryAccess.denied);
     await tester.pumpWidget(testApp(await testOverrides(gallery: gallery)));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Continue'));
+    await tester.tap(find.text('Allow Photo Access'));
     await tester.pumpAndSettle();
     expect(find.text('Allow access to your photos'), findsOneWidget);
 
@@ -33,6 +31,18 @@ void main() {
     expect(gallery.openSettingsCalls, 1);
   });
 
+  testWidgets('not now skips the prompt and shows the permission screen', (
+    tester,
+  ) async {
+    final gallery = FakeGalleryService();
+    await tester.pumpWidget(testApp(await testOverrides(gallery: gallery)));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Not Now'));
+    await tester.pumpAndSettle();
+    expect(find.text('Allow access to your photos'), findsOneWidget);
+  });
+
   testWidgets('returning user with access starts on home', (tester) async {
     final gallery = FakeGalleryService(access: GalleryAccess.limited);
     await tester.pumpWidget(
@@ -40,7 +50,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Start swiping'), findsOneWidget);
+    expect(find.text('Start cleaning'), findsOneWidget);
     expect(
       find.text('SnapSweep can only see the photos you selected.'),
       findsOneWidget,

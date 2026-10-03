@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/config/app_config.dart';
 import '../gallery/gallery_photo.dart';
 import '../gallery/gallery_service.dart';
+import '../quota/daily_quota.dart';
 
 @immutable
 class SwipeDecision {
@@ -15,10 +18,17 @@ class SwipeDecision {
 
 @immutable
 class SwipeSession {
-  const SwipeSession({required this.photos, this.decisions = const []});
+  const SwipeSession({
+    required this.photos,
+    this.decisions = const [],
+    this.quotaExhausted = false,
+  });
 
   final List<GalleryPhoto> photos;
   final List<SwipeDecision> decisions;
+
+  // No swipes left today; nothing was loaded.
+  final bool quotaExhausted;
 
   int get index => decisions.length;
   bool get isDone => index >= photos.length;
@@ -41,16 +51,23 @@ final swipeSessionProvider =
 class SwipeSessionNotifier extends AsyncNotifier<SwipeSession> {
   @override
   Future<SwipeSession> build() async {
-    // TODO(phase-4): use the remaining daily quota instead of the full limit.
+    // Batch size is whatever is left of today's quota.
+    ref.read(dailyQuotaProvider.notifier).ensureToday();
+    final remaining = ref.read(dailyQuotaProvider).remaining;
+    if (remaining == 0) {
+      return const SwipeSession(photos: [], quotaExhausted: true);
+    }
+
     final photos = await ref
         .read(galleryServiceProvider)
-        .randomPhotos(AppConfig.freeDailySwipes);
+        .randomPhotos(min(remaining, AppConfig.freeDailySwipes));
     return SwipeSession(photos: photos);
   }
 
   void decide({required bool delete}) {
     final session = state.value;
     if (session == null || session.isDone) return;
+    ref.read(dailyQuotaProvider.notifier).consume();
     final photo = session.photos[session.index];
     state = AsyncData(
       session.withDecisions([
@@ -63,6 +80,7 @@ class SwipeSessionNotifier extends AsyncNotifier<SwipeSession> {
   void undo() {
     final session = state.value;
     if (session == null || !session.canUndo) return;
+    ref.read(dailyQuotaProvider.notifier).refund();
     state = AsyncData(
       session.withDecisions(
         session.decisions.sublist(0, session.decisions.length - 1),

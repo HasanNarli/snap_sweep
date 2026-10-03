@@ -12,23 +12,23 @@ void main() {
       testApp(await testOverrides(gallery: gallery, onboarded: true)),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Start swiping'));
+    await tester.tap(find.text('Start cleaning'));
     await tester.pumpAndSettle();
   }
 
   testWidgets('buttons swipe through cards and undo', (tester) async {
     final gallery = FakeGalleryService(access: GalleryAccess.granted);
     await openSwipe(tester, gallery);
-    expect(find.text('1 / 3'), findsOneWidget);
+    expect(find.text('1 of 3'), findsOneWidget);
 
     await tester.tap(find.byTooltip('Delete'));
     await tester.pumpAndSettle();
-    expect(find.text('2 / 3'), findsOneWidget);
+    expect(find.text('2 of 3'), findsOneWidget);
     expect(find.text('Finish'), findsOneWidget);
 
     await tester.tap(find.byTooltip('Undo'));
     await tester.pumpAndSettle();
-    expect(find.text('1 / 3'), findsOneWidget);
+    expect(find.text('1 of 3'), findsOneWidget);
   });
 
   testWidgets('finishing the stack offers review', (tester) async {
@@ -47,7 +47,7 @@ void main() {
 
     await tester.tap(find.text('Review 2'));
     await tester.pumpAndSettle();
-    expect(find.text('Delete 2 photos  ·  4.0 MB'), findsOneWidget);
+    expect(find.text('Delete 2 photos (4.0 MB)'), findsOneWidget);
   });
 
   testWidgets('empty gallery shows a message', (tester) async {

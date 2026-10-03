@@ -3,52 +3,58 @@ import 'package:flutter/material.dart';
 import '../../core/extensions/context_x.dart';
 import '../../core/theme/app_spacing.dart';
 
-// iOS Settings style inset group with hairline separators.
+// Grouped list card with an optional uppercase header.
 class GroupedSection extends StatelessWidget {
-  const GroupedSection({super.key, required this.children, this.header});
+  const GroupedSection({
+    super.key,
+    required this.children,
+    this.header,
+    this.headerTrailing,
+  });
 
   final List<Widget> children;
   final String? header;
+  final String? headerTrailing;
 
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final textTheme = context.theme.textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (header != null)
           Padding(
             padding: const EdgeInsets.fromLTRB(
-              AppSpacing.md,
+              AppSpacing.xs,
               0,
-              AppSpacing.md,
+              AppSpacing.xs,
               AppSpacing.sm,
             ),
-            child: Text(
-              header!.toUpperCase(),
-              style: context.theme.textTheme.labelSmall,
-            ),
-          ),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: palette.surface,
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-            boxShadow: palette.softShadow,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-            child: Column(
+            child: Row(
               children: [
-                for (var i = 0; i < children.length; i++) ...[
-                  if (i > 0)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Divider(height: 0.5, thickness: 0.5),
-                    ),
-                  children[i],
-                ],
+                Expanded(
+                  child: Text(
+                    header!.toUpperCase(),
+                    style: textTheme.labelSmall,
+                  ),
+                ),
+                if (headerTrailing != null)
+                  Text(headerTrailing!, style: textTheme.labelMedium),
               ],
             ),
+          ),
+        Container(
+          decoration: palette.card(),
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              for (var i = 0; i < children.length; i++) ...[
+                if (i > 0)
+                  Divider(color: palette.border.withValues(alpha: 0.6)),
+                children[i],
+              ],
+            ],
           ),
         ),
       ],
@@ -60,102 +66,140 @@ class GroupedRow extends StatelessWidget {
   const GroupedRow({
     super.key,
     required this.icon,
-    required this.iconColor,
     required this.title,
-    this.trailing,
+    this.subtitle,
+    this.badge,
+    this.locked = false,
+    this.enabled = true,
     this.onTap,
   });
 
   final IconData icon;
-  final Color iconColor;
   final String title;
-  final Widget? trailing;
+  final String? subtitle;
+  final Widget? badge;
+  final bool locked;
+  final bool enabled;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: 12,
-        ),
-        child: Row(
-          children: [
-            IconTile(icon: icon, color: iconColor),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Text(title, style: context.theme.textTheme.bodyLarge),
-            ),
-            ?trailing,
-            if (onTap != null) ...[
-              const SizedBox(width: AppSpacing.sm),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: palette.secondaryLabel.withValues(alpha: 0.6),
+    final textTheme = context.theme.textTheme;
+    return Opacity(
+      opacity: enabled ? 1 : 0.55,
+      child: InkWell(
+        onTap: enabled ? onTap : null,
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Row(
+            children: [
+              IconTile(icon: icon),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            title,
+                            style: textTheme.bodyMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (badge != null) ...[
+                          const SizedBox(width: 6),
+                          badge!,
+                        ],
+                      ],
+                    ),
+                    if (subtitle != null)
+                      Text(
+                        subtitle!,
+                        style: textTheme.bodySmall,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ],
+                ),
               ),
+              if (locked) ...[
+                Icon(
+                  Icons.lock_outline_rounded,
+                  size: 15,
+                  color: palette.tertiaryLabel,
+                ),
+                const SizedBox(width: 6),
+              ],
+              if (onTap != null)
+                Icon(
+                  Icons.chevron_right_rounded,
+                  size: 20,
+                  color: palette.tertiaryLabel,
+                ),
             ],
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-// Small rounded-square icon, like iOS Settings.
+// Neutral rounded-square icon holder.
 class IconTile extends StatelessWidget {
   const IconTile({
     super.key,
     required this.icon,
-    required this.color,
-    this.size = 30,
+    this.size = 40,
+    this.round = false,
   });
 
   final IconData icon;
-  final Color color;
   final double size;
+  final bool round;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(size * 0.25),
+        color: palette.fill,
+        borderRadius: round ? null : BorderRadius.circular(size * 0.3),
+        shape: round ? BoxShape.circle : BoxShape.rectangle,
+        border: round
+            ? Border.all(color: palette.border.withValues(alpha: 0.6))
+            : null,
       ),
-      child: Icon(icon, color: Colors.white, size: size * 0.6),
+      child: Icon(icon, color: palette.label, size: size * 0.48),
     );
   }
 }
 
-// Small capsule label, e.g. "PRO".
-class CapsuleLabel extends StatelessWidget {
-  const CapsuleLabel({super.key, required this.text, required this.color});
+// Small square tag, e.g. "Pro" or "Soon".
+class TagLabel extends StatelessWidget {
+  const TagLabel({super.key, required this.text});
 
   final String text;
-  final Color color;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: 3,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(100),
+        color: palette.track,
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
         text,
         style: TextStyle(
-          color: color,
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 0.4,
+          color: palette.secondaryLabel,
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+          height: 1.5,
         ),
       ),
     );
