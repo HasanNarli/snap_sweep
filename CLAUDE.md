@@ -1,60 +1,65 @@
 # SnapSweep
 
-Tinder tarzı galeri temizleme uygulaması (Flutter, Android + iOS).
+Tinder-style photo gallery cleaner (Flutter, Android + iOS).
 Repo: https://github.com/HasanNarli/snap_sweep (private)
 
-## Proje kuralları
+## Project rules
 
-<!-- Kullanıcının genel geçer kuralları buraya. Her oturumda bunlara uy. -->
+- **Everything in English:** variables, functions, classes, files, folders, architecture names, comments, commit messages, branch names, docs. No Turkish identifiers anywhere in code.
+- **Comments:** short, one-line comments where they help. No long comment blocks.
+- **User-facing text** is the only exception: it is localized (TR + EN) via ARB files, never hard-coded in widgets.
+- **Chat with the user in Turkish.**
+- **Work autonomously:** the user may leave mid-task. Don't stop to ask for routine permissions or confirmations; finish the task, verify it (`flutter analyze`, build/tests), commit and push, then report. Ask only for real product decisions.
 
-## Ürün kararları
+## Product decisions
 
-- **Kaydırma:** sol = sil, sağ = kalsın. Kaydırma anında silmez; fotoğraf "silinecekler" listesine eklenir.
-- **Toplu silme:** Tur sonunda "Gözden geçir" ekranında liste gösterilir, tek sistem onayıyla hepsi silinir. Geri alma (undo) butonu var.
-- **Ücretsiz hak:** Günde 15 rastgele fotoğraf (gruplanmamış, tüm galeriden). Ödüllü reklam izleyene +10, günde en fazla 2 reklam.
-- **Premium (abonelik):** Sınırsız kaydırma + filtreler: ekran görüntüleri, ekran kayıtları, videolar, tarih aralığı. Benzer/aynı fotoğraf bulma v1.1'e ertelendi.
-- **Fiyatlandırma:** Yıllık + ömür boyu (tek seferlik). Haftalık abonelik YOK. TR pazarında rekabetçi fiyat; kesin TL fiyatı yayına yakın belirlenecek.
-- **Konumlandırma:** "Fotoğrafların telefonundan asla çıkmaz" (sunucu yok), boşaltılan alanı (MB/GB) göster, reklamsız sade deneyim (sadece kullanıcının seçtiği ödüllü reklam).
-- **İzinler:** Tam galeri erişimi istenir; kısıtlı (iOS "seçili fotoğraflar", Android 14 kısmi) ve reddedilmiş durumlar düzgün ele alınmalı.
+- **Swipe:** left = delete, right = keep. Swiping does not delete immediately; the photo is added to a "to delete" list.
+- **Batch delete:** At the end of a session a "Review" screen lists the marked photos; one system confirmation deletes them all. Undo button available while swiping.
+- **Free tier:** 15 random photos per day (ungrouped, from the whole gallery). Rewarded ad grants +10, max 2 ads per day.
+- **Premium (subscription):** Unlimited swipes + filters: screenshots, screen recordings, videos, date range. Similar/duplicate detection deferred to v1.1.
+- **Pricing:** Yearly + lifetime (one-time). NO weekly plan. Competitive TR pricing; exact TRY prices set near release.
+- **Positioning:** "Your photos never leave your phone" (no server), show freed space (MB/GB), clean experience (only user-initiated rewarded ads, no banners/interstitials).
+- **Permissions:** Request full gallery access; handle limited (iOS "selected photos", Android 14 partial) and denied states properly.
 
-## Ekranlar (minimum sayıda)
+## Screens (keep the count minimal)
 
-1. **Karşılama + izin** – 2-3 tanıtım sayfası, son sayfada izin isteği; red/kısıtlı durumda "Ayarlar'a git".
-2. **Ana ekran** – kalan günlük hak, toplam boşaltılan alan, "Kaydırmaya başla", kilitli premium kategori kartları.
-3. **Kaydırma** – kart destesi, undo, sayaç (7/15), tarih + dosya boyutu, "Bitir".
-4. **Gözden geçir & sil** – silinecekler grid'i, seçimden çıkarma, "12 fotoğrafı sil (340 MB)", sonuç/kutlama.
-5. **Paywall** – Faz 6.
-- **Ayarlar** – bottom sheet: satın alımı geri yükle, gizlilik politikası, puanla, iletişim.
+1. **Onboarding + permission** – 2-3 intro pages, permission request on the last; "Open Settings" on denied/limited.
+2. **Home** – remaining daily swipes, total freed space, "Start swiping", locked premium category cards.
+3. **Swipe** – card stack, undo, counter (7/15), date + file size, "Finish".
+4. **Review & delete** – grid of marked photos, deselect, "Delete 12 photos (340 MB)", result/celebration.
+5. **Paywall** – Phase 6.
+- **Settings** – bottom sheet: restore purchases, privacy policy, rate app, contact.
 
-Hak bitince: bottom sheet → [Reklam izle +10] / [Premium: sınırsız].
+Out of swipes: bottom sheet → [Watch ad +10] / [Premium: unlimited].
 
-## Teknik yığın
+## Tech stack
 
-- `photo_manager` – izin, asset listeleme, thumbnail, silme
-- `flutter_card_swiper` – kart destesi
+- `photo_manager` – permissions, asset listing, thumbnails, deletion
+- `flutter_card_swiper` – card stack
 - `flutter_riverpod` – state management
-- `shared_preferences` – günlük hak sayacı, istatistikler
-- `purchases_flutter` (RevenueCat) – abonelik (Faz 6)
-- `google_mobile_ads` – ödüllü reklam (Faz 6; iOS ATT + KVKK/GDPR onayı gerekir)
-- Lokalizasyon: TR + EN baştan (`flutter_localizations` + ARB)
-- Rastgele seçim: tüm galeriyi belleğe yükleme; toplam sayıyı al, rastgele indekslerden asset çek.
+- `shared_preferences` – daily swipe counter, stats
+- `purchases_flutter` (RevenueCat) – subscriptions (Phase 6)
+- `google_mobile_ads` – rewarded ads (Phase 6; needs iOS ATT + KVKK/GDPR consent)
+- Localization: TR + EN from the start (`flutter_localizations` + ARB)
+- Random pick: never load the whole gallery into memory; get the total count, fetch assets at random indexes.
 
-## Yol haritası
+## Roadmap
 
-- [ ] Faz 0 – Temel yapı: tema, klasör yapısı, routing, TR/EN
-- [ ] Faz 1 – Karşılama + izin (tam/kısıtlı/red)
-- [ ] Faz 2 – Kaydırma ekranı: rastgele 15, swipe, undo, silinecekler listesi
-- [ ] Faz 3 – Gözden geçir & toplu silme, boşalan alan, sonuç ekranı
-- [ ] Faz 4 – Ana ekran: günlük hak, istatistik, kilitli kategoriler
-- [ ] Faz 5 – Cilalama: ikon, splash, gerçek cihaz testi, büyük galeri performansı
-- [ ] Faz 6 – Premium (RevenueCat) + paywall + filtreler + ödüllü reklam
-- [ ] Faz 7 – Yayın: gizlilik politikası, mağaza görselleri, önce Android sonra iOS
-- [ ] v1.1 – Benzer/aynı fotoğraf tespiti
+- [ ] Phase 0 – Foundation: theme, folder structure, routing, TR/EN
+- [ ] Phase 1 – Onboarding + permission (full/limited/denied)
+- [ ] Phase 2 – Swipe screen: random 15, swipe, undo, to-delete list
+- [ ] Phase 3 – Review & batch delete, freed space, result screen
+- [ ] Phase 4 – Home: daily swipes, stats, locked categories
+- [ ] Phase 5 – Polish: icon, splash, real-device testing, large-gallery performance
+- [ ] Phase 6 – Premium (RevenueCat) + paywall + filters + rewarded ads
+- [ ] Phase 7 – Release: privacy policy, store assets, Android first then iOS
+- [ ] v1.1 – Similar/duplicate photo detection
 
-Bir faz bitince buradaki kutuyu işaretle.
+Tick the box when a phase is done.
 
-## Geliştirme ortamı
+## Dev environment
 
 - Windows (Android) + Mac (iOS build/test).
-- Tasarım: Google Stitch → Figma; Figma linki verilirse Figma MCP ile okunup Flutter'a aktarılır.
+- Design: Google Stitch → Figma; if a Figma link is given, read it via Figma MCP and implement in Flutter.
 - Bundle ID: `com.snapsweep.snap_sweep`
+- Claude Code permissions are pre-approved in `.claude/settings.json` (destructive git commands denied).
