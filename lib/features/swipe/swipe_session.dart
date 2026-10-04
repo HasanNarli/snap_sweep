@@ -61,7 +61,21 @@ class SwipeSessionNotifier extends AsyncNotifier<SwipeSession> {
     final photos = await ref
         .read(galleryServiceProvider)
         .randomPhotos(min(remaining, AppConfig.freeDailySwipes));
-    return SwipeSession(photos: photos);
+    final session = SwipeSession(photos: photos);
+    _prefetch(session);
+    return session;
+  }
+
+  // Warms the thumbnail cache for the top card and the next few.
+  void _prefetch(SwipeSession session) {
+    final gallery = ref.read(galleryServiceProvider);
+    final end = min(
+      session.index + AppConfig.prefetchAhead + 1,
+      session.photos.length,
+    );
+    for (final photo in session.photos.sublist(session.index, end)) {
+      gallery.thumbnail(photo.id, AppConfig.cardThumbnailSize).ignore();
+    }
   }
 
   void decide({required bool delete}) {
@@ -69,12 +83,12 @@ class SwipeSessionNotifier extends AsyncNotifier<SwipeSession> {
     if (session == null || session.isDone) return;
     ref.read(dailyQuotaProvider.notifier).consume();
     final photo = session.photos[session.index];
-    state = AsyncData(
-      session.withDecisions([
-        ...session.decisions,
-        SwipeDecision(photo, delete: delete),
-      ]),
-    );
+    final next = session.withDecisions([
+      ...session.decisions,
+      SwipeDecision(photo, delete: delete),
+    ]);
+    state = AsyncData(next);
+    _prefetch(next);
   }
 
   void undo() {

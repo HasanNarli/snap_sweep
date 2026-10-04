@@ -39,8 +39,14 @@ class FakeGalleryService implements GalleryService {
   Future<List<GalleryPhoto>> randomPhotos(int count) async =>
       photos.take(count).toList();
 
+  // Every thumbnail request, in order.
+  final thumbnailRequests = <String>[];
+
   @override
-  Future<Uint8List?> thumbnail(String id, int size) async => null;
+  Future<Uint8List?> thumbnail(String id, int size) async {
+    thumbnailRequests.add(id);
+    return null;
+  }
 
   @override
   Future<int?> fileSize(String id) async => 2 * 1024 * 1024;

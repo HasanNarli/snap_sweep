@@ -332,7 +332,7 @@ class _ReviewTile extends ConsumerWidget {
             AnimatedOpacity(
               opacity: selected ? 1 : 0,
               duration: const Duration(milliseconds: 150),
-              child: const ColoredBox(color: Color(0x26000000)),
+              child: ColoredBox(color: palette.photoDim),
             ),
             Positioned(
               top: 6,
@@ -345,17 +345,17 @@ class _ReviewTile extends ConsumerWidget {
                         color: palette.delete,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.check_rounded,
                         size: 13,
-                        color: Colors.white,
+                        color: palette.onSolid,
                       ),
                     )
-                  : const Frosted(
-                      tint: Color(0x4D000000),
-                      borderColor: Color(0x99FFFFFF),
+                  : Frosted(
+                      tint: palette.photoGlassSubtle,
+                      borderColor: palette.photoGlassSubtleBorder,
                       blur: 6,
-                      child: SizedBox.square(dimension: 18),
+                      child: const SizedBox.square(dimension: 18),
                     ),
             ),
             if (label != null)
@@ -371,8 +371,8 @@ class _ReviewTile extends ConsumerWidget {
                   ),
                   child: Text(
                     label,
-                    style: const TextStyle(
-                      color: Color(0xF2FFFFFF),
+                    style: TextStyle(
+                      color: palette.onPhoto,
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                       height: 1,
@@ -472,15 +472,7 @@ class _ActionPanel extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppRadius.md),
-        boxShadow: palette.isDark
-            ? null
-            : const [
-                BoxShadow(
-                  color: Color(0x0F000000),
-                  blurRadius: 20,
-                  offset: Offset(0, 8),
-                ),
-              ],
+        boxShadow: palette.floatingShadow,
       ),
       child: Frosted(
         radius: AppRadius.md,
@@ -493,7 +485,7 @@ class _ActionPanel extends StatelessWidget {
             FilledButton.icon(
               style: FilledButton.styleFrom(
                 backgroundColor: palette.delete,
-                foregroundColor: Colors.white,
+                foregroundColor: palette.onSolid,
                 minimumSize: const Size.fromHeight(48),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.sm),
@@ -501,11 +493,11 @@ class _ActionPanel extends StatelessWidget {
               ),
               onPressed: onDelete,
               icon: deleting
-                  ? const SizedBox.square(
+                  ? SizedBox.square(
                       dimension: 18,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: Colors.white,
+                        color: palette.onSolid,
                       ),
                     )
                   : const Icon(Icons.delete_outline_rounded, size: 18),

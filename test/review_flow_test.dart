@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snap_sweep/features/gallery/gallery_service.dart';
 import 'package:snap_sweep/shared/widgets/photo_thumbnail.dart';
@@ -27,8 +28,14 @@ void main() {
     final gallery = await openReview(tester);
     expect(find.text('Delete 2 photos (4.0 MB)'), findsOneWidget);
 
-    // Tap the first tile to keep it.
-    await tester.tap(find.byType(PhotoThumbnail).first);
+    // Tap the first tile (its gesture area, not the covered thumbnail).
+    final firstTile = find
+        .ancestor(
+          of: find.byType(PhotoThumbnail).first,
+          matching: find.byType(GestureDetector),
+        )
+        .first;
+    await tester.tap(firstTile);
     await tester.pumpAndSettle();
     expect(find.text('Delete 1 photo (2.0 MB)'), findsOneWidget);
 

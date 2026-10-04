@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:photo_manager/photo_manager.dart';
 
+import '../../core/config/app_config.dart';
 import '../../core/utils/random_indexes.dart';
 import 'gallery_photo.dart';
 import 'gallery_service.dart';
@@ -17,6 +18,9 @@ class PhotoManagerGalleryService implements GalleryService {
   );
 
   final _assets = <String, AssetEntity>{};
+
+  // LRU of in-flight or finished thumbnail loads, keyed by "id@size".
+  final _thumbnails = <String, Future<Uint8List?>>{};
 
   @override
   Future<GalleryAccess> checkAccess() async {
@@ -45,22 +49,43 @@ class PhotoManagerGalleryService implements GalleryService {
     );
     if (paths.isEmpty) return const [];
 
-    // Fetch one asset per random index; never load the whole gallery.
+    // One parallel fetch per random index; never load the whole gallery.
     final all = paths.first;
     final total = await all.assetCountAsync;
-    final photos = <GalleryPhoto>[];
-    for (final index in pickRandomIndexes(total, count)) {
-      final page = await all.getAssetListRange(start: index, end: index + 1);
-      if (page.isEmpty) continue;
-      final asset = page.first;
-      _assets[asset.id] = asset;
-      photos.add(GalleryPhoto(id: asset.id, createdAt: asset.createDateTime));
-    }
-    return photos;
+    final pages = await Future.wait([
+      for (final index in pickRandomIndexes(total, count))
+        all.getAssetListRange(start: index, end: index + 1),
+    ]);
+    return [
+      for (final page in pages)
+        if (page.isNotEmpty) _remember(page.first),
+    ];
   }
 
   @override
-  Future<Uint8List?> thumbnail(String id, int size) async {
+  Future<Uint8List?> thumbnail(String id, int size) {
+    final key = '$id@$size';
+    final cached = _thumbnails.remove(key);
+    if (cached != null) return _thumbnails[key] = cached;
+
+    final load = _loadThumbnail(id, size);
+    _thumbnails[key] = load;
+    if (_thumbnails.length > AppConfig.thumbnailCacheSize) {
+      _thumbnails.remove(_thumbnails.keys.first);
+    }
+    // Don't cache failures; a later rebuild can retry.
+    load.then(
+      (bytes) {
+        if (bytes == null) _thumbnails.remove(key);
+      },
+      onError: (Object _) {
+        _thumbnails.remove(key);
+      },
+    );
+    return load;
+  }
+
+  Future<Uint8List?> _loadThumbnail(String id, int size) async {
     final asset = await _asset(id);
     return asset?.thumbnailDataWithSize(ThumbnailSize.square(size));
   }
@@ -80,15 +105,27 @@ class PhotoManagerGalleryService implements GalleryService {
       // Android 11+: system trash keeps photos restorable for 30 days.
       try {
         final assets = [for (final id in ids) ?await _asset(id)];
-        return await PhotoManager.editor.android.moveToTrash(assets);
+        final trashed = await PhotoManager.editor.android.moveToTrash(assets);
+        trashed.forEach(_forget);
+        return trashed;
       } on PlatformException {
         // Android 10 and below have no trash; fall through to delete.
       }
     }
     // iOS moves deleted photos to "Recently Deleted".
     final deleted = await PhotoManager.editor.deleteWithIds(ids);
-    deleted.forEach(_assets.remove);
+    deleted.forEach(_forget);
     return deleted;
+  }
+
+  GalleryPhoto _remember(AssetEntity asset) {
+    _assets[asset.id] = asset;
+    return GalleryPhoto(id: asset.id, createdAt: asset.createDateTime);
+  }
+
+  void _forget(String id) {
+    _assets.remove(id);
+    _thumbnails.removeWhere((key, _) => key.startsWith('$id@'));
   }
 
   Future<AssetEntity?> _asset(String id) async {
