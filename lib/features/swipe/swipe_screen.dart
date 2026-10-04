@@ -314,16 +314,17 @@ class _Toast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: const Color(0xCC000000),
+        color: palette.toast,
         borderRadius: BorderRadius.circular(100),
       ),
       child: Text(
         text,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: palette.onToast,
           fontSize: 11,
           fontWeight: FontWeight.w500,
           letterSpacing: -0.27,

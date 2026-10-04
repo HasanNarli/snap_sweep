@@ -192,17 +192,20 @@ class _HeroStack extends StatelessWidget {
                     'assets/images/onboarding_front.jpg',
                     fit: BoxFit.cover,
                   ),
-                  const Positioned(
+                  Positioned(
                     top: 10,
                     right: 10,
                     child: Frosted(
-                      tint: Color(0xD9FFFFFF),
+                      tint: palette.photoGlassLight,
                       blur: 6,
-                      padding: EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 9,
+                        vertical: 3,
+                      ),
                       child: Text(
                         '8.4 MB',
                         style: TextStyle(
-                          color: Color(0xFF1C1C1E),
+                          color: palette.onPhotoGlassLight,
                           fontSize: 10,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.25,

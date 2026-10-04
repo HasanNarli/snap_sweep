@@ -29,21 +29,8 @@ class PhotoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: palette.fill,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(color: const Color(0x0F000000)),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x14000000),
-            blurRadius: 40,
-            spreadRadius: -10,
-            offset: Offset(0, 14),
-          ),
-          BoxShadow(
-            color: Color(0x0A000000),
-            blurRadius: 8,
-            spreadRadius: -2,
-            offset: Offset(0, 2),
-          ),
-        ],
+        border: Border.all(color: palette.photoOutline),
+        boxShadow: palette.photoCardShadow,
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
@@ -51,19 +38,7 @@ class PhotoCard extends StatelessWidget {
         children: [
           PhotoThumbnail(photoId: photo.id, size: AppConfig.cardThumbnailSize),
           // Soft top/bottom scrim so the pill stays readable.
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0x40000000),
-                  Color(0x00000000),
-                  Color(0x66000000),
-                ],
-              ),
-            ),
-          ),
+          DecoratedBox(decoration: BoxDecoration(gradient: palette.photoScrim)),
           // Decision wash + badge while dragging.
           if (dragPercent != 0) ...[
             ColoredBox(color: tint.withValues(alpha: progress * 0.25)),
@@ -102,13 +77,14 @@ class _DecisionBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
       width: 96,
       height: 96,
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: palette.badge,
         shape: BoxShape.circle,
-        boxShadow: [BoxShadow(color: Color(0x33000000), blurRadius: 24)],
+        boxShadow: palette.badgeShadow,
       ),
       child: Icon(icon, color: color, size: 44),
     );
@@ -125,8 +101,9 @@ class _MetadataPill extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final date = DateFormat.yMMMd(context.localeTag).format(photo.createdAt);
     final bytes = ref.watch(photoSizeProvider(photo.id)).value;
-    const style = TextStyle(
-      color: Color(0xF2FFFFFF),
+    final palette = context.palette;
+    final style = TextStyle(
+      color: palette.onPhoto,
       fontSize: 12,
       fontWeight: FontWeight.w500,
       letterSpacing: -0.3,
@@ -134,8 +111,7 @@ class _MetadataPill extends ConsumerWidget {
     );
 
     return Frosted(
-      tint: const Color(0x66000000),
-      borderColor: const Color(0x26FFFFFF),
+      borderColor: palette.photoGlassBorder,
       padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 9),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -146,7 +122,7 @@ class _MetadataPill extends ConsumerWidget {
             Text(
               context.formatSize(bytes),
               style: style.copyWith(
-                color: const Color(0xCCFFFFFF),
+                color: palette.onPhotoSecondary,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -166,8 +142,8 @@ class _Dot extends StatelessWidget {
       width: 4,
       height: 4,
       margin: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-      decoration: const BoxDecoration(
-        color: Color(0x66FFFFFF),
+      decoration: BoxDecoration(
+        color: context.palette.onPhotoTertiary,
         shape: BoxShape.circle,
       ),
     );

@@ -97,6 +97,67 @@ class AppPalette extends ThemeExtension<AppPalette> {
           ),
         ];
 
+  // Overlays on photos look the same in light and dark.
+  Color get onPhoto => AppColors.onPhoto;
+  Color get onPhotoSecondary => AppColors.onPhotoSecondary;
+  Color get onPhotoTertiary => AppColors.onPhotoTertiary;
+  Color get photoGlass => AppColors.photoGlass;
+  Color get photoGlassBorder => AppColors.photoGlassBorder;
+  Color get photoGlassSubtle => AppColors.photoGlassSubtle;
+  Color get photoGlassSubtleBorder => AppColors.photoGlassSubtleBorder;
+  Color get photoGlassLight => AppColors.photoGlassLight;
+  Color get onPhotoGlassLight => AppColors.lightLabel;
+  Color get photoDim => AppColors.photoDim;
+  Color get photoOutline => AppColors.photoOutline;
+
+  // Content on solid delete/keep fills and on the decision badge.
+  Color get onSolid => AppColors.onSolid;
+  Color get badge => AppColors.onSolid;
+
+  Color get toast => AppColors.toast;
+  Color get onToast => AppColors.onSolid;
+
+  // Soft top/bottom scrim so overlays stay readable on any photo.
+  LinearGradient get photoScrim => const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      AppColors.photoScrimTop,
+      Color(0x00000000),
+      AppColors.photoScrimBottom,
+    ],
+  );
+
+  List<BoxShadow> get photoCardShadow => const [
+    BoxShadow(
+      color: Color(0x14000000),
+      blurRadius: 40,
+      spreadRadius: -10,
+      offset: Offset(0, 14),
+    ),
+    BoxShadow(
+      color: Color(0x0A000000),
+      blurRadius: 8,
+      spreadRadius: -2,
+      offset: Offset(0, 2),
+    ),
+  ];
+
+  List<BoxShadow> get badgeShadow => const [
+    BoxShadow(color: Color(0x33000000), blurRadius: 24),
+  ];
+
+  // Floating action bar; flat in dark.
+  List<BoxShadow> get floatingShadow => isDark
+      ? const []
+      : const [
+          BoxShadow(
+            color: Color(0x0F000000),
+            blurRadius: 20,
+            offset: Offset(0, 8),
+          ),
+        ];
+
   BoxDecoration card({double radius = 16}) => BoxDecoration(
     color: surface,
     borderRadius: BorderRadius.circular(radius),
