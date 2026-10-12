@@ -1,5 +1,9 @@
 # SnapSweep
 
+[![CI](https://github.com/HasanNarli/snap_sweep/actions/workflows/ci.yml/badge.svg)](https://github.com/HasanNarli/snap_sweep/actions/workflows/ci.yml)
+![Flutter](https://img.shields.io/badge/Flutter-3.47+-02569B?logo=flutter)
+![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS-lightgrey)
+
 **Swipe to clean up your photo gallery.** SnapSweep shows you random photos from your gallery one at a time: swipe left to delete, right to keep. When the session ends, you review everything you marked and delete it in one go, and the app shows how much space you freed.
 
 Your photos never leave your phone. There is no server and no upload; everything happens on the device.
@@ -23,11 +27,11 @@ Your photos never leave your phone. There is no server and no upload; everything
 
 ## Technical highlights
 
-- **Never loads the whole gallery.** The app reads the total photo count and fetches assets at random indexes in parallel, so it stays fast on galleries with tens of thousands of photos.
-- **Thumbnail cache.** An LRU cache keyed by asset and size; failed loads aren't cached, so they can retry.
+- **Never loads the whole gallery.** The app reads the total photo count and fetches assets at random indexes in parallel, so memory use stays flat no matter how large the gallery is.
+- **Thumbnail cache and prefetch.** An LRU cache keyed by asset and size, shared by in-flight loads; the next cards are loaded ahead so they are ready when swiped to. Failed loads aren't cached, so they can retry.
 - **Riverpod state.** The swipe session is an auto-disposed `AsyncNotifier`, so every visit starts fresh; the daily quota rolls over on app resume.
 - **Design system.** Semantic color tokens (`AppPalette`), spacing scale and shared components (grouped lists, frosted pills, round icon buttons). No hard-coded colors in widgets.
-- **Tested.** Unit and widget tests for the swipe session, daily quota, review flow and utilities.
+- **Tested.** Unit and widget tests for the swipe session, daily quota, review flow and utilities; CI runs formatting, analysis and tests on every push.
 
 ## Tech stack
 
@@ -55,6 +59,8 @@ lib/
 
 ## Getting started
 
+Requires Flutter 3.47 or newer (Dart 3.13+) and Xcode for iOS.
+
 ```bash
 flutter pub get
 flutter run
@@ -70,9 +76,13 @@ Gallery access needs a real device or a simulator with photos in its library.
 - [x] Swipe screen: random photos, undo, to-delete list
 - [x] Review, batch delete and result screen
 - [x] Home: daily sessions, stats
-- [ ] Polish: app icon, splash, large-gallery performance, real-device testing
+- [ ] Polish: app icon, splash and large-gallery performance done; real-device testing in progress
 - [ ] Premium: unlimited swipes and filters (screenshots, videos, date range)
 - [ ] Similar and duplicate photo detection
+
+## License
+
+All rights reserved. The source is public for portfolio and evaluation purposes only; see [LICENSE](LICENSE).
 
 ## Author
 
