@@ -10,12 +10,13 @@ Your photos never leave your phone. There is no server and no upload; everything
 
 > Status: in active development (Flutter, Android + iOS). Core flow is complete; polish and premium features are in progress.
 
-| Onboarding | Home | Swipe | Review |
-|---|---|---|---|
-| ![Onboarding](docs/screenshots/onboarding_en_light.png) | ![Home](docs/screenshots/home_en_light.png) | ![Swipe](docs/screenshots/swipe_en_light.png) | ![Review](docs/screenshots/review_en_light.png) |
-| ![Onboarding, dark](docs/screenshots/onboarding_en_dark.png) | ![Home, dark](docs/screenshots/home_en_dark.png) | ![Swipe, dark](docs/screenshots/swipe_en_dark.png) | ![Review, dark](docs/screenshots/review_en_dark.png) |
+<p align="center">
+  <img src="docs/screenshots/home.png" width="30%" alt="Home">
+  <img src="docs/screenshots/swipe.png" width="30%" alt="Swipe (dark mode)">
+  <img src="docs/screenshots/review.png" width="30%" alt="Review">
+</p>
 
-<sub>Rendered from the real app by `flutter test tool/screenshots --update-goldens` (Turkish variants are in [docs/screenshots](docs/screenshots)).</sub>
+<p align="center"><sub>Rendered from the real app with <code>flutter test tool/screenshots --update-goldens</code>.</sub></p>
 
 ## Features
 
