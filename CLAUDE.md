@@ -73,5 +73,5 @@ Tick the box when a phase is done.
 
 - Windows (Android) + Mac (iOS build/test).
 - Design: Google Stitch → Figma; if a Figma link is given, read it via Figma MCP and implement in Flutter.
-- Bundle ID: `com.snapsweep.snap_sweep`
+- Bundle ID: `com.hasannarli.snapsweep` (iOS and Android)
 - Claude Code permissions: safe shared rules in `.claude/settings.json` (destructive git commands denied); broad personal allows go in the git-ignored `.claude/settings.local.json`.

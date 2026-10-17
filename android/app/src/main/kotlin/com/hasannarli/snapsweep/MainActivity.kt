@@ -1,4 +1,4 @@
-package com.snapsweep.snap_sweep
+package com.hasannarli.snapsweep
 
 import io.flutter.embedding.android.FlutterActivity
 
