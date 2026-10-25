@@ -469,49 +469,44 @@ class _ActionPanel extends StatelessWidget {
             if (size != null) '($size)',
           ].join(' ');
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        boxShadow: palette.floatingShadow,
-      ),
-      child: Frosted(
-        radius: AppRadius.md,
-        tint: palette.background.withValues(alpha: 0.85),
-        borderColor: palette.border.withValues(alpha: 0.6),
-        padding: const EdgeInsets.fromLTRB(11, 11, 11, 4),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FilledButton.icon(
-              style: FilledButton.styleFrom(
-                backgroundColor: palette.delete,
-                foregroundColor: palette.onSolid,
-                minimumSize: const Size.fromHeight(48),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.sm),
-                ),
-              ),
-              onPressed: onDelete,
-              icon: deleting
-                  ? SizedBox.square(
-                      dimension: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: palette.onSolid,
-                      ),
-                    )
-                  : const Icon(Icons.delete_outline_rounded, size: 18),
-              label: Text(label),
-            ),
-            TextButton(
-              onPressed: onKeepAll,
-              child: Text(
-                l10n.reviewKeepAll,
-                style: TextStyle(color: palette.tertiaryLabel, fontSize: 13),
+    // No drop shadow: it would show through the translucent panel.
+    return Frosted(
+      radius: AppRadius.md,
+      tint: palette.background.withValues(alpha: 0.85),
+      borderColor: palette.border.withValues(alpha: 0.6),
+      padding: const EdgeInsets.fromLTRB(11, 11, 11, 4),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FilledButton.icon(
+            style: FilledButton.styleFrom(
+              backgroundColor: palette.delete,
+              foregroundColor: palette.onSolid,
+              minimumSize: const Size.fromHeight(48),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppRadius.sm),
               ),
             ),
-          ],
-        ),
+            onPressed: onDelete,
+            icon: deleting
+                ? SizedBox.square(
+                    dimension: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: palette.onSolid,
+                    ),
+                  )
+                : const Icon(Icons.delete_outline_rounded, size: 18),
+            label: Text(label),
+          ),
+          TextButton(
+            onPressed: onKeepAll,
+            child: Text(
+              l10n.reviewKeepAll,
+              style: TextStyle(color: palette.tertiaryLabel, fontSize: 13),
+            ),
+          ),
+        ],
       ),
     );
   }

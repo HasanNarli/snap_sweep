@@ -62,7 +62,7 @@ Out of swipes: bottom sheet → [Watch ad +10] / [Premium: unlimited].
 - [x] Phase 2 – Swipe screen: random 15, swipe, undo, to-delete list
 - [x] Phase 3 – Review & batch delete, freed space, result screen
 - [x] Phase 4 – Home: daily swipes, stats, locked categories
-- [ ] Phase 5 – Polish: icon, splash, real-device testing, large-gallery performance
+- [x] Phase 5 – Polish: icon, splash, real-device testing, large-gallery performance
 - [ ] Phase 6 – Premium (RevenueCat) + paywall + filters + rewarded ads
 - [ ] Phase 7 – Release: privacy policy, store assets, Android first then iOS
 - [ ] v1.1 – Similar/duplicate photo detection

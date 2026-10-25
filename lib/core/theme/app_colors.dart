@@ -42,4 +42,5 @@ abstract final class AppColors {
   static const photoScrimBottom = Color(0x66000000);
   static const photoOutline = Color(0x0F000000);
   static const toast = Color(0xCC000000);
+  static const toastDark = Color(0xE6F2EFE9);
 }

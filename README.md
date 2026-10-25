@@ -8,7 +8,7 @@
 
 Your photos never leave your phone. There is no server and no upload; everything happens on the device.
 
-> Status: in active development (Flutter, Android + iOS). Core flow is complete; polish and premium features are in progress.
+> Status: in active development (Flutter, Android + iOS). Core flow and polish are complete; premium features are in progress.
 
 <p align="center">
   <img src="docs/screenshots/home.png" width="30%" alt="Home">
@@ -78,7 +78,7 @@ Gallery access needs a real device or a simulator with photos in its library.
 - [x] Swipe screen: random photos, undo, to-delete list
 - [x] Review, batch delete and result screen
 - [x] Home: daily sessions, stats
-- [ ] Polish: app icon, splash and large-gallery performance done; real-device testing in progress
+- [x] Polish: app icon, splash, large-gallery performance, real-device testing
 - [ ] Premium: unlimited swipes and filters (screenshots, videos, date range)
 - [ ] Similar and duplicate photo detection
 

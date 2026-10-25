@@ -114,8 +114,9 @@ class AppPalette extends ThemeExtension<AppPalette> {
   Color get onSolid => AppColors.onSolid;
   Color get badge => AppColors.onSolid;
 
-  Color get toast => AppColors.toast;
-  Color get onToast => AppColors.onSolid;
+  // Toasts sit on the page, so they invert with the theme.
+  Color get toast => isDark ? AppColors.toastDark : AppColors.toast;
+  Color get onToast => isDark ? background : AppColors.onSolid;
 
   // Soft top/bottom scrim so overlays stay readable on any photo.
   LinearGradient get photoScrim => const LinearGradient(
@@ -146,17 +147,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
   List<BoxShadow> get badgeShadow => const [
     BoxShadow(color: Color(0x33000000), blurRadius: 24),
   ];
-
-  // Floating action bar; flat in dark.
-  List<BoxShadow> get floatingShadow => isDark
-      ? const []
-      : const [
-          BoxShadow(
-            color: Color(0x0F000000),
-            blurRadius: 20,
-            offset: Offset(0, 8),
-          ),
-        ];
 
   BoxDecoration card({double radius = 16}) => BoxDecoration(
     color: surface,
