@@ -10,6 +10,7 @@ import '../../core/theme/app_spacing.dart';
 import '../../shared/widgets/frosted.dart';
 import '../../shared/widgets/photo_thumbnail.dart';
 import '../../shared/widgets/round_icon_button.dart';
+import '../filters/category_summary_provider.dart';
 import '../gallery/gallery_photo.dart';
 import '../gallery/gallery_service.dart';
 import '../gallery/photo_size_provider.dart';
@@ -78,6 +79,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     await ref
         .read(cleanupStatsProvider.notifier)
         .record(photos: deleted.length, bytes: freed);
+    ref.invalidate(categorySummaryProvider);
     if (!mounted) return;
     context.go(
       AppRoutes.result,

@@ -367,4 +367,100 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get resultRestoreHint =>
       'Changed your mind? Deleted photos can usually be restored from your gallery\'s trash for 30 days.';
+
+  @override
+  String categorySummary(int count, String size) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+    );
+    return '$_temp0 • $size';
+  }
+
+  @override
+  String categoryLargeVideosSummary(int count, String size) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count videos',
+      one: '1 video',
+    );
+    return '$_temp0 over 50 MB • $size';
+  }
+
+  @override
+  String get swipeCategoryEmpty => 'Nothing to clean here';
+
+  @override
+  String get paywallTitle => 'SnapSweep Pro';
+
+  @override
+  String get paywallSubtitle =>
+      'Clean as much as you like. Everything still stays on your phone.';
+
+  @override
+  String get paywallUnlimited => 'Unlimited cleaning';
+
+  @override
+  String get paywallUnlimitedHint => 'No daily limit';
+
+  @override
+  String get paywallCategories => 'Smart categories';
+
+  @override
+  String get paywallCategoriesHint => 'Screenshots, videos, recordings, dates';
+
+  @override
+  String get paywallNoAds => 'No ads';
+
+  @override
+  String get paywallNoAdsHint => 'You\'ll never be asked to watch one';
+
+  @override
+  String get planYearly => 'Yearly';
+
+  @override
+  String get planYearlyHint => 'Billed once a year';
+
+  @override
+  String planPerMonth(String price) {
+    return '$price per month, billed yearly';
+  }
+
+  @override
+  String get planLifetime => 'Lifetime';
+
+  @override
+  String get planLifetimeHint => 'Pay once, keep it forever';
+
+  @override
+  String get paywallContinue => 'Continue';
+
+  @override
+  String get paywallRenewNote =>
+      'Renews every year until you cancel in your store account settings.';
+
+  @override
+  String get paywallLifetimeNote => 'A one-time purchase. No subscription.';
+
+  @override
+  String get paywallUnavailable => 'Purchases aren\'t available right now.';
+
+  @override
+  String get purchaseWelcome => 'Welcome to Pro';
+
+  @override
+  String get purchaseFailed =>
+      'The purchase didn\'t go through. Please try again.';
+
+  @override
+  String get restoreNone => 'No earlier purchase was found.';
+
+  @override
+  String get restoreDone => 'Your purchase is restored';
+
+  @override
+  String get homeUnlimited => 'Unlimited reviews with Pro';
 }

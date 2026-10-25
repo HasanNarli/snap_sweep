@@ -6,6 +6,7 @@ import '../../core/config/app_config.dart';
 import '../../core/extensions/context_x.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../shared/widgets/grouped_section.dart';
+import '../premium/paywall_sheet.dart';
 
 Future<void> showOutOfSwipesSheet(BuildContext context) {
   return showModalBottomSheet<void>(
@@ -19,10 +20,15 @@ Future<void> showOutOfSwipesSheet(BuildContext context) {
 class _OutOfSwipesSheet extends ConsumerWidget {
   const _OutOfSwipesSheet();
 
-  // TODO(phase-6): rewarded ad (+10, max 2/day) and paywall.
+  // TODO(phase-6): rewarded ad (+10, max 2/day).
   void _later(BuildContext context) {
     Navigator.of(context).pop();
     context.showComingSoon();
+  }
+
+  void _goPro(BuildContext context) {
+    final navigator = Navigator.of(context)..pop();
+    showPaywall(navigator.context);
   }
 
   @override
@@ -72,9 +78,9 @@ class _OutOfSwipesSheet extends ConsumerWidget {
                   shape: const StadiumBorder(),
                   textStyle: textTheme.labelLarge,
                 ),
-                onPressed: () => _later(context),
+                onPressed: () => _goPro(context),
                 icon: Icon(
-                  Icons.auto_awesome_rounded,
+                  Icons.workspace_premium_outlined,
                   size: 18,
                   color: palette.accent,
                 ),

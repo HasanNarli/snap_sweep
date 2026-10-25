@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/config/app_config.dart';
 import '../../core/extensions/context_x.dart';
+import '../../core/utils/format_duration.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../shared/widgets/frosted.dart';
 import '../../shared/widgets/photo_thumbnail.dart';
@@ -116,6 +117,12 @@ class _MetadataPill extends ConsumerWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (photo.duration case final duration?) ...[
+            Icon(Icons.play_arrow_rounded, size: 15, color: palette.onPhoto),
+            const SizedBox(width: 2),
+            Text(formatDuration(duration), style: style),
+            const _Dot(),
+          ],
           Text(date, style: style),
           if (bytes != null) ...[
             const _Dot(),

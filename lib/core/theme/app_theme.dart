@@ -1,11 +1,18 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'app_palette.dart';
 import 'app_spacing.dart';
 
 abstract final class AppTheme {
-  static const fontFamily = 'Inter';
+  // SF Pro (the system font) on iOS. Apple's license keeps it off Android,
+  // which uses the bundled Inter instead.
+  static bool get _iOS => defaultTargetPlatform == TargetPlatform.iOS;
+  static String get fontFamily => _iOS ? 'CupertinoSystemText' : 'Inter';
+
+  // SF Pro Display for 20pt and up, as iOS does.
+  static String get displayFamily => _iOS ? 'CupertinoSystemDisplay' : 'Inter';
 
   static ThemeData get light => _build(AppPalette.light, Brightness.light);
   static ThemeData get dark => _build(AppPalette.dark, Brightness.dark);
@@ -25,7 +32,7 @@ abstract final class AppTheme {
           outline: p.border,
           outlineVariant: p.border,
         );
-    const buttonText = TextStyle(
+    final buttonText = TextStyle(
       fontFamily: fontFamily,
       fontSize: 15,
       fontWeight: FontWeight.w600,
@@ -115,7 +122,7 @@ abstract final class AppTheme {
       double? height,
       Color? color,
     }) => TextStyle(
-      fontFamily: fontFamily,
+      fontFamily: size >= 20 ? displayFamily : fontFamily,
       fontSize: size,
       fontWeight: weight,
       letterSpacing: tracking,

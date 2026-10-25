@@ -188,5 +188,47 @@
       "count": { "type": "int" }
     }
   },
-  "resultRestoreHint": "Changed your mind? Deleted photos can usually be restored from your gallery's trash for 30 days."
+  "resultRestoreHint": "Changed your mind? Deleted photos can usually be restored from your gallery's trash for 30 days.",
+  "categorySummary": "{count, plural, =1{1 item} other{{count} items}} • {size}",
+  "@categorySummary": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "size": { "type": "String" }
+    }
+  },
+  "categoryLargeVideosSummary": "{count, plural, =1{1 video} other{{count} videos}} over 50 MB • {size}",
+  "@categoryLargeVideosSummary": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "size": { "type": "String" }
+    }
+  },
+  "swipeCategoryEmpty": "Nothing to clean here",
+  "paywallTitle": "SnapSweep Pro",
+  "paywallSubtitle": "Clean as much as you like. Everything still stays on your phone.",
+  "paywallUnlimited": "Unlimited cleaning",
+  "paywallUnlimitedHint": "No daily limit",
+  "paywallCategories": "Smart categories",
+  "paywallCategoriesHint": "Screenshots, videos, recordings, dates",
+  "paywallNoAds": "No ads",
+  "paywallNoAdsHint": "You'll never be asked to watch one",
+  "planYearly": "Yearly",
+  "planYearlyHint": "Billed once a year",
+  "planPerMonth": "{price} per month, billed yearly",
+  "@planPerMonth": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "planLifetime": "Lifetime",
+  "planLifetimeHint": "Pay once, keep it forever",
+  "paywallContinue": "Continue",
+  "paywallRenewNote": "Renews every year until you cancel in your store account settings.",
+  "paywallLifetimeNote": "A one-time purchase. No subscription.",
+  "paywallUnavailable": "Purchases aren't available right now.",
+  "purchaseWelcome": "Welcome to Pro",
+  "purchaseFailed": "The purchase didn't go through. Please try again.",
+  "restoreNone": "No earlier purchase was found.",
+  "restoreDone": "Your purchase is restored",
+  "homeUnlimited": "Unlimited reviews with Pro"
 }

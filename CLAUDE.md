@@ -18,6 +18,7 @@ Repo: https://github.com/HasanNarli/snap_sweep
 - **Batch delete:** At the end of a session a "Review" screen lists the marked photos; one system confirmation deletes them all. Undo button available while swiping.
 - **Free tier:** 15 random photos per day (ungrouped, from the whole gallery). Rewarded ad grants +10, max 2 ads per day.
 - **Premium (subscription):** Unlimited swipes + filters: screenshots, screen recordings, videos, date range. Similar/duplicate detection deferred to v1.1.
+- **Premium filters:** a category is one continuous session (no batches, no quota), oldest first, loaded 50 at a time. "Large videos" = videos of 50 MB or more. Home shows each category's count and size.
 - **Pricing:** Yearly + lifetime (one-time). NO weekly plan. Competitive TR pricing; exact TRY prices set near release.
 - **Positioning:** "Your photos never leave your phone" (no server), show freed space (MB/GB), clean experience (only user-initiated rewarded ads, no banners/interstitials).
 - **Permissions:** Request full gallery access; handle limited (iOS "selected photos", Android 14 partial) and denied states properly.
@@ -26,12 +27,14 @@ Repo: https://github.com/HasanNarli/snap_sweep
 
 - **Source of truth:** the user's Stitch design in Figma: https://www.figma.com/design/2ww8YFJYfyUuVyIfxpNyh2 (frames: Onboarding 1:2, Home 1:69, Swipe 1:248, Review 1:328). Read it via Figma MCP before changing a screen.
 - **Direction:** warm, editorial, calm premium. Light from the design; dark is a derived warm twin. Follows system mode.
-- **Font:** Inter 300–700 (bundled in `assets/fonts`, OFL). Big light numerals (e.g. "1.2 GB"); text styles live in `AppTheme._textTheme`.
+- **Font:** SF Pro (system font) on iOS; Inter 300–700 on Android (bundled in `assets/fonts`, OFL), since SF Pro's license forbids non-Apple platforms. Big light numerals (e.g. "1.2 GB"); text styles live in `AppTheme._textTheme`.
 - **Colors:** semantic tokens in `AppPalette` (background #F9F8F5, surface, border #EBE6DF, fill #F4F1EB, track, label #1A1A1A, secondary #7A756D, tertiary, accent brown #8A5A36, accentSoft, delete #E03838, keep #10B981). Primary buttons are ink (`cta`), inverted in dark. Never hard-code colors in widgets.
 - **Components:** white cards with hairline borders (`palette.card()`), grouped lists (`GroupedSection`/`GroupedRow`/`IconTile`/`TagLabel`), `Frosted` pills, `RoundIconButton`.
 - **No bottom tab bar** (keeps the screen count low and the swipe screen immersive).
 - **Not in v1:** duplicate/blurry detection is shown as "Soon" rows only; never claim it in copy.
 - **Motion & feel:** Cupertino page transitions and bouncing scroll on both platforms, haptics on decisions.
+- **Restraint:** simple iOS look built from cards and sheets, warm brown/beige/amber palette, premium but quiet. Not a flashy "AI app": no gradients-for-show, no decorative or looping animation, no wall of text. Short copy, one clear action per screen.
+- **Performance first, always:** smooth scrolling and swiping beat visual extras; never add an effect that costs frames.
 
 ## Screens (keep the count minimal)
 
@@ -50,7 +53,7 @@ Out of swipes: bottom sheet → [Watch ad +10] / [Premium: unlimited].
 - `flutter_card_swiper` – card stack
 - `flutter_riverpod` – state management
 - `shared_preferences` – daily swipe counter, stats
-- `purchases_flutter` (RevenueCat) – subscriptions (Phase 6)
+- `purchases_flutter` (RevenueCat) – subscriptions behind `PurchaseService` (faked in tests). Entitlement id `premium`; the current offering's `annual` and `lifetime` packages feed the paywall. API keys come from `env/local.json` (`REVENUECAT_IOS_KEY`, `REVENUECAT_ANDROID_KEY`); without them the app runs as free tier.
 - `google_mobile_ads` – rewarded ads (Phase 6; needs iOS ATT + KVKK/GDPR consent)
 - Localization: TR + EN from the start (`flutter_localizations` + ARB)
 - Random pick: never load the whole gallery into memory; get the total count, fetch assets at random indexes.
@@ -74,4 +77,5 @@ Tick the box when a phase is done.
 - Windows (Android) + Mac (iOS build/test).
 - Design: Google Stitch → Figma; if a Figma link is given, read it via Figma MCP and implement in Flutter.
 - Bundle ID: `com.hasannarli.snapsweep` (iOS and Android)
+- Build flags: `env/local.json` (git-ignored; template `env/local.example.json`) via `--dart-define-from-file`. `FORCE_PREMIUM: true` unlocks premium in debug/profile builds; release builds ignore it. VS Code launch configs in `.vscode/launch.json` pass the file.
 - Claude Code permissions: safe shared rules in `.claude/settings.json` (destructive git commands denied); broad personal allows go in the git-ignored `.claude/settings.local.json`.

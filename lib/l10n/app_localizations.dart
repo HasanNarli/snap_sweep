@@ -673,6 +673,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Changed your mind? Deleted photos can usually be restored from your gallery\'s trash for 30 days.'**
   String get resultRestoreHint;
+
+  /// No description provided for @categorySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item} other{{count} items}} • {size}'**
+  String categorySummary(int count, String size);
+
+  /// No description provided for @categoryLargeVideosSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 video} other{{count} videos}} over 50 MB • {size}'**
+  String categoryLargeVideosSummary(int count, String size);
+
+  /// No description provided for @swipeCategoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to clean here'**
+  String get swipeCategoryEmpty;
+
+  /// No description provided for @paywallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SnapSweep Pro'**
+  String get paywallTitle;
+
+  /// No description provided for @paywallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean as much as you like. Everything still stays on your phone.'**
+  String get paywallSubtitle;
+
+  /// No description provided for @paywallUnlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited cleaning'**
+  String get paywallUnlimited;
+
+  /// No description provided for @paywallUnlimitedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No daily limit'**
+  String get paywallUnlimitedHint;
+
+  /// No description provided for @paywallCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart categories'**
+  String get paywallCategories;
+
+  /// No description provided for @paywallCategoriesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Screenshots, videos, recordings, dates'**
+  String get paywallCategoriesHint;
+
+  /// No description provided for @paywallNoAds.
+  ///
+  /// In en, this message translates to:
+  /// **'No ads'**
+  String get paywallNoAds;
+
+  /// No description provided for @paywallNoAdsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll never be asked to watch one'**
+  String get paywallNoAdsHint;
+
+  /// No description provided for @planYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get planYearly;
+
+  /// No description provided for @planYearlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Billed once a year'**
+  String get planYearlyHint;
+
+  /// No description provided for @planPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} per month, billed yearly'**
+  String planPerMonth(String price);
+
+  /// No description provided for @planLifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime'**
+  String get planLifetime;
+
+  /// No description provided for @planLifetimeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay once, keep it forever'**
+  String get planLifetimeHint;
+
+  /// No description provided for @paywallContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get paywallContinue;
+
+  /// No description provided for @paywallRenewNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Renews every year until you cancel in your store account settings.'**
+  String get paywallRenewNote;
+
+  /// No description provided for @paywallLifetimeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A one-time purchase. No subscription.'**
+  String get paywallLifetimeNote;
+
+  /// No description provided for @paywallUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases aren\'t available right now.'**
+  String get paywallUnavailable;
+
+  /// No description provided for @purchaseWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Pro'**
+  String get purchaseWelcome;
+
+  /// No description provided for @purchaseFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The purchase didn\'t go through. Please try again.'**
+  String get purchaseFailed;
+
+  /// No description provided for @restoreNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No earlier purchase was found.'**
+  String get restoreNone;
+
+  /// No description provided for @restoreDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your purchase is restored'**
+  String get restoreDone;
+
+  /// No description provided for @homeUnlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited reviews with Pro'**
+  String get homeUnlimited;
 }
 
 class _AppLocalizationsDelegate

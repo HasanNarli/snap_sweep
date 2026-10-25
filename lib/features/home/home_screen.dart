@@ -4,15 +4,22 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/clock.dart';
+import '../../core/config/app_config.dart';
 import '../../core/extensions/context_x.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../shared/widgets/grouped_section.dart';
 import '../../shared/widgets/round_icon_button.dart';
+import '../filters/category_summary_provider.dart';
+import '../filters/media_filter.dart';
+import '../filters/media_filter_labels.dart';
+import '../premium/paywall_sheet.dart';
+import '../premium/premium_provider.dart';
 import '../quota/daily_quota.dart';
 import '../quota/out_of_swipes_sheet.dart';
 import '../settings/settings_sheet.dart';
 import '../stats/cleanup_stats.dart';
+import '../swipe/swipe_session.dart';
 import 'limited_access_banner.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -20,9 +27,11 @@ class HomeScreen extends ConsumerWidget {
 
   void _start(BuildContext context, WidgetRef ref) {
     ref.read(dailyQuotaProvider.notifier).ensureToday();
-    if (ref.read(dailyQuotaProvider).isExhausted) {
+    final premium = ref.read(premiumProvider);
+    if (!premium && ref.read(dailyQuotaProvider).isExhausted) {
       showOutOfSwipesSheet(context);
     } else {
+      ref.read(swipeFilterProvider.notifier).select(null);
       context.push(AppRoutes.swipe);
     }
   }
@@ -41,6 +50,7 @@ class HomeScreen extends ConsumerWidget {
     final textTheme = context.theme.textTheme;
     final now = ref.read(clockProvider)();
     final quota = ref.watch(dailyQuotaProvider);
+    final premium = ref.watch(premiumProvider);
     final date = DateFormat.MMMMEEEEd(context.localeTag).format(now);
 
     return Scaffold(
@@ -92,15 +102,18 @@ class HomeScreen extends ConsumerWidget {
             _StorageCard(stats: ref.watch(cleanupStatsProvider)),
             const SizedBox(height: AppSpacing.lg),
             _DailySessionCard(
-              remaining: quota.remaining,
+              remaining: premium ? AppConfig.freeDailySwipes : quota.remaining,
               total: quota.limit,
+              unlimited: premium,
               now: now,
               onStart: () => _start(context, ref),
             ),
             const SizedBox(height: AppSpacing.lg),
             const _SmartCategories(),
-            const SizedBox(height: AppSpacing.lg),
-            const _ProCard(),
+            if (!premium) ...[
+              const SizedBox(height: AppSpacing.lg),
+              const _ProCard(),
+            ],
           ],
         ),
       ),
@@ -252,12 +265,16 @@ class _DailySessionCard extends StatelessWidget {
   const _DailySessionCard({
     required this.remaining,
     required this.total,
+    required this.unlimited,
     required this.now,
     required this.onStart,
   });
 
   final int remaining;
   final int total;
+
+  // Pro: no countdown, counter or progress bar.
+  final bool unlimited;
   final DateTime now;
   final VoidCallback? onStart;
 
@@ -286,42 +303,57 @@ class _DailySessionCard extends StatelessWidget {
               const SizedBox(width: AppSpacing.sm),
               Text(l10n.homeDailySession, style: textTheme.labelMedium),
               const Spacer(),
-              Text(
-                l10n.homeResetsIn(
-                  untilReset.inHours,
-                  untilReset.inMinutes % 60,
+              if (unlimited)
+                TagLabel(text: l10n.pro)
+              else
+                Text(
+                  l10n.homeResetsIn(
+                    untilReset.inHours,
+                    untilReset.inMinutes % 60,
+                  ),
+                  style: textTheme.labelMedium,
                 ),
-                style: textTheme.labelMedium,
-              ),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  l10n.homeReviewsAvailable(remaining),
-                  style: textTheme.labelMedium?.copyWith(color: palette.label),
-                ),
+          if (unlimited)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                l10n.homeUnlimited,
+                style: textTheme.labelMedium?.copyWith(color: palette.label),
               ),
-              Text(
-                '$remaining / $total',
-                style: textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.w400,
+            )
+          else ...[
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    l10n.homeReviewsAvailable(remaining),
+                    style: textTheme.labelMedium?.copyWith(
+                      color: palette.label,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: LinearProgressIndicator(
-              value: total == 0 ? 0 : remaining / total,
-              minHeight: 6,
-              color: palette.cta,
-              backgroundColor: palette.track,
+                Text(
+                  '$remaining / $total',
+                  style: textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
-          ),
+            const SizedBox(height: 6),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: LinearProgressIndicator(
+                value: total == 0 ? 0 : remaining / total,
+                minHeight: 6,
+                color: palette.cta,
+                backgroundColor: palette.track,
+              ),
+            ),
+          ],
           const SizedBox(height: AppSpacing.md),
           _StartButton(remaining: remaining, onPressed: onStart),
         ],
@@ -385,31 +417,46 @@ class _StartButton extends StatelessWidget {
   }
 }
 
-class _SmartCategories extends StatelessWidget {
+class _SmartCategories extends ConsumerWidget {
   const _SmartCategories();
 
+  static const _icons = {
+    MediaCategory.screenshots: Icons.smartphone_rounded,
+    MediaCategory.largeVideos: Icons.movie_outlined,
+    MediaCategory.screenRecordings: Icons.radio_button_checked_rounded,
+    MediaCategory.dateRange: Icons.calendar_month_outlined,
+  };
+
+  Future<void> _open(
+    BuildContext context,
+    WidgetRef ref,
+    MediaCategory category,
+  ) async {
+    if (!ref.read(premiumProvider) && !await showPaywall(context)) return;
+    if (!context.mounted) return;
+
+    final MediaFilter filter;
+    if (category == MediaCategory.dateRange) {
+      final now = ref.read(clockProvider)();
+      final range = await showDateRangePicker(
+        context: context,
+        firstDate: DateTime(2000),
+        lastDate: now,
+        initialEntryMode: DatePickerEntryMode.calendarOnly,
+      );
+      if (range == null || !context.mounted) return;
+      filter = MediaFilter.dateRange(range);
+    } else {
+      filter = MediaFilter(category);
+    }
+    ref.read(swipeFilterProvider.notifier).select(filter);
+    context.push(AppRoutes.swipe);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    // TODO(phase-6): real item counts and sizes per category.
-    final premium = [
-      (
-        Icons.smartphone_rounded,
-        l10n.categoryScreenshots,
-        l10n.categoryScreenshotsHint,
-      ),
-      (Icons.movie_outlined, l10n.categoryVideos, l10n.categoryVideosHint),
-      (
-        Icons.radio_button_checked_rounded,
-        l10n.categoryScreenRecordings,
-        l10n.categoryScreenRecordingsHint,
-      ),
-      (
-        Icons.calendar_month_outlined,
-        l10n.categoryDateRange,
-        l10n.categoryDateRangeHint,
-      ),
-    ];
+    final premium = ref.watch(premiumProvider);
     final upcoming = [
       (
         Icons.burst_mode_outlined,
@@ -422,14 +469,14 @@ class _SmartCategories extends StatelessWidget {
     return GroupedSection(
       header: l10n.homeSmartCategories,
       children: [
-        for (final (icon, title, hint) in premium)
+        for (final category in MediaCategory.values)
           GroupedRow(
-            icon: icon,
-            title: title,
-            subtitle: hint,
-            badge: TagLabel(text: l10n.pro),
-            locked: true,
-            onTap: context.showComingSoon,
+            icon: _icons[category]!,
+            title: category.title(l10n),
+            subtitle: _subtitle(context, ref, category),
+            badge: premium ? null : TagLabel(text: l10n.pro),
+            locked: !premium,
+            onTap: () => _open(context, ref, category),
           ),
         for (final (icon, title, hint) in upcoming)
           GroupedRow(
@@ -441,6 +488,24 @@ class _SmartCategories extends StatelessWidget {
           ),
       ],
     );
+  }
+
+  // "420 items • 850 MB" once counted; the hint until then.
+  String _subtitle(
+    BuildContext context,
+    WidgetRef ref,
+    MediaCategory category,
+  ) {
+    final l10n = context.l10n;
+    if (category == MediaCategory.dateRange) return category.hint(l10n);
+    final summary = ref
+        .watch(categorySummaryProvider(MediaFilter(category)))
+        .value;
+    if (summary == null || summary.count == 0) return category.hint(l10n);
+    final size = context.formatSize(summary.bytes);
+    return category == MediaCategory.largeVideos
+        ? l10n.categoryLargeVideosSummary(summary.count, size)
+        : l10n.categorySummary(summary.count, size);
   }
 }
 
@@ -476,12 +541,11 @@ class _ProCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
-          // TODO(phase-6): open the paywall.
           Material(
             color: palette.surface,
             shape: StadiumBorder(side: BorderSide(color: palette.border)),
             child: InkWell(
-              onTap: context.showComingSoon,
+              onTap: () => showPaywall(context),
               customBorder: const StadiumBorder(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(

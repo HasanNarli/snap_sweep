@@ -12,6 +12,7 @@ import '../../core/router/app_router.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../shared/widgets/grouped_section.dart';
 import '../../shared/widgets/round_icon_button.dart';
+import '../filters/media_filter_labels.dart';
 import '../gallery/gallery_photo.dart';
 import '../gallery/photo_size_provider.dart';
 import 'photo_card.dart';
@@ -70,7 +71,9 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                 ),
                 AsyncData(:final value) when value.photos.isEmpty => _Message(
                   icon: Icons.photo_library_outlined,
-                  text: l10n.swipeNoPhotos,
+                  text: value.filter == null
+                      ? l10n.swipeNoPhotos
+                      : l10n.swipeCategoryEmpty,
                 ),
                 AsyncData(:final value) => _SwipeBody(
                   session: value,
@@ -108,7 +111,7 @@ class _TopBar extends StatelessWidget {
     final palette = context.palette;
     final textTheme = context.theme.textTheme;
     final s = session;
-    final total = s?.photos.length ?? 0;
+    final total = s?.total ?? 0;
     final canFinish = s != null && !s.isDone && s.toDelete.isNotEmpty;
 
     return SizedBox(
@@ -143,7 +146,7 @@ class _TopBar extends StatelessWidget {
                           style: textTheme.titleSmall,
                         ),
                         Text(
-                          l10n.swipeSubtitle,
+                          s.filter?.category.title(l10n) ?? l10n.swipeSubtitle,
                           style: textTheme.labelMedium?.copyWith(
                             fontSize: 11,
                             color: palette.tertiaryLabel,
@@ -203,6 +206,11 @@ class _SwipeBody extends ConsumerWidget {
               if (session.isDone)
                 Positioned.fill(
                   child: _DoneView(markedCount: session.toDelete.length),
+                )
+              // Swiped faster than the next page arrived.
+              else if (session.index >= count)
+                const Positioned.fill(
+                  child: Center(child: CircularProgressIndicator()),
                 ),
               // Kept mounted after the last card so undo still works.
               // 4:5 card as in the design; shrinks on short screens.

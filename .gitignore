@@ -49,3 +49,7 @@ app.*.map.json
 
 # Personal Claude Code permissions
 .claude/settings.local.json
+
+# Local build flags (copy env/local.example.json) and machine-specific VS Code settings
+env/local.json
+.vscode/settings.json

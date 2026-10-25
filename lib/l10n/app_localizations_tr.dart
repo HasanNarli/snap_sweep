@@ -343,4 +343,87 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get resultRestoreHint =>
       'Fikrini mi değiştirdin? Silinen fotoğrafları genellikle 30 gün boyunca galerinin çöp kutusundan geri alabilirsin.';
+
+  @override
+  String categorySummary(int count, String size) {
+    return '$count öğe • $size';
+  }
+
+  @override
+  String categoryLargeVideosSummary(int count, String size) {
+    return '50 MB üstü $count video • $size';
+  }
+
+  @override
+  String get swipeCategoryEmpty => 'Burada temizlenecek bir şey yok';
+
+  @override
+  String get paywallTitle => 'SnapSweep Pro';
+
+  @override
+  String get paywallSubtitle =>
+      'Dilediğin kadar temizle. Her şey yine telefonunda kalır.';
+
+  @override
+  String get paywallUnlimited => 'Sınırsız temizlik';
+
+  @override
+  String get paywallUnlimitedHint => 'Günlük sınır yok';
+
+  @override
+  String get paywallCategories => 'Akıllı kategoriler';
+
+  @override
+  String get paywallCategoriesHint => 'Ekran görüntüsü, video, kayıt ve tarih';
+
+  @override
+  String get paywallNoAds => 'Reklam yok';
+
+  @override
+  String get paywallNoAdsHint => 'Hiçbir zaman reklam izlemen istenmez';
+
+  @override
+  String get planYearly => 'Yıllık';
+
+  @override
+  String get planYearlyHint => 'Yılda bir kez ödenir';
+
+  @override
+  String planPerMonth(String price) {
+    return 'Aylık $price, yıllık ödenir';
+  }
+
+  @override
+  String get planLifetime => 'Ömür boyu';
+
+  @override
+  String get planLifetimeHint => 'Bir kez öde, hep senin olsun';
+
+  @override
+  String get paywallContinue => 'Devam et';
+
+  @override
+  String get paywallRenewNote =>
+      'Mağaza hesabının ayarlarından iptal edene kadar her yıl yenilenir.';
+
+  @override
+  String get paywallLifetimeNote => 'Tek seferlik ödeme. Abonelik yok.';
+
+  @override
+  String get paywallUnavailable => 'Satın alma şu an kullanılamıyor.';
+
+  @override
+  String get purchaseWelcome => 'Pro\'ya hoş geldin';
+
+  @override
+  String get purchaseFailed => 'Satın alma tamamlanamadı. Lütfen tekrar dene.';
+
+  @override
+  String get restoreNone => 'Önceki bir satın alma bulunamadı.';
+
+  @override
+  String get restoreDone => 'Satın alman geri yüklendi';
+
+  @override
+  String get homeUnlimited => 'Pro ile sınırsız inceleme';
 }

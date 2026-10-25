@@ -53,9 +53,15 @@ Future<void> _loadFonts() async {
   // Apple's system font is used only if this Mac has it; never committed.
   final sf = File('/System/Library/Fonts/SFNS.ttf');
   if (sf.existsSync()) {
-    final loader = FontLoader('SF Pro')
-      ..addFont(Future.value(ByteData.sublistView(sf.readAsBytesSync())));
-    await loader.load();
+    final bytes = ByteData.sublistView(sf.readAsBytesSync());
+    // The app's iOS theme asks for these system aliases.
+    for (final family in [
+      'SF Pro',
+      'CupertinoSystemText',
+      'CupertinoSystemDisplay',
+    ]) {
+      await (FontLoader(family)..addFont(Future.value(bytes))).load();
+    }
     _statusFont = 'SF Pro';
   }
   final icons = FontLoader('MaterialIcons')
@@ -367,6 +373,14 @@ void main() {
     await boot(tester, dark: true);
     await swipe(tester, [true, false, true, true, false, true, false]);
     await _shoot(tester, 'swipe');
+  }, variant: _iOS);
+
+  testWidgets('paywall', (tester) async {
+    await boot(tester, dark: false);
+    await tester.scrollUntilVisible(find.text(l10n.upgrade), 200);
+    await tester.tap(find.text(l10n.upgrade));
+    await _settle(tester);
+    await _shoot(tester, 'paywall');
   }, variant: _iOS);
 
   testWidgets('review', (tester) async {
